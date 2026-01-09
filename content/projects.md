@@ -1,7 +1,7 @@
 ---
-title: "Pricing"
-subtitle: "Everything you need for best in class service"
-description: "Everything you need for best in class service"
+title: "Projects"
+subtitle: "Explore our research and development projects"
+description: "Explore our research and development projects"
 draft: false
 layout: "pricing"
 
@@ -72,5 +72,5 @@ call_to_action:
   button:
     enable : true
     label : "Contact Us"
-    link : "contact/"
+    link : "publications/"
 ---

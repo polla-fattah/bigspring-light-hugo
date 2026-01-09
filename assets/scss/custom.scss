@@ -1,0 +1,139 @@
+// Custom styling to match university theme
+// Make navigation even shorter and allow logo to cross sections
+header.navigation {
+  background-color: #F5F5F5 !important;
+  padding: 3px 0 !important;
+  min-height: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 9999 !important;
+  
+  .navbar {
+    background-color: transparent !important;
+    overflow: visible !important;
+    min-height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  .navbar-nav .nav-item .nav-link {
+    color: #222 !important;
+    padding: 3px 18px !important;
+    line-height: 1.2 !important;
+    
+    &:hover,
+    &.active {
+      color: #C41E3A !important;
+    }
+  }
+  
+  .navbar-brand {
+    color: #222 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 10000 !important;
+    // Move logo down slightly to extend below navigation
+    top: 20px !important;
+    
+    img,
+    picture,
+    svg {
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 10000 !important;
+      // Allow logo to extend beyond navigation boundaries
+      max-height: none !important;
+      height: auto !important;
+      // Make logo 20% bigger
+      transform: scale(1.2) !important;
+    }
+  }
+  
+  .navbar-toggler {
+    color: #222 !important;
+    padding: 3px !important;
+  }
+  
+  .container {
+    overflow: visible !important;
+    position: relative !important;
+  }
+  
+  // Ensure row and navbar elements allow overflow
+  .row {
+    overflow: visible !important;
+  }
+}
+
+// Add a top red bar above navigation (if needed via header wrapper)
+.top-bar {
+  background-color: #C41E3A;
+  padding: 8px 0;
+  color: #fff;
+  font-size: 14px;
+  
+  a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  .social-icons {
+    a {
+      margin-left: 10px;
+    }
+  }
+}
+
+// Update primary button colors
+.btn-primary {
+  background-color: #C41E3A;
+  border-color: #C41E3A;
+  
+  &:hover {
+    background-color: #A01A2E;
+    border-color: #A01A2E;
+  }
+}
+
+// Update link colors
+a {
+  color: #C41E3A;
+  
+  &:hover {
+    color: #A01A2E;
+  }
+}
+
+// Hero section background adjustments
+.hero-section {
+  background: linear-gradient(135deg, #2E86AB 0%, #1B998B 100%);
+}
+
+// Statistics bar styling (if present)
+.stats-bar {
+  background-color: #fff;
+  padding: 30px 0;
+  
+  .stat-item {
+    text-align: center;
+    
+    .stat-number {
+      color: #C41E3A;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    
+    .stat-label {
+      color: #5A5A5A;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,8 +1,8 @@
 ---
-title: "Contact Us"
+title: "Publications"
 subtitle: ""
 # meta description
-description: "This is meta description"
+description: "Browse our research publications and papers"
 draft: false
 layout: "contact"
 ---

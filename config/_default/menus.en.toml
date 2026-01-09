@@ -5,24 +5,29 @@ url = "/"
 weight = 1
 
 [[main]]
-name = "Blog"
-url = "/blog"
+name = "Events"
+url = "/events"
 weight = 2
 
 [[main]]
-name = "Pricing"
-url = "/pricing"
+name = "Projects"
+url = "/projects"
 weight = 3
 
 [[main]]
-name = "Contact"
-url = "/contact"
+name = "Publications"
+url = "/publications"
 weight = 4
 
 [[main]]
-name = "FAQ"
-url = "/faq"
+name = "Units"
+url = "/units"
 weight = 5
+
+[[main]]
+name = "Labs"
+url = "/labs"
+weight = 6
 
 # footer menu left
 [[footer_left]]
@@ -34,14 +39,14 @@ name = "Quick Start"
 url = "#"
 
 [[footer_left]]
-name = "Pricing"
-url = "/pricing"
+name = "Projects"
+url = "/projects"
 
 
 # footer menu middle
 [[footer_middle]]
-name = "Pricing"
-url = "/pricing"
+name = "Projects"
+url = "/projects"
 
 [[footer_middle]]
 name = "Platform"
@@ -61,5 +66,5 @@ name = "Terms & Conditions"
 url = "/terms-conditions"
 
 [[footer_right]]
-name = "FAQ"
-url = "/faq"
+name = "Units"
+url = "/units"
