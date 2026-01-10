@@ -1,13 +1,18 @@
 ---
 ####################### Banner #########################
 banner:
-  title : "Let us solve your critical website <br> development challenges"
+  title : "Salahaddin University-Erbil<br/>Research Center"
   image : "images/banner-art.svg"
-  content : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam nihil enim maxime corporis cumque <br> totam aliquid nam sint inventore optio modi neque laborum officiis necessitatibus"
+  video : "videos/hero.mp4"
+  content : "A leading hub for scientific innovation, research excellence, and collaborative discovery in Kurdistan."
   button:
     enable : true
-    label : "Contact Us"
-    link : "contact/"
+    label : "About Us"
+    link : "/about"
+  button2:
+    enable : true
+    label : "Our Researchers"
+    link : "/staff"
 
 ##################### Feature ##########################
 feature:

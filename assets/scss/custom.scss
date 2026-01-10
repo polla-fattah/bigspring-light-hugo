@@ -95,10 +95,65 @@ header.navigation {
 .btn-primary {
   background-color: #C41E3A;
   border-color: #C41E3A;
+  border-radius: 0 !important;
   
   &:hover {
     background-color: #A01A2E;
     border-color: #A01A2E;
+  }
+  
+  &::before {
+    border-radius: 0 !important;
+  }
+  
+  &:hover::before {
+    height: 100% !important;
+    width: 100% !important;
+  }
+}
+
+// Alternative main button style (teal from logo color)
+.btn-teal {
+  background-color: #00B0B0;
+  border-color: #00B0B0;
+  color: #fff;
+  border-radius: 0 !important;
+  
+  &:hover {
+    background-color: #008B8B;
+    border-color: #008B8B;
+    color: #fff;
+  }
+  
+  &::before {
+    border-radius: 0 !important;
+  }
+  
+  &:hover::before {
+    height: 100% !important;
+    width: 100% !important;
+  }
+}
+
+// Banner buttons spacing and remove border-radius - override all button styles
+.banner-buttons {
+  margin: 20px 0;
+  
+  .btn {
+    margin: 5px 10px;
+    border-radius: 0 !important;
+    
+    &::before {
+      border-radius: 0 !important;
+    }
+    
+    &:hover::before,
+    &:active::before,
+    &:focus::before {
+      height: 100% !important;
+      width: 100% !important;
+      transform: translate(-50%, -50%) !important;
+    }
   }
 }
 
@@ -114,6 +169,66 @@ a {
 // Hero section background adjustments
 .hero-section {
   background: linear-gradient(135deg, #2E86AB 0%, #1B998B 100%);
+}
+
+// Banner with video background
+.banner-with-video {
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  
+  .banner-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    object-fit: cover;
+  }
+  
+  .banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .container .col-lg-10 {
+    background: rgba(80, 80, 80, 0.6) !important;
+    padding: 30px 20px !important;
+    border-radius: 8px;
+    position: relative;
+    z-index: 3;
+  }
+  
+  h1, p, .banner-buttons {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  h1 {
+    color: #fff;
+  }
+  
+  p {
+    color: #fff;
+  }
 }
 
 // Statistics bar styling (if present)
