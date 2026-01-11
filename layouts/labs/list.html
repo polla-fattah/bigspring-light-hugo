@@ -1,0 +1,207 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Labs Listing -->
+<section class="section labs-listing-section">
+  <div class="container">
+    <!-- Filters -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="labs-filters p-4 rounded-3 bg-light">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+              <label for="locationFilter" class="form-label fw-bold mb-2">Filter by Location:</label>
+              <select id="locationFilter" class="form-select">
+                <option value="">All Locations</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="categoryFilter" class="form-label fw-bold mb-2">Filter by Category:</label>
+              <select id="categoryFilter" class="form-select">
+                <option value="">All Categories</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="equipmentSearch" class="form-label fw-bold mb-2">Search Equipment:</label>
+              <input type="text" id="equipmentSearch" class="form-control" placeholder="Search equipment by name...">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-end">
+              <button id="clearFilters" class="btn btn-outline-secondary">Clear All Filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Labs Grid -->
+    <div class="row" id="labsGrid">
+      {{ $labs := where site.RegularPages "Section" "labs" }}
+      {{ $sortedLabs := sort $labs "Title" "asc" }}
+      {{ range $sortedLabs }}
+      <div class="col-lg-4 col-md-6 mb-4 lab-card-item" 
+           data-location="{{ .Params.location | default "" | urlize }}"
+           data-category="{{ .Params.category | default "" | urlize }}"
+           data-equipment="{{ if .Params.equipment }}{{ range .Params.equipment }}{{ .name | lower }} {{ end }}{{ end }}">
+        <div class="lab-card h-100 rounded-3 overflow-hidden shadow-sm">
+          <div class="lab-image-container position-relative">
+            {{ if .Params.image }}
+            {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "lab-image" "Size" "400x250") }}
+            {{ else }}
+            <div class="lab-image-placeholder">
+              <i class="fas fa-flask text-muted" style="font-size: 3rem;"></i>
+              <p class="text-muted mt-2">Lab image placeholder</p>
+            </div>
+            {{ end }}
+            {{ if .Params.category }}
+            <div class="lab-category-badge position-absolute top-0 end-0 m-3">
+              <span class="badge bg-primary">{{ .Params.category_name | default .Params.category }}</span>
+            </div>
+            {{ end }}
+          </div>
+          <div class="lab-content p-4">
+            <div class="lab-meta mb-3">
+              {{ if .Params.location_name }}
+              <span class="d-block mb-2">
+                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                <span class="small text-muted">{{ .Params.location_name }}</span>
+              </span>
+              {{ end }}
+              {{ if .Params.capacity }}
+              <span class="d-block mb-2">
+                <i class="fas fa-users text-primary me-2"></i>
+                <span class="small text-muted">Capacity: {{ .Params.capacity }}</span>
+              </span>
+              {{ end }}
+              {{ if .Params.equipment }}
+              <span class="d-block">
+                <i class="fas fa-tools text-primary me-2"></i>
+                <span class="small text-muted">{{ len .Params.equipment }} Equipment Items</span>
+              </span>
+              {{ end }}
+            </div>
+            <h3 class="h5 mb-3 fw-bold">
+              <a href="{{ .Permalink }}" class="text-dark text-decoration-none">{{ .Title }}</a>
+            </h3>
+            <p class="text-muted mb-3 small">{{ .Params.description | default .Summary | truncate 150 }}</p>
+            <div class="lab-footer d-flex justify-content-between align-items-center">
+              {{ if .Params.status }}
+              <span class="badge {{ if eq .Params.status "active" }}bg-success{{ else }}bg-secondary{{ end }}">
+                {{ .Params.status | title }}
+              </span>
+              {{ end }}
+              <a href="{{ .Permalink }}" class="btn btn-sm btn-outline-primary">View Lab</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    
+    <!-- No Results Message -->
+    <div id="noResults" class="row" style="display: none;">
+      <div class="col-12 text-center py-5">
+        <p class="text-muted">No labs found matching your filters. Please try different criteria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Labs Listing -->
+
+<script>
+(function() {
+  // Get all lab cards
+  const labCards = document.querySelectorAll('.lab-card-item');
+  const locationFilter = document.getElementById('locationFilter');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const equipmentSearch = document.getElementById('equipmentSearch');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  const labsGrid = document.getElementById('labsGrid');
+  const noResults = document.getElementById('noResults');
+  
+  if (!labCards.length) return;
+  
+  // Collect unique locations and categories
+  const locations = new Set();
+  const categories = new Set();
+  
+  labCards.forEach(card => {
+    const location = card.getAttribute('data-location');
+    if (location) locations.add(location);
+    
+    const category = card.getAttribute('data-category');
+    if (category) categories.add(category);
+  });
+  
+  // Populate location filter
+  Array.from(locations).sort().forEach(location => {
+    const option = document.createElement('option');
+    option.value = location;
+    option.textContent = location.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    locationFilter.appendChild(option);
+  });
+  
+  // Populate category filter
+  Array.from(categories).sort().forEach(category => {
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    categoryFilter.appendChild(option);
+  });
+  
+  // Filter function
+  function filterLabs() {
+    const selectedLocation = locationFilter.value.toLowerCase();
+    const selectedCategory = categoryFilter.value.toLowerCase();
+    const searchTerm = equipmentSearch.value.toLowerCase();
+    
+    let visibleCount = 0;
+    
+    labCards.forEach(card => {
+      const cardLocation = card.getAttribute('data-location').toLowerCase();
+      const cardCategory = card.getAttribute('data-category').toLowerCase();
+      const cardEquipment = card.getAttribute('data-equipment').toLowerCase();
+      
+      const locationMatch = !selectedLocation || cardLocation === selectedLocation;
+      const categoryMatch = !selectedCategory || cardCategory === selectedCategory;
+      const equipmentMatch = !searchTerm || cardEquipment.includes(searchTerm);
+      
+      if (locationMatch && categoryMatch && equipmentMatch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    // Show/hide no results message
+    if (visibleCount === 0) {
+      labsGrid.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      labsGrid.style.display = '';
+      noResults.style.display = 'none';
+    }
+  }
+  
+  // Event listeners
+  locationFilter.addEventListener('change', filterLabs);
+  categoryFilter.addEventListener('change', filterLabs);
+  equipmentSearch.addEventListener('input', filterLabs);
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', function() {
+      locationFilter.value = '';
+      categoryFilter.value = '';
+      equipmentSearch.value = '';
+      filterLabs();
+    });
+  }
+})();
+</script>
+
+{{ end }}

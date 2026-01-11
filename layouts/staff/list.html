@@ -1,0 +1,178 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Staff/Researchers Listing -->
+<section class="section staff-listing-section">
+  <div class="container">
+    {{ if .Params.staff }}
+    <!-- Filters -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="staff-filters p-4 rounded-3 bg-light">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+              <label for="unitFilter" class="form-label fw-bold mb-2">Filter by Unit:</label>
+              <select id="unitFilter" class="form-select">
+                <option value="">All Units</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="researchAreaFilter" class="form-label fw-bold mb-2">Filter by Research Area:</label>
+              <select id="researchAreaFilter" class="form-select">
+                <option value="">All Research Areas</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <button id="clearFilters" class="btn btn-outline-secondary w-100">Clear Filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Staff Grid -->
+    <div class="row" id="staffGrid">
+      {{ range .Params.staff }}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4 staff-member-card" 
+           data-unit="{{ .unit | urlize }}" 
+           data-research-areas="{{ delimit .research_areas "," | lower }}">
+        <div class="staff-card h-100 text-center rounded-3 overflow-hidden shadow-sm">
+          <div class="staff-image-container">
+            {{ if .image }}
+            {{ partial "image.html" (dict "Src" .image "Alt" .name "Class" "staff-image" "Size" "300x300") }}
+            {{ else }}
+            <div class="staff-image-placeholder">
+              <i class="fas fa-user text-muted" style="font-size: 4rem;"></i>
+            </div>
+            {{ end }}
+          </div>
+          <div class="staff-content p-4">
+            <h3 class="h5 mb-2 fw-bold">{{ .name | markdownify }}</h3>
+            <p class="text-primary mb-2 small fw-semibold">{{ .title | markdownify }}</p>
+            <p class="text-muted mb-3 small">{{ .unit | markdownify }}</p>
+            {{ if .research_areas }}
+            <div class="research-areas mb-3">
+              {{ range first 2 .research_areas }}
+              <span class="badge bg-light text-dark me-1 mb-1">{{ . }}</span>
+              {{ end }}
+              {{ if gt (len .research_areas) 2 }}
+              <span class="badge bg-light text-dark mb-1">+{{ sub (len .research_areas) 2 }}</span>
+              {{ end }}
+            </div>
+            {{ end }}
+            <a href="{{ .link | relURL }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    
+    <!-- No Results Message -->
+    <div id="noResults" class="row" style="display: none;">
+      <div class="col-12 text-center py-5">
+        <p class="text-muted">No researchers found matching your filters. Please try different criteria.</p>
+      </div>
+    </div>
+    {{ else }}
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="content">{{ .Content }}</div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+<!-- /Staff/Researchers Listing -->
+
+<script>
+(function() {
+  // Get all staff members
+  const staffCards = document.querySelectorAll('.staff-member-card');
+  const unitFilter = document.getElementById('unitFilter');
+  const researchAreaFilter = document.getElementById('researchAreaFilter');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  const staffGrid = document.getElementById('staffGrid');
+  const noResults = document.getElementById('noResults');
+  
+  if (!staffCards.length || !unitFilter || !researchAreaFilter) return;
+  
+  // Collect unique units and research areas
+  const units = new Set();
+  const researchAreas = new Set();
+  
+  staffCards.forEach(card => {
+    const unit = card.getAttribute('data-unit');
+    if (unit) units.add(unit);
+    
+    const areas = card.getAttribute('data-research-areas').split(',');
+    areas.forEach(area => {
+      if (area.trim()) researchAreas.add(area.trim());
+    });
+  });
+  
+  // Populate unit filter
+  Array.from(units).sort().forEach(unit => {
+    const option = document.createElement('option');
+    option.value = unit;
+    option.textContent = unit.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    unitFilter.appendChild(option);
+  });
+  
+  // Populate research area filter
+  Array.from(researchAreas).sort().forEach(area => {
+    const option = document.createElement('option');
+    option.value = area;
+    option.textContent = area.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    researchAreaFilter.appendChild(option);
+  });
+  
+  // Filter function
+  function filterStaff() {
+    const selectedUnit = unitFilter.value.toLowerCase();
+    const selectedResearchArea = researchAreaFilter.value.toLowerCase();
+    
+    let visibleCount = 0;
+    
+    staffCards.forEach(card => {
+      const cardUnit = card.getAttribute('data-unit').toLowerCase();
+      const cardResearchAreas = card.getAttribute('data-research-areas').toLowerCase();
+      
+      const unitMatch = !selectedUnit || cardUnit === selectedUnit;
+      const researchAreaMatch = !selectedResearchArea || cardResearchAreas.includes(selectedResearchArea);
+      
+      if (unitMatch && researchAreaMatch) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    // Show/hide no results message
+    if (visibleCount === 0) {
+      staffGrid.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      staffGrid.style.display = '';
+      noResults.style.display = 'none';
+    }
+  }
+  
+  // Event listeners
+  unitFilter.addEventListener('change', filterStaff);
+  researchAreaFilter.addEventListener('change', filterStaff);
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', function() {
+      unitFilter.value = '';
+      researchAreaFilter.value = '';
+      filterStaff();
+    });
+  }
+})();
+</script>
+
+{{ end }}

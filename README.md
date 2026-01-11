@@ -1,143 +1,371 @@
-<h1 align=center>Bigspring Light</h1>
+# Salahaddin University-Erbil Research Center (SURC)
 
-<p align=center>It is an ideal theme for Digital Agency, Creative Agency, Marketing Agency, Design Studios, Digital Marketing Agencies, and other business service websites. </p>
+A modern, responsive website for the Salahaddin University-Erbil Research Center built with Hugo and the Bigspring Light theme.
 
-<h2 align="center"> <a target="_blank" href="https://demo.gethugothemes.com/bigspring-light" rel="nofollow">👀Demo</a> | <a  target="_blank" href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fdemo.gethugothemes.com%2Fbigspring%2Fsite%2F&form_factor=desktop">Page Speed (95%)🚀</a></h2>
+## Overview
 
+This website showcases the research activities, publications, projects, datasets, staff, and units of SURC. The site is built using Hugo static site generator with a custom implementation based on the Bigspring Light theme.
 
-<h2 align=center>We are thrilled to announce bigspring Pro today with lots of new features . For more Details please <a href="https://gethugothemes.com/products/bigspring">check here<a></h2>
+## Features
 
-<p align=center>
-  <a href="https://github.com/gohugoio/hugo/releases/tag/v0.64.0" alt="Contributors">
-    <img src="https://img.shields.io/static/v1?label=min-HUGO-version&message=0.64.0&color=f00&logo=hugo" />
-  </a>
+- **Modern Design**: Clean, professional interface with custom color scheme (red primary, grey navigation)
+- **Responsive Layout**: Fully responsive design that works on all devices
+- **Content Management**: Folder-based content structure with individual markdown files for each entry
+- **ID-Based Linking**: Content entries are linked using unique IDs for easy cross-referencing
+- **Advanced Filtering**: Dynamic filtering on Publications, Projects, Staff, and Events pages
+- **Calendar View**: Events page with list and calendar view options
+- **Multiple Sections**:
+  - Homepage with featured content
+  - About SURC
+  - Research Units
+  - Projects & Programs
+  - Publications (Articles, Theses, Reports)
+  - Research Data Catalog
+  - Staff/Researchers
+  - Events
+  - Testimonials
+  - Contact & Resources
+  - Regulations & Guidelines
+  - Forms & Templates
 
-  <a href="https://github.com/themefisher/bigspring-light/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/themefisher/bigspring-hugo" alt="license"></a>
+## Technology Stack
 
-  <img src="https://img.shields.io/github/languages/code-size/themefisher/bigspring-hugo" alt="code size">
+- **Static Site Generator**: Hugo (v0.148.2+)
+- **Theme**: Bigspring Light Hugo Theme (customized)
+- **CSS Framework**: Bootstrap 5 (via theme)
+- **Styling**: SCSS/CSS
+- **JavaScript**: Vanilla JS for interactions and filtering
+- **Deployment**: Netlify/Vercel compatible
 
-  <a href="https://github.com/themefisher/bigspring-hugo/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/themefisher/bigspring-hugo" alt="contributors"></a>
+## Project Structure
 
-  <a href="https://twitter.com/intent/follow?screen_name=gethugothemes">
-    <img src="https://img.shields.io/twitter/follow/gethugothemes?style=social&logo=twitter"
-      alt="follow on Twitter"></a>
-</p>
-
----
-
-<p align="center">
-  <img src="https://assets.teamosis.com/thumbs/bigspring-light.png" alt="screenshot" width="100%">
-</p>
-
----
-
-## 🔑Discover Free & Premium Features
-
-Featurees | [Bigspring LIght](https://github.com/themefisher/bigspring-light)  | [Bigspring Premium](https://gethugothemes.com/products/bigspring/?ref=github) |
-:------------ |    :----:    |     :----:    |
-Google analytics support                   | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-CSS and Js bundle with hugo pipe           | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Netlify settings predefine                 | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)               |
-Color and fonts variable in config file    | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Contact form Support                       | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-GDPR consent enable                        | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Google page speed optimized                | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Open graph meta tag                        | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Twitter card meta tag                      | ![](https://assets.teamosis.com/icons/tick.png) | ![](https://assets.teamosis.com/icons/tick.png)                |
-Dark and Light mode available              | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png)          |
-image optimize with hugo pipe              | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png)          |
-Google font loads from webfont loader      | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png)          |
-Multiple language support (En, De, Zh-Cn, Hi, Jp, ko, Fr, Es, Id, It, Ru)      | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-Caching enable                            | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-Multiple author support                    | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-17+ Premium Pages                          | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-Site verification support (google, bing, baidu)       | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-Priority Support                           | ![](https://assets.teamosis.com/icons/x.png) | ![](https://assets.teamosis.com/icons/tick.png) |
-Get It Now | [![download-light](https://assets.teamosis.com/icons/download.png)](https://github.com/themefisher/bigspring-light/archive/refs/heads/master.zip) | [![download](https://assets.teamosis.com/icons/grab.png)](https://gethugothemes.com/products/bigspring/?ref=github)
-
-## 🔧Local development
-
-```bash
-# clone the repository
-git clone git@github.com:themefisher/bigspring-light.git
-
-# setup project
-$ npm run project-setup
-
-# Install Dependencies
-npm install
-
-# Start local dev server
-$ npm run dev
+```
+bigspring-light/
+├── content/                 # Content files
+│   ├── _index.md          # Homepage content
+│   ├── about.md           # About page
+│   ├── contact.md         # Contact page
+│   ├── publications/      # Publications section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual publication files
+│   ├── projects/          # Projects section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual project files
+│   ├── datasets/          # Datasets section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual dataset files
+│   ├── units/             # Research units section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual unit files
+│   ├── staff/             # Staff/Researchers section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual staff files
+│   ├── events/            # Events section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual event files
+│   ├── regulations/       # Regulations section
+│   │   ├── _index.md
+│   │   └── *.md          # Individual regulation files
+│   └── templates/         # Templates section
+│       ├── _index.md
+│       └── *.md          # Individual template files
+├── layouts/               # Custom layouts
+│   ├── index.html        # Homepage template
+│   ├── about/
+│   ├── contact/
+│   ├── publications/
+│   ├── projects/
+│   ├── units/
+│   ├── staff/
+│   ├── events/
+│   └── services/
+├── assets/                # Static assets
+│   ├── scss/
+│   │   └── custom.scss   # Custom styles
+│   ├── js/
+│   │   └── script.js     # Custom JavaScript
+│   ├── images/           # Images
+│   └── videos/           # Videos
+├── config/                # Configuration
+│   └── _default/
+│       ├── params.toml
+│       ├── menus.en.toml
+│       └── languages.toml
+├── themes/                # Theme files
+├── hugo.toml             # Hugo configuration
+└── README.md             # This file
 ```
 
-Or Check out [Full Documentation](https://docs.gethugothemes.com/bigspring/?ref=github).
+## Content Structure
 
-<!-- edit with sitepins -->
+### ID-Based System
 
-## 📝 Edit Content with CMS
+All content entries use unique IDs for cross-referencing:
 
-This template comes pre-configured with [**Sitepins**](https://sitepins.com), a Git-based Headless CMS designed for seamless content management. You can update your website’s text, images, and configuration without touching a single line of code.
+- **Publications**: `pub-001`, `pub-002`, etc.
+- **Projects**: `project-climate-change-impact`, etc.
+- **Datasets**: `dataset-climate-data`, etc.
+- **Units**: `unit-data-analysis`, `unit-environmental-studies`, etc.
+- **Staff**: `staff-samir-bilal`, `staff-researcher-1`, etc.
 
-**How to get started:**
+### Linking Between Content
 
-Click the Edit with Sitepins button below and follow the on-screen instructions to start editing your content visually.
+Entries can link to each other using ID references:
 
-  <a target="_blank" href="https://app.sitepins.com/new/clone?name=Bigspring%20Light%20Hugo&repository=https://github.com/gethugothemes/bigspring-light-hugo/">
-    <img src="https://sitepins.com/button.svg" alt="Edit with Sitepins">
-  </a>
+- Publications can link to: projects, datasets, staff, units
+- Projects can link to: publications, staff, datasets, units
+- Datasets can link to: projects, publications, staff, units
+- Staff can link to: projects, publications, units
 
-<!-- reporting issue -->
-## 🐞Reporting Issues
+Example in front matter:
+```yaml
+---
+title: "Example Publication"
+id: "pub-001"
+related_projects:
+  - "project-climate-change-impact"
+related_staff:
+  - "staff-researcher-1"
+unit: "unit-environmental-studies"
+---
+```
 
-We use GitHub Issues as the official bug tracker for the Bigspring Template. Please Search [existing
-issues](https://github.com/themefisher/bigspring-hugo/issues). Someone may have already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new
-issue](https://github.com/themefisher/bigspring-hugo/issues).
+## Getting Started
 
-## 📱Submit Your Website To Our Showcase
+### Prerequisites
 
-Are you using Bigspring Hugo theme? Submit it to our [showcase](https://gethugothemes.com/showcase). 
+- Hugo Extended (v0.148.2 or later)
+- Node.js and npm (for SCSS compilation)
+- Git
 
-Our showcase aims to demonstrate to the world what amazing websites people like you have created utilizing our Hugo themes and to show that Hugo has tremendous capabilities as a Static Site Generator. 
+### Installation
 
-View all the websites powered by Bigspring Hugo from [here](https://gethugothemes.com/showcase?theme=bigspring). 
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd bigspring-light
+```
 
-[Submit](https://gethugothemes.com/showcase?submit=show) your Bigspring Hugo powered website.
+2. Install Hugo modules (if needed):
+```bash
+hugo mod get
+```
 
-<!-- licence -->
-## 📄License
+3. Install npm dependencies:
+```bash
+npm install
+```
 
-Copyright &copy; Designed by [Themefisher](https://themefisher.com) & Developed by
-[Gethugothemes](https://gethugothemes.com)
+### Development
 
-**Code License:** Released under the [MIT](https://github.com/themefisher/bigspring-hugo/blob/master/LICENSE) license.
+1. Start the Hugo development server:
+```bash
+hugo server
+```
 
-**Image license:** The images are only for demonstration purposes. They have their licenses. We don't have permission to
-share those images.
+2. The site will be available at `http://localhost:1313`
 
-<!-- resources -->
-## 🙏Special Thanks
+3. Make changes to content files in `content/` directory
+4. Customize styles in `assets/scss/custom.scss`
+5. Modify layouts in `layouts/` directory
 
-- [Bootstrap](https://getbootstrap.com)
-- [Jquery](https://jquery.com)
-- [Font Awesome Icons](https://fontawesome.com)
-- [Slick Slider](https://kenwheeler.github.io/slick/)
-- [Google Fonts](https://fonts.google.com/)
-- [All Contributors](https://github.com/themefisher/bigspring-hugo/graphs/contributors)
+### Building
 
-##👨‍💻Hire Us
+Build the site for production:
+```bash
+hugo
+```
 
-Besides developing unique, blazing-fast Hugo themes, we also provide customized services. We specialize in creating affordable, high-quality static websites based on Hugo.
+The generated site will be in the `public/` directory.
 
-If you need to customize the theme or complete website development from scratch, you can hire us. **Check Our
-[Services](https://gethugothemes.com/services/?utm_source=bigspring_github&utm_medium=referral&utm_campaign=github_theme_readme)**
+## Configuration
 
-<!-- premium themes -->
-## 💎Premium Themes By Us
+### Main Configuration
 
-| [![Mega-Bundle-HUGO](https://assets.teamosis.com/thumbs/bundle.png?)](https://gethugothemes.com/bundle/?utm_source=bigspring_github&utm_medium=referral&utm_campaign=github_theme_readme) | [![Orbitor](https://assets.teamosis.com/thumbs/orbitor.png)](https://gethugothemes.com/products/orbitor/) | [![Andromeda](https://assets.teamosis.com/thumbs/andromeda.png)](https://gethugothemes.com/products/andromeda/) |
-|:---:|:---:|:---:|
-| **Get 68+ Premium Hugo Themes Bundle**| **Orbitor** | **Andromeda** |
+- `hugo.toml`: Main Hugo configuration file
+- `config/_default/params.toml`: Site parameters and custom variables
+- `config/_default/menus.en.toml`: Navigation menu configuration
+- `config/_default/languages.toml`: Language settings
+
+### Customization
+
+#### Colors
+
+Colors are defined in `hugo.toml`:
+```toml
+[params.variables]
+color_primary = "#C41E3A"      # Red
+color_secondary = "#E8E8E8"    # Light grey
+light = "#E8F4F8"              # Cool blue-grey
+```
+
+#### Logo
+
+Logo is configured in `hugo.toml`:
+```toml
+[params]
+logo = "images/surc-logo.png"
+logo_text = "SURC"
+```
+
+## Adding Content
+
+### Adding a Publication
+
+1. Create a new file in `content/publications/`:
+```bash
+content/publications/my-publication.md
+```
+
+2. Add front matter:
+```yaml
+---
+title: "My Publication"
+id: "pub-XXX"
+type: "article"
+authors:
+  - "staff-researcher-1"
+year: "2024"
+unit: "unit-data-analysis"
+related_projects:
+  - "project-data-platform"
+description: "Description here"
+pdf: "/pdfs/my-publication.pdf"
+---
+```
+
+3. Add content below the front matter
+
+### Adding a Project
+
+1. Create a new file in `content/projects/`:
+```bash
+content/projects/my-project.md
+```
+
+2. Add front matter:
+```yaml
+---
+title: "My Project"
+id: "project-my-project"
+status: "ongoing"
+unit: "unit-data-analysis"
+year: "2024"
+related_publications:
+  - "pub-001"
+related_staff:
+  - "staff-researcher-1"
+description: "Description here"
+image: "images/projects/my-project.jpg"
+---
+```
+
+### Adding a Staff Member
+
+1. Create a new file in `content/staff/`:
+```bash
+content/staff/my-researcher.md
+```
+
+2. Add front matter:
+```yaml
+---
+title: "Dr. Researcher Name"
+id: "staff-my-researcher"
+unit: "unit-data-analysis"
+email: "researcher@su.edu.krd"
+research_areas:
+  - "Data Science"
+  - "Machine Learning"
+related_projects:
+  - "project-data-platform"
+related_publications:
+  - "pub-001"
+---
+```
+
+### Adding a Dataset
+
+1. Create a new file in `content/datasets/`:
+```bash
+content/datasets/my-dataset.md
+```
+
+2. Add front matter:
+```yaml
+---
+title: "My Dataset"
+id: "dataset-my-dataset"
+unit: "unit-data-analysis"
+year: "2024"
+access: "Open"
+format: "CSV"
+related_projects:
+  - "project-data-platform"
+related_publications:
+  - "pub-001"
+---
+```
+
+## Deployment
+
+### Netlify
+
+The site includes `netlify.toml` for Netlify deployment. Simply connect your Git repository to Netlify.
+
+### Vercel
+
+The site includes `vercel.json` and `vercel-build.sh` for Vercel deployment.
+
+### Manual Deployment
+
+1. Build the site:
+```bash
+hugo
+```
+
+2. Upload the `public/` directory to your web server
+
+## Customization
+
+### Styles
+
+Custom styles are in `assets/scss/custom.scss`. This file overrides theme defaults and adds custom styling.
+
+### Layouts
+
+Custom layouts are in `layouts/` directory. These override theme templates for specific sections.
+
+### JavaScript
+
+Custom JavaScript is in `assets/js/script.js`. This includes filtering functionality and other interactive features.
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## License
+
+[Add your license information here]
+
+## Contact
+
+For questions or support regarding this website:
+- **Email**: surc@su.edu.krd
+- **Website**: [Add website URL]
+
+## Credits
+
+- **Theme**: Bigspring Light Hugo Theme
+- **Built with**: Hugo Static Site Generator
+- **Icons**: Font Awesome
+- **CSS Framework**: Bootstrap 5
+
+---
+
+**Salahaddin University-Erbil Research Center (SURC)**
+
+*Transforming rigorous, ethical research into measurable benefit for Kurdistan and beyond.*

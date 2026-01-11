@@ -1,0 +1,164 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Contact Information Cards -->
+{{ if .Params.contact_info }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row">
+      {{ $contactInfo := .Params.contact_info }}
+      {{ if $contactInfo.address }}
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="contact-info-card text-center p-4 rounded-3 shadow-sm h-100">
+          <div class="contact-icon mb-3">
+            <i class="{{ $contactInfo.address.icon }}"></i>
+          </div>
+          <h5 class="mb-3">{{ $contactInfo.address.title }}</h5>
+          <p class="mb-0 text-muted">{{ $contactInfo.address.content | safeHTML }}</p>
+        </div>
+      </div>
+      {{ end }}
+      {{ if $contactInfo.phone }}
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="contact-info-card text-center p-4 rounded-3 shadow-sm h-100">
+          <div class="contact-icon mb-3">
+            <i class="{{ $contactInfo.phone.icon }}"></i>
+          </div>
+          <h5 class="mb-3">{{ $contactInfo.phone.title }}</h5>
+          <p class="mb-0">
+            <a href="tel:{{ $contactInfo.phone.content | replaceRE `[^0-9+]` `` }}" class="text-decoration-none text-muted">
+              {{ $contactInfo.phone.content }}
+            </a>
+          </p>
+        </div>
+      </div>
+      {{ end }}
+      {{ if $contactInfo.email }}
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="contact-info-card text-center p-4 rounded-3 shadow-sm h-100">
+          <div class="contact-icon mb-3">
+            <i class="{{ $contactInfo.email.icon }}"></i>
+          </div>
+          <h5 class="mb-3">{{ $contactInfo.email.title }}</h5>
+          <p class="mb-0">
+            <a href="mailto:{{ $contactInfo.email.content }}" class="text-decoration-none text-muted">
+              {{ $contactInfo.email.content }}
+            </a>
+          </p>
+        </div>
+      </div>
+      {{ end }}
+      {{ if $contactInfo.hours }}
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="contact-info-card text-center p-4 rounded-3 shadow-sm h-100">
+          <div class="contact-icon mb-3">
+            <i class="{{ $contactInfo.hours.icon }}"></i>
+          </div>
+          <h5 class="mb-3">{{ $contactInfo.hours.title }}</h5>
+          <p class="mb-0 text-muted">{{ $contactInfo.hours.content | safeHTML }}</p>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Contact Form Section -->
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+          <h2 class="section-title">Send Us a Message</h2>
+          <p class="text-muted">Have a question or inquiry? Fill out the form below and we'll get back to you as soon as possible.</p>
+        </div>
+        <div id="contact-form" class="contact-form-card p-4 p-lg-5 rounded-3 shadow-sm">
+          <form method="POST" class="row g-4" action="{{ site.Params.contact_form_action | safeURL }}">
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="first_name">First Name <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter your first name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="last_name">Last Name <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter your last name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="email">Email Address <span class="text-danger">*</span></label>
+              <input class="form-control" type="email" name="email_address" id="email" placeholder="Enter your email address" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="phone">Phone Number</label>
+              <input class="form-control" type="tel" name="phone" id="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-bold" for="subject">Subject <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="subject" id="subject" placeholder="Enter message subject" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-bold" for="message">Message <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="message" id="message" rows="6" placeholder="Enter your message" required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary btn-lg px-5" type="submit">
+                <i class="fas fa-paper-plane me-2"></i>Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+{{ if .Params.map.enable }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="section-title mb-4 text-center">Find Us on Map</h2>
+        <div class="map-container rounded-3 overflow-hidden shadow-sm mx-auto" style="height: 450px; max-width: 1000px; background-color: #e9ecef;">
+          <iframe src="{{ .Params.map.embed_url }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Collaboration Section -->
+{{ if .Params.collaboration.enable }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto text-center mb-5">
+        <h2 class="section-title">{{ .Params.collaboration.title | markdownify }}</h2>
+        {{ if .Params.collaboration.subtitle }}
+        <p class="text-muted lead">{{ .Params.collaboration.subtitle | markdownify }}</p>
+        {{ end }}
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.collaboration.sections }}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="collaboration-card text-center p-4 rounded-3 shadow-sm h-100">
+          <div class="collaboration-icon mb-3">
+            <i class="{{ .icon }}"></i>
+          </div>
+          <h4 class="h5 mb-3 fw-bold">{{ .title | markdownify }}</h4>
+          <p class="text-muted mb-0">{{ .description | markdownify }}</p>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <p class="text-muted mb-4">Interested in collaborating with us? <a href="#contact-form" class="text-primary text-decoration-none fw-bold">Send us a message</a> or email us at <a href="mailto:surc@su.edu.krd" class="text-primary text-decoration-none">surc@su.edu.krd</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ end }}

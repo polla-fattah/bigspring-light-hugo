@@ -1,0 +1,110 @@
+{{ define "main" }}
+
+<!-- Staff Profile Hero Section -->
+<section class="section staff-profile-hero bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="staff-profile-header d-flex align-items-center">
+          <div class="staff-profile-image-container me-4">
+            {{ if .Params.image }}
+            {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "staff-profile-image" "Size" "250x250") }}
+            {{ else }}
+            <div class="staff-profile-placeholder">
+              <i class="fas fa-user text-muted" style="font-size: 5rem;"></i>
+            </div>
+            {{ end }}
+          </div>
+          <div class="staff-profile-info flex-grow-1">
+            <h1 class="display-5 fw-bold mb-2">{{ .Title }}</h1>
+            {{ if .Params.title_position }}
+            <p class="h5 text-primary mb-2">{{ .Params.title_position }}</p>
+            {{ end }}
+            {{ if .Params.unit }}
+            <p class="text-muted mb-3">{{ .Params.unit }}</p>
+            {{ end }}
+            {{ if .Params.email }}
+            <p class="mb-0">
+              <i class="fas fa-envelope me-2"></i>
+              <a href="mailto:{{ .Params.email }}" class="text-decoration-none">{{ .Params.email }}</a>
+            </p>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Staff Profile Content -->
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="row">
+          <!-- Main Content -->
+          <div class="col-lg-8">
+            {{ if .Params.bio }}
+            <div class="staff-bio-card p-4 rounded-3 shadow-sm mb-4">
+              <h2 class="h4 mb-3">About</h2>
+              <p class="mb-0">{{ .Params.bio | markdownify }}</p>
+            </div>
+            {{ end }}
+            
+            {{ if .Content }}
+            <div class="staff-content-card p-4 rounded-3 shadow-sm mb-4">
+              <div class="content">{{ .Content }}</div>
+            </div>
+            {{ end }}
+          </div>
+          
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <div class="staff-sidebar-card p-4 rounded-3 shadow-sm">
+              {{ if .Params.research_areas }}
+              <h3 class="h5 mb-3">Research Areas</h3>
+              <ul class="list-unstyled mb-4">
+                {{ range .Params.research_areas }}
+                <li class="mb-2">
+                  <i class="fas fa-check text-primary me-2"></i>
+                  <span>{{ . }}</span>
+                </li>
+                {{ end }}
+              </ul>
+              {{ end }}
+              
+              {{ if .Params.unit }}
+              <h3 class="h5 mb-3">Unit</h3>
+              <p class="mb-4">
+                <a href="/units" class="text-decoration-none">
+                  <i class="fas fa-building me-2 text-primary"></i>
+                  {{ .Params.unit }}
+                </a>
+              </p>
+              {{ end }}
+              
+              {{ if .Params.email }}
+              <h3 class="h5 mb-3">Contact</h3>
+              <p class="mb-0">
+                <a href="mailto:{{ .Params.email }}" class="text-decoration-none">
+                  <i class="fas fa-envelope me-2 text-primary"></i>
+                  {{ .Params.email }}
+                </a>
+              </p>
+              {{ end }}
+              
+              <div class="mt-4 pt-4 border-top">
+                <a href="/staff" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Back to All Researchers
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ end }}

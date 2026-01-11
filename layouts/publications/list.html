@@ -1,0 +1,296 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Publications Listing -->
+<section class="section publications-listing-section">
+  <div class="container">
+    <!-- Filters -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="publications-filters p-4 rounded-3 bg-light">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label for="typeFilter" class="form-label fw-bold mb-2">Filter by Type:</label>
+              <select id="typeFilter" class="form-select">
+                <option value="">All Types</option>
+                <option value="article">Articles</option>
+                <option value="thesis">Theses</option>
+                <option value="report">Reports</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="unitFilter" class="form-label fw-bold mb-2">Filter by Unit:</label>
+              <select id="unitFilter" class="form-select">
+                <option value="">All Units</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="yearFilter" class="form-label fw-bold mb-2">Filter by Year:</label>
+              <select id="yearFilter" class="form-select">
+                <option value="">All Years</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="authorFilter" class="form-label fw-bold mb-2">Filter by Author:</label>
+              <select id="authorFilter" class="form-select">
+                <option value="">All Authors</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-end">
+              <button id="clearFilters" class="btn btn-outline-secondary">Clear All Filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Publications List -->
+    <div id="publicationsList">
+      {{ $publications := where site.RegularPages "Section" "publications" }}
+      {{ $sortedPublications := sort $publications "Date" "desc" }}
+      {{ range $sortedPublications }}
+      <div class="publication-item mb-4 publication-card-item" 
+           data-type="{{ .Params.type | default "article" | lower }}" 
+           data-unit="{{ .Params.unit | default "" | urlize }}"
+           data-year="{{ if .Params.year }}{{ .Params.year }}{{ else if .Date }}{{ .Date.Format "2006" }}{{ end }}"
+           data-authors="{{ if .Params.authors }}{{ delimit .Params.authors "," | lower }}{{ end }}">
+        <div class="publication-card p-4 rounded-3 shadow-sm">
+          <div class="row align-items-start">
+            <div class="col-lg-9">
+              <div class="publication-type-badge mb-3">
+                {{ if eq .Params.type "article" }}
+                <span class="badge bg-primary">Article</span>
+                {{ else if eq .Params.type "thesis" }}
+                <span class="badge bg-success">{{ .Params.degree | default "Thesis" }}</span>
+                {{ else if eq .Params.type "report" }}
+                <span class="badge bg-info text-dark">Report</span>
+                {{ end }}
+                <span class="text-muted ms-3 small">{{ if .Params.year }}{{ .Params.year }}{{ else if .Date }}{{ .Date.Format "2006" }}{{ end }}</span>
+              </div>
+              <h3 class="h4 mb-2 fw-bold">
+                <a href="{{ .Permalink }}" class="text-dark text-decoration-none">{{ .Title }}</a>
+              </h3>
+              {{ if .Params.authors }}
+              <div class="publication-authors mb-2">
+                <i class="fas fa-user text-primary me-2"></i>
+                <span class="small">
+                  {{ $authorsLen := len .Params.authors }}
+                  {{ range $index, $authorID := .Params.authors }}
+                    {{ $staffPage := site.GetPage (printf "staff/%s" $authorID) }}
+                    {{ if $staffPage }}{{ $staffPage.Title }}{{ else }}{{ $authorID }}{{ end }}
+                    {{ if lt $index (sub $authorsLen 1) }}, {{ end }}
+                  {{ end }}
+                </span>
+                {{ if .Params.supervisor }}
+                {{ $supervisorPage := site.GetPage (printf "staff/%s" .Params.supervisor) }}
+                <span class="text-muted ms-2 small">(Supervisor: {{ if $supervisorPage }}{{ $supervisorPage.Title }}{{ else }}{{ .Params.supervisor }}{{ end }})</span>
+                {{ end }}
+              </div>
+              {{ end }}
+              {{ if .Params.journal }}
+              <div class="publication-journal mb-2">
+                <i class="fas fa-book text-primary me-2"></i>
+                <span class="small text-muted">{{ .Params.journal }}</span>
+              </div>
+              {{ end }}
+              {{ if .Params.unit }}
+              {{ $unitPage := site.GetPage (printf "units/%s" .Params.unit) }}
+              <div class="publication-unit mb-3">
+                <i class="fas fa-building text-primary me-2"></i>
+                <span class="small text-muted">
+                  {{ if $unitPage }}<a href="{{ $unitPage.Permalink }}" class="text-decoration-none text-muted">{{ $unitPage.Title }}</a>{{ else }}{{ .Params.unit }}{{ end }}
+                </span>
+              </div>
+              {{ end }}
+              {{ if .Params.description }}
+              <p class="text-muted mb-3 small">{{ .Params.description | markdownify }}</p>
+              {{ else }}
+              <p class="text-muted mb-3 small">{{ .Summary | truncate 200 }}</p>
+              {{ end }}
+            </div>
+            <div class="col-lg-3 text-lg-end">
+              <div class="publication-actions">
+                {{ if .Params.pdf }}
+                <a href="{{ .Params.pdf | relURL }}" class="btn btn-sm btn-outline-primary mb-2 w-100 w-lg-auto" target="_blank">
+                  <i class="fas fa-file-pdf me-2"></i>PDF
+                </a>
+                {{ end }}
+                <a href="{{ .Permalink }}" class="btn btn-sm btn-primary w-100 w-lg-auto">
+                  <i class="fas fa-arrow-right me-2"></i>Read More
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    
+    <!-- No Results Message -->
+    <div id="noResults" class="row" style="display: none;">
+      <div class="col-12 text-center py-5">
+        <p class="text-muted">No publications found matching your filters. Please try different criteria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Publications Listing -->
+
+<script>
+(function() {
+  // Get all publication items
+  const publicationItems = document.querySelectorAll('.publication-card-item');
+  const typeFilter = document.getElementById('typeFilter');
+  const unitFilter = document.getElementById('unitFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  const authorFilter = document.getElementById('authorFilter');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  const publicationsList = document.getElementById('publicationsList');
+  const noResults = document.getElementById('noResults');
+  
+  if (!publicationItems.length || !typeFilter || !unitFilter || !yearFilter || !authorFilter) return;
+  
+  // Collect unique units, years, and authors
+  const units = new Set();
+  const years = new Set();
+  const authors = new Set();
+  
+  publicationItems.forEach(item => {
+    const unit = item.getAttribute('data-unit');
+    if (unit) units.add(unit);
+    
+    const year = item.getAttribute('data-year');
+    if (year) years.add(year);
+    
+    const authorsAttr = item.getAttribute('data-authors');
+    if (authorsAttr) {
+      authorsAttr.split(',').forEach(author => {
+        if (author.trim()) authors.add(author.trim());
+      });
+    }
+  });
+  
+  // Populate unit filter
+  Array.from(units).sort().forEach(unit => {
+    const option = document.createElement('option');
+    option.value = unit;
+    option.textContent = unit.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    unitFilter.appendChild(option);
+  });
+  
+  // Populate year filter (descending order)
+  Array.from(years).sort((a, b) => b.localeCompare(a)).forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = year;
+    yearFilter.appendChild(option);
+  });
+  
+  // Populate author filter
+  Array.from(authors).sort().forEach(author => {
+    const option = document.createElement('option');
+    option.value = author;
+    option.textContent = author.split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    authorFilter.appendChild(option);
+  });
+  
+  // Filter function
+  function filterPublications() {
+    const selectedType = typeFilter.value.toLowerCase();
+    const selectedUnit = unitFilter.value.toLowerCase();
+    const selectedYear = yearFilter.value;
+    const selectedAuthor = authorFilter.value.toLowerCase();
+    
+    let visibleCount = 0;
+    
+    publicationItems.forEach(item => {
+      const itemType = item.getAttribute('data-type').toLowerCase();
+      const itemUnit = item.getAttribute('data-unit').toLowerCase();
+      const itemYear = item.getAttribute('data-year');
+      const itemAuthors = item.getAttribute('data-authors').toLowerCase();
+      
+      const typeMatch = !selectedType || itemType === selectedType;
+      const unitMatch = !selectedUnit || itemUnit === selectedUnit;
+      const yearMatch = !selectedYear || itemYear === selectedYear;
+      const authorMatch = !selectedAuthor || itemAuthors.includes(selectedAuthor);
+      
+      if (typeMatch && unitMatch && yearMatch && authorMatch) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Show/hide no results message
+    if (visibleCount === 0) {
+      publicationsList.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      publicationsList.style.display = '';
+      noResults.style.display = 'none';
+    }
+  }
+  
+  // Filter function
+  function filterPublications() {
+    const selectedType = typeFilter.value.toLowerCase();
+    const selectedUnit = unitFilter.value.toLowerCase();
+    const selectedYear = yearFilter.value;
+    const selectedAuthor = authorFilter.value.toLowerCase();
+    
+    let visibleCount = 0;
+    
+    publicationItems.forEach(item => {
+      const itemType = item.getAttribute('data-type').toLowerCase();
+      const itemUnit = item.getAttribute('data-unit').toLowerCase();
+      const itemYear = item.getAttribute('data-year');
+      const itemAuthors = item.getAttribute('data-authors').toLowerCase();
+      
+      const typeMatch = !selectedType || itemType === selectedType;
+      const unitMatch = !selectedUnit || itemUnit === selectedUnit;
+      const yearMatch = !selectedYear || itemYear === selectedYear;
+      const authorMatch = !selectedAuthor || itemAuthors.includes(selectedAuthor);
+      
+      if (typeMatch && unitMatch && yearMatch && authorMatch) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Show/hide no results message
+    if (visibleCount === 0) {
+      publicationsList.style.display = 'none';
+      noResults.style.display = 'block';
+    } else {
+      publicationsList.style.display = '';
+      noResults.style.display = 'none';
+    }
+  }
+  
+  // Event listeners
+  typeFilter.addEventListener('change', filterPublications);
+  unitFilter.addEventListener('change', filterPublications);
+  yearFilter.addEventListener('change', filterPublications);
+  authorFilter.addEventListener('change', filterPublications);
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', function() {
+      typeFilter.value = '';
+      unitFilter.value = '';
+      yearFilter.value = '';
+      authorFilter.value = '';
+      filterPublications();
+    });
+  }
+})();
+</script>
+
+{{ end }}

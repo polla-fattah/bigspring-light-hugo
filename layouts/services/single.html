@@ -1,0 +1,384 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Introduction Section -->
+{{ if .Params.intro }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="service-intro-card p-4 p-lg-5 rounded-3 shadow-sm bg-light">
+          <div class="content">{{ .Params.intro | markdownify }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Main Content -->
+<section class="section {{ if .Params.intro }}bg-light{{ else }}{{ end }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <div class="content">{{ .Content }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Available Labs Section (for labs-appointments) -->
+{{ if .Params.available_labs }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="section-title text-center">Available Laboratories</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.available_labs }}
+      <div class="col-lg-6 col-md-6 mb-4">
+        <div class="lab-card p-4 rounded-3 shadow-sm h-100">
+          <h3 class="h4 mb-3 fw-bold">
+            <i class="fas fa-flask text-primary me-2"></i>{{ .name }}
+          </h3>
+          <p class="text-muted mb-3">{{ .description }}</p>
+          <div class="lab-details mb-3">
+            <p class="mb-2"><strong>Capacity:</strong> {{ .capacity }}</p>
+            {{ if .equipment }}
+            <p class="mb-2"><strong>Equipment:</strong></p>
+            <ul class="list-unstyled ms-3">
+              {{ range .equipment }}
+              <li class="mb-1"><i class="fas fa-check text-primary me-2 small"></i>{{ . }}</li>
+              {{ end }}
+            </ul>
+            {{ end }}
+            {{ if .contact }}
+            <p class="mb-0 mt-3">
+              <strong>Contact:</strong> 
+              <a href="mailto:{{ .contact }}" class="text-primary text-decoration-none">{{ .contact }}</a>
+            </p>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Data Catalog Section (for research-data) -->
+{{ if .Params.data_catalog }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="section-title text-center">Research Data Catalog</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.data_catalog }}
+      <div class="col-lg-6 col-md-6 mb-4">
+        <div class="data-catalog-card p-4 rounded-3 shadow-sm h-100">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <h3 class="h5 mb-0 fw-bold">{{ .name }}</h3>
+            {{ if eq .access "Open" }}
+            <span class="badge bg-success">Open Access</span>
+            {{ else if eq .access "Restricted" }}
+            <span class="badge bg-warning text-dark">Restricted</span>
+            {{ else }}
+            <span class="badge bg-info text-dark">On-Request</span>
+            {{ end }}
+          </div>
+          <p class="text-muted mb-3 small">{{ .description }}</p>
+          <div class="data-details">
+            <p class="mb-1 small"><strong>Unit:</strong> {{ .unit }}</p>
+            <p class="mb-1 small"><strong>Year:</strong> {{ .year }}</p>
+            <p class="mb-1 small"><strong>Format:</strong> {{ .format }}</p>
+            <p class="mb-0 small"><strong>Size:</strong> {{ .size }}</p>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Upcoming Workshops Section (for trainings-tutorials) -->
+{{ if .Params.upcoming_workshops }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="section-title text-center">Upcoming Workshops</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.upcoming_workshops }}
+      <div class="col-lg-6 col-md-6 mb-4">
+        <div class="workshop-card p-4 rounded-3 shadow-sm h-100">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <h3 class="h5 mb-0 fw-bold">{{ .title }}</h3>
+            {{ if .registration_open }}
+            <span class="badge bg-success">Open</span>
+            {{ else }}
+            <span class="badge bg-secondary">Closed</span>
+            {{ end }}
+          </div>
+          <p class="text-muted mb-3 small">{{ .description }}</p>
+          <div class="workshop-details">
+            <p class="mb-1 small"><i class="far fa-calendar text-primary me-2"></i><strong>Date:</strong> {{ .date | time.Format "January 2, 2006" }}</p>
+            <p class="mb-1 small"><i class="far fa-clock text-primary me-2"></i><strong>Time:</strong> {{ .time }}</p>
+            <p class="mb-1 small"><i class="fas fa-user text-primary me-2"></i><strong>Instructor:</strong> {{ .instructor }}</p>
+            <p class="mb-1 small"><i class="fas fa-users text-primary me-2"></i><strong>Capacity:</strong> {{ .capacity }}</p>
+            <p class="mb-0 small"><i class="fas fa-signal text-primary me-2"></i><strong>Level:</strong> {{ .level }}</p>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Documents Section (for regulations-guidelines) -->
+{{ if .Params.documents }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="section-title text-center">Documents and Guidelines</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.documents }}
+      <div class="col-lg-6 col-md-6 mb-4">
+        <div class="document-card p-4 rounded-3 shadow-sm h-100">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <h3 class="h5 mb-0 fw-bold">{{ .title }}</h3>
+            <span class="badge bg-light text-dark">{{ .category }}</span>
+          </div>
+          <p class="text-muted mb-3 small">{{ .description }}</p>
+          <div class="document-details mb-3">
+            <p class="mb-1 small"><strong>File Size:</strong> {{ .size }}</p>
+            <p class="mb-0 small"><strong>Last Updated:</strong> {{ .last_updated | time.Format "January 2, 2006" }}</p>
+          </div>
+          <a href="{{ .file | relURL }}" class="btn btn-sm btn-outline-primary" download>
+            <i class="fas fa-download me-2"></i>Download
+          </a>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Forms and Templates Section (for forms-templates) -->
+{{ if .Params.forms }}
+<section class="section bg-light">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="section-title text-center">Forms and Templates</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{ range .Params.forms }}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="form-template-card p-4 rounded-3 shadow-sm h-100 text-center">
+          <div class="form-icon mb-3">
+            <i class="{{ .icon }} text-primary" style="font-size: 2.5rem;"></i>
+          </div>
+          <h3 class="h5 mb-3 fw-bold">{{ .title }}</h3>
+          <span class="badge bg-light text-dark mb-3">{{ .category }}</span>
+          <p class="text-muted mb-3 small">{{ .description }}</p>
+          <div class="form-details mb-3">
+            <p class="mb-1 small"><strong>Format:</strong> {{ .format }}</p>
+            <p class="mb-0 small"><strong>Size:</strong> {{ .size }}</p>
+          </div>
+          <a href="{{ .file | relURL }}" class="btn btn-sm btn-primary w-100" download>
+            <i class="fas fa-download me-2"></i>Download
+          </a>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Booking Form Section (for labs-appointments) -->
+{{ if .Params.booking_info }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="mb-4">
+          <h2 class="section-title text-center">Book a Laboratory</h2>
+          <p class="text-muted text-center">{{ .Params.booking_info | markdownify }}</p>
+        </div>
+        <div class="service-form-card p-4 p-lg-5 rounded-3 shadow-sm">
+          <form method="POST" class="row g-4" action="{{ site.Params.contact_form_action | safeURL }}">
+            <input type="hidden" name="subject" value="Lab Booking Request">
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="full_name">Full Name <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="full_name" id="full_name" placeholder="Enter your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="email">Email Address <span class="text-danger">*</span></label>
+              <input class="form-control" type="email" name="email_address" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="phone">Phone Number</label>
+              <input class="form-control" type="tel" name="phone" id="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="department">Department/Unit</label>
+              <input class="form-control" type="text" name="department" id="department" placeholder="Enter your department">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="lab_name">Preferred Laboratory <span class="text-danger">*</span></label>
+              <select class="form-select" name="lab_name" id="lab_name" required>
+                <option value="">Select a laboratory</option>
+                {{ if .Params.available_labs }}
+                {{ range .Params.available_labs }}
+                <option value="{{ .name }}">{{ .name }}</option>
+                {{ end }}
+                {{ end }}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="date">Preferred Date <span class="text-danger">*</span></label>
+              <input class="form-control" type="date" name="date" id="date" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="time_start">Start Time <span class="text-danger">*</span></label>
+              <input class="form-control" type="time" name="time_start" id="time_start" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="time_end">End Time <span class="text-danger">*</span></label>
+              <input class="form-control" type="time" name="time_end" id="time_end" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-bold" for="purpose">Purpose of Use <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="purpose" id="purpose" rows="4" placeholder="Describe the purpose of your lab use and research project" required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary btn-lg px-5" type="submit">
+                <i class="fas fa-calendar-check me-2"></i>Submit Booking Request
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Data Request Form Section (for research-data) -->
+{{ if .Params.data_request_info }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="mb-4">
+          <h2 class="section-title text-center">Request Data Access</h2>
+          <p class="text-muted text-center">{{ .Params.data_request_info | markdownify }}</p>
+        </div>
+        <div class="service-form-card p-4 p-lg-5 rounded-3 shadow-sm">
+          <form method="POST" class="row g-4" action="{{ site.Params.contact_form_action | safeURL }}">
+            <input type="hidden" name="subject" value="Data Access Request">
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="full_name">Full Name <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="full_name" id="full_name" placeholder="Enter your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="email">Email Address <span class="text-danger">*</span></label>
+              <input class="form-control" type="email" name="email_address" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="institution">Institution/Affiliation</label>
+              <input class="form-control" type="text" name="institution" id="institution" placeholder="Enter your institution">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="dataset">Requested Dataset <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="dataset" id="dataset" placeholder="Enter dataset name" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-bold" for="purpose">Research Purpose <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="purpose" id="purpose" rows="4" placeholder="Describe your research purpose and how you plan to use the data" required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary btn-lg px-5" type="submit">
+                <i class="fas fa-database me-2"></i>Submit Data Request
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Workshop Registration Form Section (for trainings-tutorials) -->
+{{ if .Params.registration_info }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="mb-4">
+          <h2 class="section-title text-center">Register for Workshop</h2>
+          <p class="text-muted text-center">{{ .Params.registration_info | markdownify }}</p>
+        </div>
+        <div class="service-form-card p-4 p-lg-5 rounded-3 shadow-sm">
+          <form method="POST" class="row g-4" action="{{ site.Params.contact_form_action | safeURL }}">
+            <input type="hidden" name="subject" value="Workshop Registration">
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="full_name">Full Name <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" name="full_name" id="full_name" placeholder="Enter your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="email">Email Address <span class="text-danger">*</span></label>
+              <input class="form-control" type="email" name="email_address" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="phone">Phone Number</label>
+              <input class="form-control" type="tel" name="phone" id="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold" for="workshop">Workshop <span class="text-danger">*</span></label>
+              <select class="form-select" name="workshop" id="workshop" required>
+                <option value="">Select a workshop</option>
+                {{ if .Params.upcoming_workshops }}
+                {{ range .Params.upcoming_workshops }}
+                {{ if .registration_open }}
+                <option value="{{ .title }}">{{ .title }} - {{ .date | time.Format "January 2, 2006" }}</option>
+                {{ end }}
+                {{ end }}
+                {{ end }}
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-bold" for="background">Background/Experience</label>
+              <textarea class="form-control" name="background" id="background" rows="3" placeholder="Briefly describe your background and experience relevant to the workshop"></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary btn-lg px-5" type="submit">
+                <i class="fas fa-user-plus me-2"></i>Register for Workshop
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ end }}
