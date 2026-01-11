@@ -1,0 +1,410 @@
+backend:
+  name: github
+  repo: your-username/your-repository  # TODO: Replace with your GitHub username and repository name
+  branch: main  # or 'master' depending on your default branch
+  base_url: https://your-domain.com  # TODO: Replace with your domain or leave empty for local development
+
+# Local backend for development (comment out for production)
+local_backend: true
+
+# Media folder configuration
+media_folder: "static/images/uploads"  # Where uploaded images will be stored
+public_folder: "/images/uploads"  # Public URL path for images
+
+# Site information
+site_url: "https://your-domain.com"  # TODO: Replace with your actual site URL
+display_url: "https://your-domain.com"  # TODO: Replace with your actual site URL
+logo_url: "/images/surc-logo.png"
+
+# Content collections
+collections:
+  # Publications Collection
+  - name: "publications"
+    label: "Publications"
+    folder: "content/publications"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^pub-\\d{3}$", "Must match pattern: pub-001, pub-002, etc."] }
+      - { label: "Type", name: "type", widget: "select", options: ["article", "thesis", "report"], required: true }
+      - label: "Authors"
+        name: "authors"
+        widget: "list"
+        required: true
+        allow_add: true
+        collapsed: true
+        summary: "{{fields.staff}}"
+        min: 1
+        field:
+          label: "Author"
+          name: "staff"
+          widget: "relation"
+          collection: "staff"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+          required: true
+          options_length: 50
+      - { label: "Journal", name: "journal", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string", required: true }
+      - label: "Unit"
+        name: "unit"
+        widget: "relation"
+        collection: "units"
+        value_field: "id"
+        display_fields: ["name", "title"]
+        search_fields: ["name", "title", "id"]
+        multiple: false
+        required: true
+      - label: "Related Projects"
+        name: "related_projects"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Project"
+          name: "project"
+          widget: "relation"
+          collection: "projects"
+          value_field: "id"
+          display_fields: ["title", "name"]
+          search_fields: ["title", "name", "id"]
+          multiple: false
+      - label: "Related Datasets"
+        name: "related_datasets"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Dataset"
+          name: "dataset"
+          widget: "relation"
+          collection: "datasets"
+          value_field: "id"
+          display_fields: ["title", "name"]
+          search_fields: ["title", "name", "id"]
+          multiple: false
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "PDF Path", name: "pdf", widget: "string", required: false, hint: "e.g., /pdfs/publication.pdf" }
+      - { label: "Degree (for thesis)", name: "degree", widget: "string", required: false, hint: "MSc or PhD" }
+      - label: "Supervisor (for thesis)"
+        name: "supervisor"
+        widget: "relation"
+        collection: "staff"
+        value_field: "id"
+        display_fields: ["title"]
+        search_fields: ["title", "id"]
+        multiple: false
+        required: false
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Projects Collection
+  - name: "projects"
+    label: "Projects"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^project-.*$", "Must start with 'project-'"] }
+      - { label: "Name", name: "name", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Status", name: "status", widget: "select", options: ["ongoing", "completed"], required: true }
+      - label: "Unit"
+        name: "unit"
+        widget: "relation"
+        collection: "units"
+        value_field: "id"
+        display_fields: ["name", "title"]
+        search_fields: ["name", "title", "id"]
+        multiple: false
+        required: true
+      - { label: "Year", name: "year", widget: "string", required: true }
+      - { label: "Type", name: "type", widget: "string", required: true, hint: "e.g., Research Project, Development Project" }
+      - label: "Related Publications"
+        name: "related_publications"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Publication"
+          name: "pub"
+          widget: "relation"
+          collection: "publications"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+      - label: "Related Staff"
+        name: "related_staff"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Staff Member"
+          name: "staff"
+          widget: "relation"
+          collection: "staff"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+      - label: "Related Datasets"
+        name: "related_datasets"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Dataset"
+          name: "dataset"
+          widget: "relation"
+          collection: "datasets"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Staff/Researchers Collection
+  - name: "staff"
+    label: "Staff & Researchers"
+    folder: "content/staff"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true, hint: "Full name" }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^staff-.*$", "Must start with 'staff-'"] }
+      - { label: "Subtitle", name: "subtitle", widget: "string", required: false, hint: "Position title" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - label: "Unit"
+        name: "unit"
+        widget: "relation"
+        collection: "units"
+        value_field: "id"
+        display_fields: ["name", "title"]
+        search_fields: ["name", "title", "id"]
+        multiple: false
+        required: true
+      - { label: "Title Position", name: "title_position", widget: "string", required: false }
+      - { label: "Email", name: "email", widget: "string", required: true }
+      - { label: "Research Areas", name: "research_areas", widget: "list", required: false, field: { label: "Area", name: "area", widget: "string" } }
+      - label: "Related Projects"
+        name: "related_projects"
+        widget: "list"
+        required: false
+        field:
+          label: "Project"
+          name: "project"
+          widget: "relation"
+          collection: "projects"
+          value_field: "id"
+          display_fields: ["title", "name"]
+          search_fields: ["title", "name", "id"]
+      - label: "Related Publications"
+        name: "related_publications"
+        widget: "list"
+        required: false
+        field:
+          label: "Publication"
+          name: "pub"
+          widget: "relation"
+          collection: "publications"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+      - { label: "Bio", name: "bio", widget: "text", required: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Labs Collection
+  - name: "labs"
+    label: "Labs & Facilities"
+    folder: "content/labs"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^lab-.*$", "Must start with 'lab-'"] }
+      - { label: "Location ID", name: "location", widget: "string", required: true, hint: "e.g., college-science, research-center" }
+      - { label: "Location Name", name: "location_name", widget: "string", required: true }
+      - { label: "Category", name: "category", widget: "string", required: true, hint: "e.g., chemistry, biology, computer" }
+      - { label: "Category Name", name: "category_name", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Contact Email", name: "contact", widget: "string", required: true }
+      - { label: "Capacity", name: "capacity", widget: "string", required: false }
+      - { label: "Status", name: "status", widget: "select", options: ["active", "maintenance", "inactive"], default: "active" }
+      - label: "Equipment"
+        name: "equipment"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Name", name: "name", widget: "string", required: true }
+          - { label: "ID", name: "id", widget: "string", required: true }
+          - { label: "Category", name: "category", widget: "string", required: true }
+          - { label: "Description", name: "description", widget: "text", required: true }
+          - { label: "Model", name: "model", widget: "string", required: false }
+          - { label: "Status", name: "status", widget: "select", options: ["available", "in-use", "maintenance"], default: "available" }
+          - { label: "Image", name: "image", widget: "image", required: false }
+          - { label: "Specifications", name: "specifications", widget: "list", required: false, field: { label: "Spec", name: "spec", widget: "string" } }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Datasets Collection
+  - name: "datasets"
+    label: "Research Datasets"
+    folder: "content/datasets"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^dataset-.*$", "Must start with 'dataset-'"] }
+      - { label: "Name", name: "name", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - label: "Unit"
+        name: "unit"
+        widget: "relation"
+        collection: "units"
+        value_field: "id"
+        display_fields: ["name", "title"]
+        search_fields: ["name", "title", "id"]
+        multiple: false
+        required: true
+      - { label: "Year", name: "year", widget: "string", required: true }
+      - { label: "Access Level", name: "access", widget: "select", options: ["Open", "Restricted", "On-Request"], required: true }
+      - { label: "Format", name: "format", widget: "string", required: true, hint: "e.g., CSV, Excel, SPSS" }
+      - { label: "Size", name: "size", widget: "string", required: false }
+      - label: "Related Projects"
+        name: "related_projects"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Project"
+          name: "project"
+          widget: "relation"
+          collection: "projects"
+          value_field: "id"
+          display_fields: ["title", "name"]
+          search_fields: ["title", "name", "id"]
+          multiple: false
+      - label: "Related Publications"
+        name: "related_publications"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Publication"
+          name: "pub"
+          widget: "relation"
+          collection: "publications"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+      - label: "Related Staff"
+        name: "related_staff"
+        widget: "list"
+        required: false
+        allow_add: true
+        field:
+          label: "Staff Member"
+          name: "staff"
+          widget: "relation"
+          collection: "staff"
+          value_field: "id"
+          display_fields: ["title"]
+          search_fields: ["title", "id"]
+          multiple: false
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Units Collection
+  - name: "units"
+    label: "Research Units"
+    folder: "content/units"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "ID", name: "id", widget: "string", required: true, pattern: ["^unit-.*$", "Must start with 'unit-'"] }
+      - { label: "Name", name: "name", widget: "string", required: true }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Events Collection
+  - name: "events"
+    label: "Events"
+    folder: "content/events"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", required: true }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Author", name: "author", widget: "string", required: false }
+      - { label: "Type", name: "type", widget: "select", options: ["regular", "featured"], default: "regular" }
+      - { label: "Category", name: "category", widget: "string", required: false, hint: "e.g., Workshop, Seminar, Conference" }
+      - { label: "Time", name: "time", widget: "string", required: false, hint: "e.g., 10:00 AM - 12:00 PM" }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Regulations Collection
+  - name: "regulations"
+    label: "Regulations & Guidelines"
+    folder: "content/regulations"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Category", name: "category", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "File Path", name: "file", widget: "string", required: false }
+      - { label: "Size", name: "size", widget: "string", required: false }
+      - { label: "Last Updated", name: "last_updated", widget: "datetime", time_format: false, required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  # Templates Collection
+  - name: "templates"
+    label: "Forms & Templates"
+    folder: "content/templates"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Category", name: "category", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "File Path", name: "file", widget: "string", required: false }
+      - { label: "Format", name: "format", widget: "string", required: false }
+      - { label: "Size", name: "size", widget: "string", required: false }
+      - { label: "Icon", name: "icon", widget: "string", required: false, hint: "Font Awesome icon class" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }

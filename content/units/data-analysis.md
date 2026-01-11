@@ -1,15 +1,14 @@
 ---
-title: "Data Analysis Unit"
-id: "unit-data-analysis"
-name: "Data Analysis Unit"
-image: "images/unit-data-analysis.jpg"
-description: "Advanced data analytics, statistical modeling, and computational research methods."
+title: Data Analysis Unit
+id: unit-data-analysis
+name: Data Analysis Unit
+image: images/unit-data-analysis.jpg
+description: Advanced data analytics, statistical modeling, and computational research methods.
 draft: false
 ---
-
 ## Overview
 
-The Data Analysis Unit specializes in advanced data analytics, statistical modeling, and computational research methods. We provide comprehensive data analysis services and support for research projects across all units.
+This is test for now
 
 ## Research Areas
 
