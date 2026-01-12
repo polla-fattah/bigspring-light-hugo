@@ -4,7 +4,7 @@ id: "pub-007"
 type: "thesis"
 degree: "PhD"
 authors:
-  - "student-researcher-b"
+  - staff: "student-researcher-b"
 supervisor: "staff-researcher-6"
 year: "2023"
 unit: "unit-social-sciences-humanities"

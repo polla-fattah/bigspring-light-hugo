@@ -3,7 +3,7 @@ title: "Research Data Sharing and Open Access Policies"
 id: "pub-012"
 type: "report"
 authors:
-  - "staff-samir-bilal"
+  - staff: "staff-samir-bilal"
 year: "2024"
 unit: "unit-leadership"
 description: "Policy report on data sharing practices and open access initiatives."

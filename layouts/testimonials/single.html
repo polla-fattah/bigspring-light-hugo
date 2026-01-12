@@ -1,67 +1,34 @@
 {{ define "main" }}
 
-<!-- Hero Section -->
 <section class="section bg-light">
   <div class="container">
     <div class="row">
-      <div class="col-lg-10 mx-auto text-center">
-        <h1 class="display-4 fw-bold mb-4">{{ .Title }}</h1>
-        <p class="lead text-muted">Please see the kind words and insightful quotes that experts said about our center as well as thankful letters from researchers, students and staff that have said about us.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials Grid -->
-<section class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="testimonial-card-modern h-100 p-4 rounded-3 shadow-sm">
+      <div class="col-lg-10 mx-auto">
+        <div class="testimonial-single-card p-5 rounded-3 shadow-sm bg-white">
           <div class="testimonial-content mb-4">
-            <div class="quote-icon mb-3">
-              <i class="fas fa-quote-left text-primary"></i>
+            <div class="quote-icon mb-4">
+              <i class="fas fa-quote-left text-primary" style="font-size: 3rem;"></i>
             </div>
-            <p class="mb-0">The Research Center stands as a vital pillar in our academic mission. It bridges science with society, ensuring that research outcomes are not confined to papers and reports but are shared with the community, creating real impact for our people. The Center safeguards ethics and professional standards, while supporting our scholars in securing grants, building collaborations, and protecting intellectual property.</p>
+            <div class="testimonial-text">
+              {{ .Params.content | default .Content | markdownify }}
+            </div>
           </div>
-          <div class="testimonial-author">
-            <h5 class="mb-1 fw-bold">Dr Kamaran Younis</h5>
-            <p class="mb-0 text-muted small">President of the University</p>
+          <div class="testimonial-author-info pt-4 border-top">
+            <h3 class="mb-2 fw-bold">{{ .Params.name | default .Title | markdownify }}</h3>
+            <p class="text-muted mb-0">{{ .Params.designation | markdownify }}</p>
+            {{ if .Date }}
+            <p class="text-muted small mt-2 mb-0">
+              <i class="fas fa-calendar me-2"></i>{{ .Date.Format "January 2, 2006" }}
+            </p>
+            {{ end }}
+          </div>
+          <div class="mt-4">
+            <a href="/testimonials/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-left me-2"></i>Back to All Testimonials
+            </a>
           </div>
         </div>
       </div>
-      
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="testimonial-card-modern h-100 p-4 rounded-3 shadow-sm">
-          <div class="testimonial-content mb-4">
-            <div class="quote-icon mb-3">
-              <i class="fas fa-quote-left text-primary"></i>
-            </div>
-            <p class="mb-0">SURC sets a clear roadmap to convert rigorous, ethical research into measurable benefit for Kurdistan and beyond. We unite multidisciplinary teams, build researcher capacity through training and mentorship, and provide end-to-end support; from gap analysis and proposal writing to grants, execution, and dissemination.</p>
-          </div>
-          <div class="testimonial-author">
-            <h5 class="mb-1 fw-bold">Dr Samir Bilal</h5>
-            <p class="mb-0 text-muted small">General Director of Research Center</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="testimonial-card-modern h-100 p-4 rounded-3 shadow-sm">
-          <div class="testimonial-content mb-4">
-            <div class="quote-icon mb-3">
-              <i class="fas fa-quote-left text-primary"></i>
-            </div>
-            <p class="mb-0">The Research Center has been instrumental in my academic journey. The resources, mentorship, and collaborative environment have enabled me to conduct meaningful research that contributes to both scientific knowledge and community development.</p>
-          </div>
-          <div class="testimonial-author">
-            <h5 class="mb-1 fw-bold">Research Scholar</h5>
-            <p class="mb-0 text-muted small">Salahaddin University-Erbil</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Add more testimonials as needed -->
     </div>
   </div>
 </section>

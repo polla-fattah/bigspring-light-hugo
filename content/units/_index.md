@@ -1,8 +1,13 @@
 ---
 title: "Research Center Units"
-subtitle: "The Research Center is organized into specialized units that cover diverse fields — we invite you to explore more of them for a deeper insight into our work."
+subtitle: "Explore our specialized research units"
 description: "Explore all research units at Salahaddin University Research Center"
 draft: false
+hero:
+  enable: true
+  image: "images/unit-data-analysis.jpg"
+  title: "Our Research Units"
+  description: "Interdisciplinary research units bringing together researchers, resources, and expertise to advance knowledge and drive scientific innovation across multiple fields."
 
 units:
   - name: "Data Analysis Unit"

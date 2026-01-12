@@ -3,7 +3,7 @@ title: "Annual Research Report 2023"
 id: "pub-009"
 type: "report"
 authors:
-  - "staff-samir-bilal"
+  - staff: "staff-samir-bilal"
 year: "2023"
 unit: "unit-leadership"
 description: "Comprehensive annual report summarizing research activities and outcomes for 2023."

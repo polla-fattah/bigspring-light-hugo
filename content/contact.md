@@ -1,5 +1,5 @@
 ---
-title: "Contact & Resources"
+title: "Contact Us"
 subtitle: "Get in touch with us for collaboration, inquiries, or access to resources"
 description: "Contact Salahaddin University Research Center"
 draft: false
@@ -23,11 +23,11 @@ contact_info:
   hours:
     title: "Working Hours"
     icon: "fas fa-clock"
-    content: "Sunday - Thursday<br/>8:00 AM - 4:00 PM"
+    content: "Sunday - Thursday<br/>8:00 AM - 2:00 PM"
 
 map:
   enable: true
-  embed_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3142.536478123456!2d44.0092!3d36.1911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzYsMjY1LDE2LjcxMSBLaWxvbWV0ZXJz!5e0!3m2!1sen!2siq!4v1234567890"
+  embed_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3142.536478123456!2d44.023079!3d36.152416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzYuMTUyNDE2LDQ0LjAyMzA3OQ!5e0!3m2!1sen!2siq!4v1704643200000!5m2!1sen!2siq"
 
 collaboration:
   enable: true

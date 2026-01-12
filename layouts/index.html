@@ -1,6 +1,5 @@
 {{ define "main" }}
 
-<!-- banner -->
 {{ with .Params.banner }}
 <section class="banner banner-with-video">
   {{ if .video }}
@@ -55,40 +54,7 @@
   </div>
 </section>
 {{ end }}
-<!-- /banner -->
 
-<!-- feature -->
-{{ with .Params.feature }}
-{{ if .enable }}
-<section class="section bg-light">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 text-center">
-        <h2 class="section-title">{{ .title | markdownify }}</h2>
-      </div>
-      {{ range .feature_item }}
-      <div class="col-md-4 col-sm-6 mb-4">
-        {{ if .link }}
-        <a href="{{ .link | relURL }}" class="feature-card-link">
-        {{ end }}
-        <div class="feature-card text-center">
-          <i class="{{.icon}} mb-3"></i>
-          <h4 class="mb-2">{{ .name | title }}</h4>
-          <p>{{ .content | markdownify }}</p>
-        </div>
-        {{ if .link }}
-        </a>
-        {{ end }}
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</section>
-{{ end }}
-{{ end }}
-<!-- /feature -->
-
-<!-- Statistics Section -->
 {{ with .Params.stats }}
 {{ if .enable }}
 <section class="section stats-section">
@@ -110,12 +76,10 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Statistics -->
 
-<!-- latest events -->
 {{ with .Params.latest_events }}
 {{ if .enable }}
-<section class="section">
+<section class="section bg-light">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 text-center mb-5">
@@ -160,9 +124,36 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /latest events -->
 
-<!-- service -->
+{{ with .Params.feature }}
+{{ if .enable }}
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <h2 class="section-title">{{ .title | markdownify }}</h2>
+      </div>
+      {{ range .feature_item }}
+      <div class="col-md-4 col-sm-6 mb-4">
+        {{ if .link }}
+        <a href="{{ .link | relURL }}" class="feature-card-link">
+        {{ end }}
+        <div class="feature-card text-center">
+          <i class="{{.icon}} mb-3"></i>
+          <h4 class="mb-2">{{ .name | title }}</h4>
+          <p>{{ .content | markdownify }}</p>
+        </div>
+        {{ if .link }}
+        </a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}
+
 {{ with .Params.service }}
 {{ if .enable }}
 {{ range $i,$p := .service_item }}
@@ -238,9 +229,7 @@
 {{ end }}
 {{ end }}
 {{ end }}
-<!-- /service -->
 
-<!-- Auto-rotate service sliders -->
 <script>
 (function() {
   function initSlidersWithAutoplay() {
@@ -295,7 +284,6 @@
 })();
 </script>
 
-<!-- Research Outputs Section -->
 {{ with .Params.research_outputs }}
 {{ if .enable }}
 <section class="section bg-light">
@@ -342,9 +330,7 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Research Outputs -->
 
-<!-- Community Engagement Section -->
 {{ with .Params.community_engagement }}
 {{ if .enable }}
 <section class="section">
@@ -391,9 +377,7 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Community Engagement -->
 
-<!-- Resources & Support Section -->
 {{ with .Params.resources_support }}
 {{ if .enable }}
 <section class="section bg-light">
@@ -440,12 +424,37 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Resources & Support -->
 
-<!-- Testimonials Section -->
+{{ with .Params.president_quote }}
+{{ if .enable }}
+<section class="section president-quote-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="swiper testimonial-slider president-quote-slider">
+          <div {{if gt (len .images) 1}}class="swiper-wrapper" {{end}}>
+            {{ range .images }}
+            <div class="swiper-slide">
+              {{ partial "image.html" (dict "Src" . "Alt" "Image" ) }}
+            </div>
+            {{ end }}
+          </div>
+          <div class="testimonial-slider-pagination mt-9 flex items-center justify-center text-center"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2 class="section-title">{{ .title | markdownify }}</h2>
+        <p>{{ .content | markdownify }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}
+
 {{ with .Params.testimonials }}
 {{ if .enable }}
-<section class="section">
+<section class="section bg-light">
   <div class="container">
     <div class="row justify-content-center mb-5">
       <div class="col-lg-8 text-center">
@@ -456,20 +465,29 @@
       </div>
     </div>
     <div class="row">
-      {{ range .testimonials_item }}
+      {{ $testimonials := where site.RegularPages "Section" "testimonials" }}
+      {{ $minister := where $testimonials "File.BaseFileName" "eq" "minister-higher-education" | first 1 }}
+      {{ $governor := where $testimonials "File.BaseFileName" "eq" "erbil-governor" | first 1 }}
+      {{ $excluded := slice "minister-higher-education" "erbil-governor" }}
+      {{ $filteredTestimonials := where $testimonials "File.BaseFileName" "not in" $excluded }}
+      {{ $randomTestimonial := $filteredTestimonials | shuffle | first 1 }}
+      {{ $homepageTestimonials := $minister | append $governor | append $randomTestimonial }}
+      {{ range $homepageTestimonials }}
       <div class="col-lg-4 col-md-6 mb-4">
-        <div class="testimonial-card-modern h-100 p-4 rounded-3 shadow-sm">
-          <div class="testimonial-content mb-4">
-            <div class="quote-icon mb-3">
-              <i class="fas fa-quote-left text-primary"></i>
+        <a href="{{ .Permalink }}" class="text-decoration-none">
+          <div class="testimonial-card-modern h-100 p-4 rounded-3 shadow-sm">
+            <div class="testimonial-content mb-4">
+              <div class="quote-icon mb-3">
+                <i class="fas fa-quote-left text-primary"></i>
+              </div>
+              <p class="mb-0">{{ .Params.content | default .Summary | markdownify | truncate 150 }}</p>
             </div>
-            <p class="mb-0">{{ .content | markdownify }}</p>
+            <div class="testimonial-author">
+              <h5 class="mb-1 fw-bold">{{ .Params.name | default .Title | markdownify }}</h5>
+              <p class="mb-0 text-muted small">{{ .Params.designation | markdownify }}</p>
+            </div>
           </div>
-          <div class="testimonial-author">
-            <h5 class="mb-1 fw-bold">{{ .name | markdownify }}</h5>
-            <p class="mb-0 text-muted small">{{ .designation | markdownify }}</p>
-          </div>
-        </div>
+        </a>
       </div>
       {{ end }}
     </div>
@@ -484,40 +502,43 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Testimonials -->
 
-<!-- Research Center Units Section -->
 {{ with .Params.research_units }}
 {{ if .enable }}
-<section class="section bg-light research-units-section">
+<section class="section research-units-section bg-light">
   <div class="container">
     <div class="row justify-content-center mb-5">
-      <div class="col-lg-8 text-center">
-        <h2 class="section-title">{{ .title | markdownify }}</h2>
+      <div class="col-lg-10 text-center">
+        <h2 class="section-title mb-4">{{ .title | markdownify }}</h2>
         {{ if .subtitle }}
-        <p class="text-muted mb-0">{{ .subtitle | markdownify }}</p>
+        <p class="lead text-muted mb-0">{{ .subtitle | markdownify }}</p>
         {{ end }}
       </div>
     </div>
-    <div class="row">
+    <div class="row g-4">
       {{ range .featured_units }}
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="research-unit-card h-100 rounded-3 overflow-hidden shadow-sm">
-          <div class="unit-image-container">
-            {{ if .image }}
-            {{ partial "image.html" (dict "Src" .image "Alt" .name "Class" "unit-image" "Size" "400x300") }}
-            {{ else }}
-            <div class="unit-image-placeholder">
-              <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
-              <p class="text-muted mt-2">Image placeholder</p>
+      <div class="col-lg-4 col-md-6">
+        <a href="{{ .link | relURL }}" class="text-decoration-none research-unit-card-link">
+          <div class="research-unit-card-modern h-100 rounded-3 overflow-hidden shadow-sm position-relative">
+            <div class="unit-image-container-modern position-relative">
+              {{ if .image }}
+              {{ partial "image.html" (dict "Src" .image "Alt" .name "Class" "unit-image-modern" "Size" "500x350") }}
+              <div class="unit-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+              {{ else }}
+              <div class="unit-image-placeholder-modern">
+                <i class="fas fa-flask text-muted" style="font-size: 4rem;"></i>
+              </div>
+              {{ end }}
             </div>
-            {{ end }}
+            <div class="unit-content-modern p-4 position-relative">
+              <h3 class="h4 mb-3 fw-bold text-dark">{{ .name | markdownify }}</h3>
+              <div class="unit-link-modern d-inline-flex align-items-center text-primary fw-semibold">
+                <span>Explore Unit</span>
+                <i class="fas fa-arrow-right ms-2"></i>
+              </div>
+            </div>
           </div>
-          <div class="unit-content p-4">
-            <h3 class="h5 mb-3 fw-bold">{{ .name | markdownify }}</h3>
-            <a href="{{ .link | relURL }}" class="unit-link">Visit the Unit</a>
-          </div>
-        </div>
+        </a>
       </div>
       {{ end }}
     </div>
@@ -539,10 +560,7 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /Research Center Units -->
 
-
-<!-- screenshot -->
 {{ with .Params.screenshot }}
 {{ if .enable }}
 <section class="section pb-0">
@@ -557,12 +575,10 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /screenshot -->
 
-<!-- call to action -->
 {{ with .Params.call_to_action }}
 {{ if .enable }}
-<section class="section">
+<section class="section bg-light">
   <div class="container section shadow rounded-lg px-4">
     <div class="row align-items-center justify-content-center text-center text-md-left">
       <div class="col-lg-4 col-md-5 mb-4 mb-md-0">
@@ -582,6 +598,5 @@
 </section>
 {{ end }}
 {{ end }}
-<!-- /call to action -->
 
 {{ end }}

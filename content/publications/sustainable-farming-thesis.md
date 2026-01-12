@@ -4,7 +4,7 @@ id: "pub-004"
 type: "thesis"
 degree: "MSc"
 authors:
-  - "student-researcher-a"
+  - staff: "student-researcher-a"
 supervisor: "staff-researcher-5"
 year: "2024"
 unit: "unit-agriculture"

@@ -32,5 +32,33 @@
         },
       });
     });
+    
+    // Initialize events hero slider
+    const eventsHeroSlider = document.querySelector('.events-hero-slider');
+    if (eventsHeroSlider) {
+      const paginationEl = eventsHeroSlider.querySelector('.events-hero-pagination');
+      const swiperInstance = new Swiper(eventsHeroSlider, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: {
+          delay: 6000, // 6 seconds
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: paginationEl,
+          clickable: true,
+          type: 'bullets',
+          dynamicBullets: false,
+        },
+      });
+      
+      // Ensure pagination is visible
+      if (paginationEl) {
+        paginationEl.style.display = 'flex';
+        paginationEl.style.visibility = 'visible';
+        paginationEl.style.opacity = '1';
+      }
+    }
   }, 100); // Small delay to ensure theme script has run
 })();

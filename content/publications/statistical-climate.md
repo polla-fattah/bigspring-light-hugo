@@ -3,7 +3,7 @@ title: "Statistical Modeling for Climate Prediction"
 id: "pub-010"
 type: "article"
 authors:
-  - "staff-researcher-1"
+  - staff: "staff-researcher-1"
 journal: "Statistical Methods Journal"
 year: "2023"
 unit: "unit-data-analysis"

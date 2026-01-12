@@ -4,7 +4,7 @@ id: "pub-011"
 type: "thesis"
 degree: "MSc"
 authors:
-  - "student-researcher-c"
+  - staff: "student-researcher-c"
 supervisor: "staff-researcher-3"
 year: "2023"
 unit: "unit-biology-life-sciences"

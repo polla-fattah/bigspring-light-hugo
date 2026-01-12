@@ -1,0 +1,99 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Unit Details -->
+<section class="section unit-details-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- Unit Image -->
+        {{ if .Params.image }}
+        <div class="unit-hero-image mb-4">
+          {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "img-fluid rounded-3 shadow" "Size" "800x400") }}
+        </div>
+        {{ end }}
+        
+        <!-- Unit Content -->
+        <div class="unit-content">
+          {{ .Content }}
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <!-- Unit Info Sidebar -->
+        <div class="unit-sidebar">
+          <div class="unit-info-card p-4 rounded-3 shadow-sm mb-4">
+            <h3 class="h5 mb-3 fw-bold">Unit Information</h3>
+            {{ if .Params.name }}
+            <div class="unit-info-item mb-3">
+              <strong>Name:</strong> {{ .Params.name }}
+            </div>
+            {{ end }}
+            {{ if .Params.description }}
+            <div class="unit-info-item mb-3">
+              <strong>Description:</strong>
+              <p class="mb-0 text-muted small">{{ .Params.description }}</p>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit Projects -->
+    {{ $unitId := .Params.id }}
+    {{ $unitProjects := where site.RegularPages "Section" "projects" }}
+    {{ $filteredProjects := slice }}
+    {{ range $unitProjects }}
+      {{ if eq .Params.unit $unitId }}
+        {{ $filteredProjects = $filteredProjects | append . }}
+      {{ end }}
+    {{ end }}
+    
+    {{ if $filteredProjects }}
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2 class="section-title mb-4">Projects in This Unit</h2>
+        <div class="row">
+          {{ range $filteredProjects }}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="project-card h-100 rounded-3 overflow-hidden shadow-sm">
+              <div class="project-image-container position-relative">
+                {{ if .Params.image }}
+                {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "project-image" "Size" "400x250") }}
+                {{ else }}
+                <div class="project-image-placeholder">
+                  <i class="fas fa-project-diagram text-muted" style="font-size: 3rem;"></i>
+                </div>
+                {{ end }}
+                <div class="project-status-badge position-absolute top-0 end-0 m-3">
+                  {{ if eq .Params.status "ongoing" }}
+                  <span class="badge">Ongoing</span>
+                  {{ else if eq .Params.status "completed" }}
+                  <span class="badge">Completed</span>
+                  {{ end }}
+                </div>
+              </div>
+              <div class="project-content p-4">
+                <div class="project-meta mb-2">
+                  <span class="badge me-2">{{ .Params.type | default "Research Project" }}</span>
+                  <span class="text-muted small">{{ if .Params.year }}{{ .Params.year }}{{ else if .Date }}{{ .Date.Format "2006" }}{{ end }}</span>
+                </div>
+                <h3 class="h5 mb-3 fw-bold">
+                  <a href="{{ .Permalink }}" class="text-dark text-decoration-none">{{ .Params.name | default .Title }}</a>
+                </h3>
+                <p class="text-muted mb-3 small">{{ .Params.description | default .Summary | truncate 120 }}</p>
+                <a href="{{ .Permalink }}" class="btn btn-sm btn-outline-primary w-100">Learn More</a>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+<!-- /Unit Details -->
+
+{{ end }}

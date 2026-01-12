@@ -3,7 +3,7 @@ title: "Molecular Mechanisms in Plant Genetics"
 id: "pub-003"
 type: "article"
 authors:
-  - "staff-researcher-3"
+  - staff: "staff-researcher-3"
 journal: "Biology Research Journal"
 year: "2023"
 unit: "unit-biology-life-sciences"

@@ -1,35 +1,67 @@
 {{ define "main" }}
 {{ partial "page-header.html" . }}
 
+<!-- Hero Section -->
+{{ if .Params.hero.enable }}
+<section class="section units-hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        {{ if .Params.hero.image }}
+        <div class="units-hero-image">
+          {{ partial "image.html" (dict "Src" .Params.hero.image "Alt" .Title "Class" "img-fluid rounded-3 shadow" "Size" "800x600") }}
+        </div>
+        {{ end }}
+      </div>
+      <div class="col-lg-6">
+        {{ if .Params.hero.title }}
+        <h2 class="section-title mb-4">{{ .Params.hero.title | markdownify }}</h2>
+        {{ end }}
+        {{ if .Params.hero.description }}
+        <div class="units-hero-description">
+          <p class="lead text-muted">{{ .Params.hero.description | markdownify }}</p>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
 <!-- Research Center Units Listing -->
-<section class="section research-units-section">
+<section class="section units-listing-section bg-light">
   <div class="container">
     {{ $units := where site.RegularPages "Section" "units" }}
     {{ if $units }}
-    <div class="row">
+    <div class="row g-4">
       {{ range $units }}
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="research-unit-card h-100 rounded-3 overflow-hidden shadow-sm">
-          <div class="unit-image-container">
-            {{ if .Params.image }}
-            {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "unit-image" "Size" "400x300") }}
-            {{ else }}
-            <div class="unit-image-placeholder">
-              <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
-              <p class="text-muted mt-2">Image placeholder</p>
+      <div class="col-lg-4 col-md-6">
+        <a href="{{ .Permalink }}" class="text-decoration-none research-unit-card-link">
+          <div class="research-unit-card-modern h-100 rounded-3 overflow-hidden shadow-sm position-relative">
+            <div class="unit-image-container-modern position-relative">
+              {{ if .Params.image }}
+              {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "unit-image-modern" "Size" "500x350") }}
+              <div class="unit-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+              {{ else }}
+              <div class="unit-image-placeholder-modern">
+                <i class="fas fa-flask text-muted" style="font-size: 4rem;"></i>
+              </div>
+              {{ end }}
             </div>
-            {{ end }}
+            <div class="unit-content-modern p-4 position-relative">
+              <h3 class="h4 mb-3 fw-bold text-dark">{{ .Params.name | default .Title | markdownify }}</h3>
+              {{ if .Params.description }}
+              <p class="text-muted mb-3">{{ .Params.description | markdownify | truncate 120 }}</p>
+              {{ else }}
+              <p class="text-muted mb-3">{{ .Summary | truncate 120 }}</p>
+              {{ end }}
+              <div class="unit-link-modern d-inline-flex align-items-center text-primary fw-semibold">
+                <span>Explore Unit</span>
+                <i class="fas fa-arrow-right ms-2"></i>
+              </div>
+            </div>
           </div>
-          <div class="unit-content p-4">
-            <h3 class="h5 mb-3 fw-bold"><a href="{{ .Permalink }}" class="text-dark text-decoration-none">{{ .Params.name | default .Title | markdownify }}</a></h3>
-            {{ if .Params.description }}
-            <p class="text-muted mb-3 small">{{ .Params.description | markdownify }}</p>
-            {{ else }}
-            <p class="text-muted mb-3 small">{{ .Summary | truncate 150 }}</p>
-            {{ end }}
-            <a href="{{ .Permalink }}" class="unit-link">Visit the Unit</a>
-          </div>
-        </div>
+        </a>
       </div>
       {{ end }}
     </div>

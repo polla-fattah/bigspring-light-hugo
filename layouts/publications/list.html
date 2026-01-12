@@ -51,11 +51,17 @@
       {{ $publications := where site.RegularPages "Section" "publications" }}
       {{ $sortedPublications := sort $publications "Date" "desc" }}
       {{ range $sortedPublications }}
+      {{ $authorIDs := slice }}
+      {{ if .Params.authors }}
+        {{ range .Params.authors }}
+          {{ $authorIDs = $authorIDs | append .staff }}
+        {{ end }}
+      {{ end }}
       <div class="publication-item mb-4 publication-card-item" 
            data-type="{{ .Params.type | default "article" | lower }}" 
            data-unit="{{ .Params.unit | default "" | urlize }}"
            data-year="{{ if .Params.year }}{{ .Params.year }}{{ else if .Date }}{{ .Date.Format "2006" }}{{ end }}"
-           data-authors="{{ if .Params.authors }}{{ delimit .Params.authors "," | lower }}{{ end }}">
+           data-authors="{{ if $authorIDs }}{{ delimit $authorIDs "," | lower }}{{ end }}">
         <div class="publication-card p-4 rounded-3 shadow-sm">
           <div class="row align-items-start">
             <div class="col-lg-9">
@@ -77,7 +83,8 @@
                 <i class="fas fa-user text-primary me-2"></i>
                 <span class="small">
                   {{ $authorsLen := len .Params.authors }}
-                  {{ range $index, $authorID := .Params.authors }}
+                  {{ range $index, $author := .Params.authors }}
+                    {{ $authorID := $author.staff }}
                     {{ $staffPage := site.GetPage (printf "staff/%s" $authorID) }}
                     {{ if $staffPage }}{{ $staffPage.Title }}{{ else }}{{ $authorID }}{{ end }}
                     {{ if lt $index (sub $authorsLen 1) }}, {{ end }}

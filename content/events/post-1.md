@@ -3,12 +3,14 @@ title: "Adversus is a web-based dialer and practical CRM solution"
 date: 2020-08-18T10:07:21+06:00
 # post image
 image: "images/blog/post-1.jpg"
-# author
-author: "Awab Husameldin"
 # post type (regular/featured)
 type: "featured"
+featured: true
 # meta description
 description: "This is meta description"
+category: "Conference"
+time: "10:00 AM - 4:00 PM"
+location: "Main Auditorium, SURC Building"
 # post draft
 draft: false
 ---

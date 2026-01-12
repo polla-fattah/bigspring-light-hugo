@@ -943,6 +943,76 @@ section.section p {
   }
 }
 
+// Single Testimonial Page Styling
+.testimonial-single-card {
+  .testimonial-content {
+    .quote-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(196, 30, 58, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      
+      i {
+        color: #C41E3A;
+      }
+    }
+    
+    .testimonial-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #444;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+  }
+  
+  .testimonial-author-info {
+    h3 {
+      color: #222;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: #777;
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Pagination Styling
+.pagination {
+  .page-link {
+    color: #C41E3A;
+    border-color: #dee2e6;
+    
+    &:hover {
+      color: #A01A2E;
+      background-color: rgba(196, 30, 58, 0.1);
+      border-color: #C41E3A;
+    }
+  }
+  
+  .page-item.active .page-link {
+    background-color: #C41E3A;
+    border-color: #C41E3A;
+    color: #fff;
+  }
+  
+  .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .stat-card {
@@ -1009,9 +1079,58 @@ section.section p {
   }
 }
 
-// Research Units Section - Light blue gradient background
+// Research Units Section - Modern Design
 .research-units-section {
-  background: linear-gradient(180deg, rgba(232, 244, 248, 0.6) 0%, rgba(232, 244, 248, 0.3) 100%) !important;
+  padding: 4rem 0;
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 1.5rem;
+  }
+  
+  .lead {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #555;
+  }
+}
+
+// Units Hero Section Styling
+.units-hero-section {
+  padding: 3rem 0;
+  
+  .units-hero-image {
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.02);
+    }
+  }
+  
+  .units-hero-description {
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #666;
+    }
+  }
+  
+  .section-title {
+    color: #222;
+    font-weight: 700;
+  }
+}
+
+// Units Listing Page - Modern Design
+.units-listing-section {
+  padding: 3rem 0;
 }
 
 // Research Units Cards Styling
@@ -1087,6 +1206,112 @@ section.section p {
       &:hover {
         color: #C41E3A;
         text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Research Units Cards - Modern Styling
+.research-unit-card-link {
+  display: block;
+  height: 100%;
+  transition: all 0.4s ease;
+  
+  &:hover {
+    text-decoration: none;
+    transform: translateY(-5px);
+  }
+}
+
+.research-unit-card-modern {
+  background: #fff;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+    border-color: rgba(196, 30, 58, 0.2);
+  }
+  
+  .unit-image-container-modern {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.1) 0%, rgba(232, 244, 248, 0.3) 100%);
+    position: relative;
+    
+    .unit-image-modern {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .unit-overlay {
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .unit-image-placeholder-modern {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(196, 30, 58, 0.05) 0%, rgba(232, 244, 248, 0.2) 100%);
+    }
+  }
+  
+  &:hover .unit-image-container-modern {
+    .unit-image-modern {
+      transform: scale(1.1);
+    }
+    
+    .unit-overlay {
+      opacity: 1;
+    }
+  }
+  
+  .unit-content-modern {
+    background: #fff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+    
+    h3 {
+      color: #222;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .unit-link-modern {
+      color: #C41E3A;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      
+      i {
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+  
+  &:hover .unit-content-modern {
+    h3 {
+      color: #C41E3A;
+    }
+    
+    .unit-link-modern {
+      i {
+        transform: translateX(5px);
       }
     }
   }
@@ -1274,6 +1499,99 @@ section.section p {
 }
 
 // Projects Listing Section
+// Unit Single Page Styling
+.unit-details-section {
+  .unit-hero-image {
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.02);
+    }
+  }
+  
+  .unit-content {
+    p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    
+    h2, h3, h4 {
+      color: #222;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .unit-sidebar {
+    .unit-info-card {
+      background: #fff;
+      border: 1px solid #e9ecef;
+      
+      h3 {
+        color: #C41E3A;
+        border-bottom: 2px solid #C41E3A;
+        padding-bottom: 0.5rem;
+      }
+      
+      .unit-info-item {
+        strong {
+          color: #222;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+  
+  .project-card {
+    background: #fff;
+    transition: all 0.4s ease;
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+}
+
+// Projects Hero Section Styling
+.projects-hero-section {
+  padding: 3rem 0;
+  
+  .projects-hero-image {
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.02);
+    }
+  }
+  
+  .projects-hero-description {
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #666;
+    }
+  }
+  
+  .section-title {
+    color: #222;
+    font-weight: 700;
+  }
+}
+
 .projects-listing-section {
   .projects-filters {
     background-color: #f8f9fa !important;
@@ -1343,6 +1661,9 @@ section.section p {
           font-weight: 600;
           padding: 0.4rem 0.75rem;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          background-color: rgba(255, 255, 255, 0.5) !important;
+          color: #000 !important;
+          backdrop-filter: blur(5px);
         }
       }
     }
@@ -1365,6 +1686,10 @@ section.section p {
         flex-wrap: wrap;
         
         .badge {
+          background-color: rgba(255, 255, 255, 0.5) !important;
+          color: #000 !important;
+          backdrop-filter: blur(5px);
+          border: 1px solid rgba(0, 0, 0, 0.1);
           font-size: 0.75rem;
           font-weight: 500;
           padding: 0.35rem 0.65rem;
@@ -1598,10 +1923,19 @@ section.section p {
   }
 }
 
+.collaboration-section {
+  padding: 4rem 0;
+  
+  .section-title {
+    margin-bottom: 2rem;
+  }
+}
+
 .collaboration-card {
   background: #fff;
   border: 1px solid #e9ecef;
   transition: all 0.4s ease;
+  min-height: 280px;
   
   &:hover {
     transform: translateY(-2px);
@@ -1610,8 +1944,8 @@ section.section p {
   }
   
   .collaboration-icon {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     background: rgba(196, 30, 58, 0.1);
     border-radius: 50%;
     display: flex;
@@ -1621,7 +1955,7 @@ section.section p {
     transition: all 0.3s ease;
     
     i {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: #C41E3A;
       transition: transform 0.3s ease;
     }
@@ -1638,14 +1972,42 @@ section.section p {
   h4 {
     color: #222;
     font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
   }
   
   p {
     color: #666;
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+}
+
+// Contact Page Social Media Icons
+.contact-social-icons {
+  .contact-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(196, 30, 58, 0.1);
+    border-radius: 50%;
+    color: #C41E3A;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    
+    &:hover {
+      background: #C41E3A;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(196, 30, 58, 0.3);
+    }
+    
+    i {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -1862,6 +2224,9 @@ section.section p {
         font-weight: 600;
         padding: 0.4rem 0.75rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        color: #000 !important;
+        backdrop-filter: blur(5px);
       }
     }
   }
@@ -2152,6 +2517,122 @@ section.section p {
   }
 }
 
+// Events Hero Section Styling
+.events-hero-slider {
+  position: relative;
+  
+  .swiper-slide {
+    height: auto;
+  }
+  
+  .swiper-pagination {
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 25 !important;
+    width: auto !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    visibility: visible !important;
+    opacity: 1 !important;
+    
+    .swiper-pagination-bullet {
+      width: 12px !important;
+      height: 12px !important;
+      background: rgba(255, 255, 255, 0.8) !important;
+      opacity: 0.6 !important;
+      margin: 0 4px !important;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      display: inline-block !important;
+      visibility: visible !important;
+      
+      &:hover {
+        opacity: 0.9 !important;
+        transform: scale(1.2);
+        border-color: rgba(255, 255, 255, 0.9);
+      }
+      
+      &.swiper-pagination-bullet-active {
+        background: #fff !important;
+        opacity: 1 !important;
+        transform: scale(1.3);
+        border-color: #fff;
+      }
+    }
+  }
+}
+
+.event-hero-card {
+  background: #fff;
+  transition: all 0.4s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .event-hero-image {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+  
+  .event-hero-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+  }
+  
+  .event-hero-content {
+    z-index: 10;
+    padding-bottom: 60px;
+    
+    h3 {
+      a {
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+      }
+    }
+    
+    .btn-light {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: #C41E3A !important;
+        color: #fff !important;
+        border-color: #C41E3A !important;
+      }
+    }
+  }
+  
+  .event-date-badge-hero {
+    z-index: 20;
+    
+    .event-date-badge-wrapper {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      color: #000;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      
+      i {
+        color: #000;
+      }
+    }
+  }
+}
+
 // Events Listing Page Styling
 .events-listing-section {
   .events-controls {
@@ -2321,3 +2802,4 @@ section.section p {
     }
   }
 }
+

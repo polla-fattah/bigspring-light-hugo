@@ -27,7 +27,7 @@ google_tag_manager = "" # example: G-XXXXXXXXXX
 custom_script = ""
 # copyright
 theme_copyright = true
-copyright = "Copyright by your company"
+copyright = "Salahaddin University-Erbil"
 
 # preloader
 # preloader module: https://github.com/gethugothemes/hugo-modules/tree/master/components/preloader
@@ -102,24 +102,24 @@ button = "I Accept"
 [[social]]
 title = "facebook"
 icon = "fab fa-facebook" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "#!"
+link = "https://www.facebook.com/profile.php?id=100046700567984"
 
 [[social]]
 title = "twitter"
 icon = "fab fa-twitter" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "#!"
+link = "https://x.com/SalahaddinUni"
 
 [[social]]
-title = "instagram"
-icon = "fab fa-instagram" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "#!"
+title = "google scholar"
+icon = "fas fa-graduation-cap" # fontawesome icon pack : https://fontawesome.com/icons/
+link = "https://scholar.google.com/citations?view_op=view_org&hl=en&org=12505573500933597073"
 
 [[social]]
 title = "github"
 icon = "fab fa-github" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "#!"
+link = "https://github.com/Salahaddin-Univeristy-Erbil"
 
 [[social]]
 title = "linkedin"
 icon = "fab fa-linkedin" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "#!"
+link = "https://www.linkedin.com/school/salahaddin-university-erbil/"

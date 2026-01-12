@@ -4,7 +4,8 @@
 <!-- Staff/Researchers Listing -->
 <section class="section staff-listing-section">
   <div class="container">
-    {{ if .Params.staff }}
+    {{ $staff := where site.RegularPages "Section" "staff" }}
+    {{ if $staff }}
     <!-- Filters -->
     <div class="row mb-5">
       <div class="col-12">
@@ -32,37 +33,50 @@
     
     <!-- Staff Grid -->
     <div class="row" id="staffGrid">
-      {{ range .Params.staff }}
+      {{ range $staff }}
+      {{ $unitName := "" }}
+      {{ if .Params.unit }}
+        {{ $unitPage := site.GetPage (printf "/units/%s" .Params.unit) }}
+        {{ if $unitPage }}
+          {{ $unitName = $unitPage.Params.name | default $unitPage.Title }}
+        {{ else }}
+          {{ $unitName = .Params.unit }}
+        {{ end }}
+      {{ end }}
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4 staff-member-card" 
-           data-unit="{{ .unit | urlize }}" 
-           data-research-areas="{{ delimit .research_areas "," | lower }}">
-        <div class="staff-card h-100 text-center rounded-3 overflow-hidden shadow-sm">
-          <div class="staff-image-container">
-            {{ if .image }}
-            {{ partial "image.html" (dict "Src" .image "Alt" .name "Class" "staff-image" "Size" "300x300") }}
-            {{ else }}
-            <div class="staff-image-placeholder">
-              <i class="fas fa-user text-muted" style="font-size: 4rem;"></i>
-            </div>
-            {{ end }}
-          </div>
-          <div class="staff-content p-4">
-            <h3 class="h5 mb-2 fw-bold">{{ .name | markdownify }}</h3>
-            <p class="text-primary mb-2 small fw-semibold">{{ .title | markdownify }}</p>
-            <p class="text-muted mb-3 small">{{ .unit | markdownify }}</p>
-            {{ if .research_areas }}
-            <div class="research-areas mb-3">
-              {{ range first 2 .research_areas }}
-              <span class="badge bg-light text-dark me-1 mb-1">{{ . }}</span>
-              {{ end }}
-              {{ if gt (len .research_areas) 2 }}
-              <span class="badge bg-light text-dark mb-1">+{{ sub (len .research_areas) 2 }}</span>
+           data-unit="{{ .Params.unit | urlize }}" 
+           data-research-areas="{{ if .Params.research_areas }}{{ delimit .Params.research_areas "," | lower }}{{ end }}">
+        <a href="{{ .Permalink }}" class="text-decoration-none">
+          <div class="staff-card h-100 text-center rounded-3 overflow-hidden shadow-sm">
+            <div class="staff-image-container">
+              {{ if .Params.image }}
+              {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "staff-image" "Size" "300x300") }}
+              {{ else }}
+              <div class="staff-image-placeholder">
+                <i class="fas fa-user text-muted" style="font-size: 4rem;"></i>
+              </div>
               {{ end }}
             </div>
-            {{ end }}
-            <a href="{{ .link | relURL }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+            <div class="staff-content p-4">
+              <h3 class="h5 mb-2 fw-bold">{{ .Title | markdownify }}</h3>
+              <p class="text-primary mb-2 small fw-semibold">{{ .Params.title_position | default .Params.subtitle | markdownify }}</p>
+              {{ if $unitName }}
+              <p class="text-muted mb-3 small">{{ $unitName | markdownify }}</p>
+              {{ end }}
+              {{ if .Params.research_areas }}
+              <div class="research-areas mb-3">
+                {{ range first 2 .Params.research_areas }}
+                <span class="badge bg-light text-dark me-1 mb-1">{{ . }}</span>
+                {{ end }}
+                {{ if gt (len .Params.research_areas) 2 }}
+                <span class="badge bg-light text-dark mb-1">+{{ sub (len .Params.research_areas) 2 }}</span>
+                {{ end }}
+              </div>
+              {{ end }}
+              <span class="btn btn-sm btn-outline-primary">View Profile</span>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
       {{ end }}
     </div>

@@ -3,7 +3,7 @@ title: "Materials Science Applications in Industrial Innovation"
 id: "pub-005"
 type: "article"
 authors:
-  - "staff-researcher-4"
+  - staff: "staff-researcher-4"
 journal: "Materials Science Quarterly"
 year: "2023"
 unit: "unit-chemistry"

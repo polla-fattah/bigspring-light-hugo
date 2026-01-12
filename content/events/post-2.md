@@ -3,12 +3,14 @@ title: "Pump-up the team morale and celebrate the excellence"
 date: 2020-07-18T10:07:21+06:00
 # post image
 image: "images/blog/post-2.jpg"
-# author
-author: "Joseph Gonzalez"
 # post type (regular/featured)
-type: "regular"
+type: "featured"
+featured: true
 # meta description
 description: "This is meta description"
+category: "Workshop"
+time: "2:00 PM - 5:00 PM"
+location: "Research Center, Room 201"
 # post draft
 draft: false
 ---

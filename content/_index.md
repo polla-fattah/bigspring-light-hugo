@@ -123,7 +123,7 @@ service:
     # service item loop
     - title : "SURC"
       images:
-      - "images/service-1.png"
+      - "images/Dr-Samir.png"
       content : "The Salahaddin University Research Center (SURC) sets a clear roadmap to convert rigorous, ethical research into measurable benefit for Kurdistan and beyond. SURC will unite multidisciplinary teams, build researcher capacity through training and mentorship, and provide end-to-end support; from gap analysis and proposal writing to grants, execution, and dissemination. We will strengthen visibility and uptake via media, conferences, and stakeholder partnerships, while upholding strict codes of conduct, protecting intellectual property, and ensuring transparent, reproducible methods. By bridging laboratory insight with community needs, SURC will lead with credibility, innovation, and impact."
       quote:
         enable : true
@@ -132,26 +132,15 @@ service:
         enable : false
         
     # service item loop
-    - title : "It’s a team of experienced and skilled people with distributions"
+    - title : "Meet Our Team"
       images:
-      - "images/service-2.png"
-      content : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
+      - "images/SURC-Staff.jpg"
+      content : "The Salahaddin University Research Center (SURC) is guided by a dedicated board that provides strategic direction, ensures alignment with the university’s mission, and safeguards the quality and ethics of all research activities. The board brings together experienced academics and institutional leaders who oversee priority setting, evaluation of major projects, and the development of long-term partnerships. Working alongside them is a diverse community of researchers—from senior professors to early-career scholars and graduate students—who lead interdisciplinary projects across biology, environmental studies, social sciences, data analysis, and other fields. Together, the board and researchers form a collaborative ecosystem that combines strategic vision with hands-on scientific work, turning ideas into impactful research outcomes for the university and the wider community."
       button:
         enable : true
-        label : "Check it out"
-        link : "#"
+        label : "Our Staff"
+        link : "/staff/"
         
-    # service item loop
-    - title : "A company standing different from others"
-      images:
-      - "images/service-3.png"
-      content : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
-      button:
-        enable : true
-        label : "Check it out"
-        link : "#"
-
-
 ######################### Research Outputs #####################
 research_outputs:
   enable : true
@@ -239,34 +228,28 @@ resources_support:
       button_label : "Download Resources"
 
 
+######################### President Quote #####################
+president_quote:
+  enable : true
+  title : "President Of the University"
+  images:
+    - "images/Dr-Kamaran.png"
+  content : "The Research Center stands as a vital pillar in our academic mission. It bridges science with society, ensuring that research outcomes are not confined to papers and reports but are shared with the community, creating real impact for our people. The Center safeguards ethics and professional standards, while supporting our scholars in securing grants, building collaborations, and protecting intellectual property."
+
+
 ######################### Testimonials #####################
 testimonials:
   enable : true
   title : "What People Say About Us"
   subtitle : "Please visit the testimonies page to see the kind words and insightful quotes that experts said about our center as well as thankful letters from researcher, students and staff that have said about us."
   view_all_link : "/testimonials"
-  testimonials_item:
-    - name : "Dr Kamaran Younis"
-      designation : "President of the University"
-      content : "The Research Center stands as a vital pillar in our academic mission. It bridges science with society, ensuring that research outcomes are not confined to papers and reports but are shared with the community, creating real impact for our people. The Center safeguards ethics and professional standards, while supporting our scholars in securing grants, building collaborations, and protecting intellectual property."
-      image : ""
-    
-    - name : "Dr Samir Bilal"
-      designation : "General Director of Research Center"
-      content : "SURC sets a clear roadmap to convert rigorous, ethical research into measurable benefit for Kurdistan and beyond. We unite multidisciplinary teams, build researcher capacity through training and mentorship, and provide end-to-end support."
-      image : ""
-    
-    - name : "Research Scholar"
-      designation : "Salahaddin University-Erbil"
-      content : "The Research Center has been instrumental in my academic journey. The resources, mentorship, and collaborative environment have enabled me to conduct meaningful research that contributes to both scientific knowledge and community development."
-      image : ""
-
+  count : 3
 
 ######################### Research Center Units #####################
 research_units:
   enable : true
   title : "Research Center Units"
-  subtitle : "The Research Center is organized into specialized units that cover diverse fields — we invite you to explore more of them for a deeper insight into our work."
+  subtitle : "Specialized interdisciplinary units driving innovation and scientific excellence across diverse fields of research."
   featured_units:
     - name : "Data Analysis Unit"
       image : "images/unit-data-analysis.jpg"
@@ -282,25 +265,18 @@ research_units:
   
   more_units:
     enable : true
-    title : "More Units"
-    subtitle : "From Biology and Chemistry to Agriculture and beyond, our Research Center hosts a wide range of specialized units — we encourage you to visit more of them to explore the full breadth of our research and innovation."
-    button_label : "All Units"
+    title : "Explore All Units"
+    subtitle : "Discover the full breadth of our research and innovation across all specialized units."
+    button_label : "View All Units"
     button_link : "/units"
-
-
-################### Screenshot ########################
-screenshot:
-  enable : true
-  title : "Experience the best <br> workflow with us"
-  image : "images/screenshot.svg"
 
 
 ##################### Call to action #####################
 call_to_action:
   enable : true
-  title : "Ready to get started?"
+  title : "Get in Touch With Us"
   image : "images/cta.svg"
-  content : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur."
+  content : "Whether you're a researcher looking to collaborate, a student seeking support, or an organization interested in partnerships, we're here to help. Reach out to us to learn more about our services, facilities, and research opportunities."
   button:
     enable : true
     label : "Contact Us"

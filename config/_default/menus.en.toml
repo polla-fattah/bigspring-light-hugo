@@ -32,39 +32,46 @@ weight = 6
 # footer menu left
 [[footer_left]]
 name = "About Us"
-url = "#"
+url = "/about"
 
 [[footer_left]]
-name = "Quick Start"
-url = "#"
+name = "Research Units"
+url = "/units"
 
 [[footer_left]]
 name = "Projects"
 url = "/projects"
 
+[[footer_left]]
+name = "Publications"
+url = "/publications"
 
 # footer menu middle
 [[footer_middle]]
-name = "Projects"
-url = "/projects"
+name = "Labs"
+url = "/labs"
 
 [[footer_middle]]
-name = "Platform"
-url = "#"
+name = "Events"
+url = "/events"
 
 [[footer_middle]]
-name = "Features"
-url = "#"
+name = "Staff & Researchers"
+url = "/staff"
+
+[[footer_middle]]
+name = "Contact Us"
+url = "/contact"
 
 # footer menu right
 [[footer_right]]
-name = "Privacy Policy"
-url = "/privacy-policy"
-
-[[footer_right]]
-name = "Terms & Conditions"
-url = "/terms-conditions"
+name = "Testimonials"
+url = "/testimonials"
 
 [[footer_right]]
 name = "Units"
 url = "/units"
+
+[[footer_right]]
+name = "University Website"
+url = "https://su.edu.krd"

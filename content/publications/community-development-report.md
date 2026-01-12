@@ -3,8 +3,8 @@ title: "Community Development Through Research Engagement"
 id: "pub-006"
 type: "report"
 authors:
-  - "staff-researcher-6"
-  - "staff-researcher-2"
+  - staff: "staff-researcher-6"
+  - staff: "staff-researcher-2"
 year: "2024"
 unit: "unit-collaboration-partnerships"
 related_projects:
