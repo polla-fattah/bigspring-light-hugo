@@ -33,6 +33,30 @@
   <div class="container">
     {{ $units := where site.RegularPages "Section" "units" }}
     {{ if $units }}
+    <!-- Section Header with Image -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-10">
+        <div class="row align-items-center">
+          <div class="col-lg-4 mb-4 mb-lg-0">
+            {{ if .Params.hero.image }}
+            <div class="units-section-image">
+              {{ partial "image.html" (dict "Src" .Params.hero.image "Alt" "Research Units" "Class" "img-fluid rounded-3 shadow-sm" "Size" "400x300") }}
+            </div>
+            {{ else }}
+            <div class="units-section-image-placeholder bg-light rounded-3 d-flex align-items-center justify-content-center" style="height: 250px;">
+              <i class="fas fa-flask text-muted" style="font-size: 4rem;"></i>
+            </div>
+            {{ end }}
+          </div>
+          <div class="col-lg-8">
+            <h2 class="section-title mb-3">{{ .Title | default "Research Center Units" }}</h2>
+            {{ if .Params.subtitle }}
+            <p class="lead text-muted mb-0">{{ .Params.subtitle | markdownify }}</p>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row g-4">
       {{ range $units }}
       <div class="col-lg-4 col-md-6">

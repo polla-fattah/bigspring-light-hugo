@@ -11,8 +11,7 @@ type: "Program"
 related_publications:
   - "pub-006"
 related_staff:
-  - "staff-researcher-6"
-  - "staff-researcher-2"
+  - "staff-fenk-amjad-hasan"
 draft: false
 ---
 

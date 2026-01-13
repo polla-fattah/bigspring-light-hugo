@@ -11,7 +11,8 @@ type: "Research Project"
 related_publications:
   - "pub-007"
 related_staff:
-  - "staff-researcher-6"
+  - "staff-fenk-amjad-hasan"
+  - "staff-sarbast-muhsen-azeez"
 related_datasets:
   - "dataset-social-research"
 draft: false

@@ -93,13 +93,13 @@ header.navigation {
 
 // Update primary button colors
 .btn-primary {
-  background-color: #C41E3A;
-  border-color: #C41E3A;
+  background-color: rgba(196, 30, 58, 0.9);
+  border-color: rgba(196, 30, 58, 0.9);
   border-radius: 0 !important;
   
   &:hover {
-    background-color: #A01A2E;
-    border-color: #A01A2E;
+    background-color: rgba(160, 26, 46, 0.95);
+    border-color: rgba(160, 26, 46, 0.95);
   }
   
   &::before {
@@ -1317,6 +1317,144 @@ section.section p {
   }
 }
 
+// Modern Lab Cards - Similar to Units
+.research-lab-card-modern {
+  background: #fff;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+    border-color: rgba(196, 30, 58, 0.2);
+  }
+  
+  .lab-image-container-modern {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.1) 0%, rgba(232, 244, 248, 0.3) 100%);
+    position: relative;
+    
+    .lab-image-modern {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .lab-overlay {
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .lab-image-placeholder-modern {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(196, 30, 58, 0.05) 0%, rgba(232, 244, 248, 0.2) 100%);
+    }
+    
+    .lab-category-badge-modern,
+    .lab-status-badge-modern {
+      z-index: 5;
+    }
+  }
+  
+  &:hover .lab-image-container-modern {
+    .lab-image-modern {
+      transform: scale(1.1);
+    }
+    
+    .lab-overlay {
+      opacity: 1;
+    }
+  }
+  
+  .lab-content-modern {
+    background: #fff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+    
+    h3 {
+      color: #222;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .lab-meta-modern {
+      i {
+        color: #C41E3A;
+        font-size: 0.85rem;
+      }
+    }
+    
+    .lab-link-modern {
+      color: #C41E3A;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      
+      i {
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+  
+  &:hover .lab-content-modern {
+    h3 {
+      color: #C41E3A;
+    }
+    
+    .lab-link-modern {
+      i {
+        transform: translateX(5px);
+      }
+    }
+  }
+}
+
+.research-lab-card-link {
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Labs Listing Section
+.labs-listing-section {
+  .labs-filters {
+    background-color: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    
+    .form-label {
+      color: #333;
+      font-size: 0.95rem;
+    }
+  }
+  
+  .labs-hero-section,
+  .labs-section-image {
+    margin-bottom: 3rem;
+  }
+  
+  .labs-section-image-placeholder {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.05) 0%, rgba(232, 244, 248, 0.2) 100%);
+  }
+}
+
 // Staff/Researchers Listing Section
 .staff-listing-section {
   .staff-filters {
@@ -1494,6 +1632,90 @@ section.section p {
     
     &:hover {
       color: #C41E3A;
+    }
+  }
+}
+
+// Staff Projects and Publications Cards
+.staff-projects-card,
+.staff-publications-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  
+  h2 {
+    color: #222;
+    font-weight: 700;
+  }
+  
+    .staff-project-item {
+      background: #f8f9fa;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      .staff-project-image {
+        img {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+        }
+      }
+      
+      h4 {
+        color: #222;
+        
+        a {
+          color: #222;
+          text-decoration: none;
+          
+          &:hover {
+            color: rgba(196, 30, 58, 0.85);
+          }
+        }
+      }
+      
+      .badge-ongoing {
+        background-color: rgba(13, 202, 240, 0.12) !important;
+        color: rgba(13, 202, 240, 0.9) !important;
+      }
+      
+      .badge-completed {
+        background-color: rgba(40, 167, 69, 0.12) !important;
+        color: rgba(40, 167, 69, 0.9) !important;
+      }
+    }
+  
+  .staff-publication-item {
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    h4 {
+      color: #222;
+      
+      a {
+        color: #222;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: rgba(196, 30, 58, 0.85);
+        }
+      }
+    }
+    
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.25rem 0.6rem;
     }
   }
 }
@@ -1728,6 +1950,53 @@ section.section p {
 
 // Publications Listing Section
 .publications-listing-section {
+  // Modern Filter Section
+  .publications-filters-modern {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    
+    .form-select-modern {
+      border-radius: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 0.5rem 0.85rem;
+      font-size: 0.9rem;
+      background-color: #fff;
+      color: #333;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        border-color: rgba(196, 30, 58, 0.3);
+      }
+      
+      &:focus {
+        border-color: rgba(196, 30, 58, 0.5);
+        box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        outline: none;
+      }
+    }
+    
+    .btn-clear-filters {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: #666;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #333;
+      }
+    }
+  }
+  
+  // Legacy filter style (keeping for backward compatibility)
   .publications-filters {
     background-color: #f8f9fa !important;
     border: 1px solid #e9ecef;
@@ -1763,8 +2032,26 @@ section.section p {
     .publication-type-badge {
       .badge {
         font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.4rem 0.75rem;
+        font-weight: 500;
+        padding: 0.35rem 0.85rem;
+        border-radius: 6px;
+        border: none;
+      }
+      
+      // Muted badge colors - less saturated
+      .badge-article {
+        background-color: rgba(196, 30, 58, 0.12) !important;
+        color: rgba(196, 30, 58, 0.9) !important;
+      }
+      
+      .badge-thesis {
+        background-color: rgba(40, 167, 69, 0.12) !important;
+        color: rgba(40, 167, 69, 0.9) !important;
+      }
+      
+      .badge-report {
+        background-color: rgba(13, 202, 240, 0.12) !important;
+        color: rgba(13, 202, 240, 0.9) !important;
       }
     }
     
@@ -1803,6 +2090,33 @@ section.section p {
       
       .btn {
         white-space: nowrap;
+      }
+      
+      .btn-outline-primary {
+        border-color: rgba(196, 30, 58, 0.3);
+        color: rgba(196, 30, 58, 0.85);
+        
+        &:hover {
+          background-color: rgba(196, 30, 58, 0.08);
+          border-color: rgba(196, 30, 58, 0.5);
+          color: rgba(196, 30, 58, 1);
+        }
+      }
+      
+      .btn-read-more {
+        background-color: rgba(196, 30, 58, 0.85);
+        border-color: rgba(196, 30, 58, 0.85);
+        color: #fff;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background-color: rgba(196, 30, 58, 0.95);
+          border-color: rgba(196, 30, 58, 0.95);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(196, 30, 58, 0.2);
+        }
       }
     }
     
@@ -2803,3 +3117,164 @@ section.section p {
   }
 }
 
+// Publication Detail Page
+.publication-detail-section {
+  padding: 2rem 0;
+  
+  .publication-detail-header {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 1.5rem;
+    
+    h1 {
+      color: #222;
+      line-height: 1.3;
+      font-size: 1.75rem;
+    }
+    
+    .publication-authors-detail,
+    .publication-supervisor-detail {
+      .author-link {
+        color: rgba(196, 30, 58, 0.85);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        background: rgba(196, 30, 58, 0.08);
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        
+        &:hover {
+          background: rgba(196, 30, 58, 0.15);
+          color: rgba(196, 30, 58, 1);
+        }
+      }
+    }
+  }
+  
+  .publication-detail-content {
+    .publication-description {
+      background: rgba(0, 0, 0, 0.02);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid rgba(196, 30, 58, 0.3);
+      margin-bottom: 2rem;
+      
+      h3 {
+        color: #222;
+      }
+      
+      p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #444;
+      }
+    }
+    
+    .publication-main-content {
+      h2, h3, h4 {
+        color: #222;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      
+      p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 1.25rem;
+      }
+      
+      ul, ol {
+        margin-bottom: 1.25rem;
+        padding-left: 2rem;
+        
+        li {
+          margin-bottom: 0.5rem;
+          line-height: 1.7;
+        }
+      }
+    }
+    
+    .publication-metadata {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+      
+      h3 {
+        color: #222;
+      }
+      
+      .metadata-item {
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+        
+        i {
+          width: 20px;
+        }
+        
+        strong {
+          color: #333;
+        }
+        
+        a {
+          color: rgba(196, 30, 58, 0.85);
+          text-decoration: none;
+          
+          &:hover {
+            color: rgba(196, 30, 58, 1);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  .publication-sidebar {
+    .sidebar-card {
+      .card {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        }
+      }
+      
+      .card-title {
+        color: #222;
+        font-size: 1.1rem;
+      }
+      
+      .list-unstyled {
+        li {
+          a {
+            color: #555;
+            transition: all 0.3s ease;
+            
+            &:hover {
+              color: rgba(196, 30, 58, 0.85);
+              padding-left: 5px;
+            }
+          }
+        }
+      }
+      
+      .share-buttons {
+        .btn {
+          border-radius: 6px;
+          font-size: 0.875rem;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background: rgba(196, 30, 58, 0.08);
+            border-color: rgba(196, 30, 58, 0.3);
+            color: rgba(196, 30, 58, 0.85);
+          }
+        }
+      }
+    }
+  }
+}

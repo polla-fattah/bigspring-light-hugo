@@ -11,8 +11,7 @@ type: "Development Project"
 related_publications:
   - "pub-002"
 related_staff:
-  - "staff-researcher-1"
-  - "staff-samir-bilal"
+  - "staff-polla-fattah"
 draft: false
 ---
 

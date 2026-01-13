@@ -4,43 +4,46 @@
 <!-- Lab Details -->
 <section class="section lab-details-section">
   <div class="container">
-    <div class="row mb-5">
+    <div class="row">
       <div class="col-lg-8">
-        <div class="lab-hero mb-4">
-          {{ if .Params.image }}
-          <div class="lab-main-image mb-4 rounded-3 overflow-hidden">
-            {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "w-100" "Size" "800x500") }}
-          </div>
-          {{ end }}
-          <div class="lab-content">
-            {{ .Content }}
-          </div>
+        <!-- Lab Image -->
+        {{ if .Params.image }}
+        <div class="lab-hero-image mb-4">
+          {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "img-fluid rounded-3 shadow" "Size" "800x400") }}
+        </div>
+        {{ end }}
+        
+        <!-- Lab Content -->
+        <div class="lab-content">
+          {{ .Content }}
         </div>
       </div>
+      
       <div class="col-lg-4">
+        <!-- Lab Info Sidebar -->
         <div class="lab-sidebar">
           <div class="lab-info-card p-4 rounded-3 shadow-sm mb-4">
-            <h3 class="h5 mb-4">Lab Information</h3>
+            <h3 class="h5 mb-3 fw-bold">Lab Information</h3>
             {{ if .Params.location_name }}
-            <div class="info-item mb-3">
+            <div class="lab-info-item mb-3">
               <strong><i class="fas fa-map-marker-alt text-primary me-2"></i>Location:</strong>
-              <p class="mb-0 mt-1">{{ .Params.location_name }}</p>
+              <p class="mb-0 mt-1 text-muted">{{ .Params.location_name }}</p>
             </div>
             {{ end }}
             {{ if .Params.category_name }}
-            <div class="info-item mb-3">
+            <div class="lab-info-item mb-3">
               <strong><i class="fas fa-tag text-primary me-2"></i>Category:</strong>
-              <p class="mb-0 mt-1">{{ .Params.category_name }}</p>
+              <p class="mb-0 mt-1 text-muted">{{ .Params.category_name }}</p>
             </div>
             {{ end }}
             {{ if .Params.capacity }}
-            <div class="info-item mb-3">
+            <div class="lab-info-item mb-3">
               <strong><i class="fas fa-users text-primary me-2"></i>Capacity:</strong>
-              <p class="mb-0 mt-1">{{ .Params.capacity }}</p>
+              <p class="mb-0 mt-1 text-muted">{{ .Params.capacity }}</p>
             </div>
             {{ end }}
             {{ if .Params.status }}
-            <div class="info-item mb-3">
+            <div class="lab-info-item mb-3">
               <strong><i class="fas fa-circle text-primary me-2"></i>Status:</strong>
               <p class="mb-0 mt-1">
                 <span class="badge {{ if eq .Params.status "active" }}bg-success{{ else }}bg-secondary{{ end }}">
@@ -50,13 +53,20 @@
             </div>
             {{ end }}
             {{ if .Params.contact }}
-            <div class="info-item">
+            <div class="lab-info-item">
               <strong><i class="fas fa-envelope text-primary me-2"></i>Contact:</strong>
               <p class="mb-0 mt-1">
-                <a href="mailto:{{ .Params.contact }}" class="text-decoration-none">{{ .Params.contact }}</a>
+                <a href="mailto:{{ .Params.contact }}" class="text-decoration-none text-muted">{{ .Params.contact }}</a>
               </p>
             </div>
             {{ end }}
+          </div>
+          
+          <div class="mt-4 pt-4 border-top">
+            <a href="/labs" class="btn btn-outline-primary w-100">
+              <i class="fas fa-arrow-left me-2"></i>
+              Back to All Labs
+            </a>
           </div>
         </div>
       </div>
@@ -64,7 +74,7 @@
     
     <!-- Equipment Section -->
     {{ if .Params.equipment }}
-    <div class="row">
+    <div class="row mt-5">
       <div class="col-12">
         <div class="equipment-section">
           <div class="d-flex justify-content-between align-items-center mb-4">
@@ -76,12 +86,12 @@
               </select>
             </div>
           </div>
-          <div class="row" id="equipmentGrid">
+          <div class="row g-4" id="equipmentGrid">
             {{ range .Params.equipment }}
-            <div class="col-lg-4 col-md-6 mb-4 equipment-item" 
+            <div class="col-lg-4 col-md-6 equipment-item" 
                  data-name="{{ .name | lower }}"
                  data-category="{{ .category | default "" | urlize }}">
-              <div class="equipment-card h-100 p-4 rounded-3 shadow-sm">
+              <div class="equipment-card h-100 p-4 rounded-3 shadow-sm border">
                 {{ if .image }}
                 <div class="equipment-image mb-3">
                   {{ partial "image.html" (dict "Src" .image "Alt" .name "Class" "w-100 rounded" "Size" "300x200") }}
@@ -195,8 +205,12 @@
   }
   
   // Event listeners
-  equipmentNameSearch.addEventListener('input', filterEquipment);
-  equipmentCategoryFilter.addEventListener('change', filterEquipment);
+  if (equipmentNameSearch) {
+    equipmentNameSearch.addEventListener('input', filterEquipment);
+  }
+  if (equipmentCategoryFilter) {
+    equipmentCategoryFilter.addEventListener('change', filterEquipment);
+  }
 })();
 </script>
 

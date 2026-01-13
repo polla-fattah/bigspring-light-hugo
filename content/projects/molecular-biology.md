@@ -12,7 +12,9 @@ related_publications:
   - "pub-003"
   - "pub-011"
 related_staff:
-  - "staff-researcher-3"
+  - "staff-suhad-asad-mustafa"
+  - "staff-treska-salih-hassan"
+  - "staff-shawnim-mushir-maaruf"
 related_datasets:
   - "dataset-molecular-biology"
 draft: false

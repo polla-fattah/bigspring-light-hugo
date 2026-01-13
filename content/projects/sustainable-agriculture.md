@@ -11,7 +11,8 @@ type: "Research Project"
 related_publications:
   - "pub-004"
 related_staff:
-  - "staff-researcher-5"
+  - "staff-salim-omar-raoof"
+  - "staff-samir-jawdat-bilal"
 related_datasets:
   - "dataset-agricultural-survey"
 draft: false

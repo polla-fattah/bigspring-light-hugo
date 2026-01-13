@@ -12,8 +12,9 @@ related_publications:
   - "pub-001"
   - "pub-010"
 related_staff:
-  - "staff-researcher-2"
-  - "staff-researcher-5"
+  - "staff-shakar-jamal-aweez"
+  - "staff-shaho-jangi-noori"
+  - "staff-samir-jawdat-bilal"
 related_datasets:
   - "dataset-climate-data"
 draft: false

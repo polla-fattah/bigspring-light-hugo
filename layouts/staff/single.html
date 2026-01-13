@@ -21,7 +21,15 @@
             <p class="h5 text-primary mb-2">{{ .Params.title_position }}</p>
             {{ end }}
             {{ if .Params.unit }}
-            <p class="text-muted mb-3">{{ .Params.unit }}</p>
+            {{ $unitPage := site.GetPage (printf "units/%s" .Params.unit) }}
+            <p class="text-muted mb-3">
+              <i class="fas fa-building me-2"></i>
+              {{ if $unitPage }}
+                {{ $unitPage.Params.name | default $unitPage.Title }}
+              {{ else }}
+                {{ .Params.unit }}
+              {{ end }}
+            </p>
             {{ end }}
             {{ if .Params.email }}
             <p class="mb-0">
@@ -60,9 +68,27 @@
           
           <!-- Sidebar -->
           <div class="col-lg-4">
-            <div class="staff-sidebar-card p-4 rounded-3 shadow-sm">
+            <div class="staff-sidebar-card p-4 rounded-3 shadow-sm mb-4">
+              {{ if .Params.unit }}
+              {{ $unitPage := site.GetPage (printf "units/%s" .Params.unit) }}
+              <h3 class="h5 mb-3 fw-bold">Research Unit</h3>
+              <p class="mb-4">
+                {{ if $unitPage }}
+                <a href="{{ $unitPage.Permalink }}" class="text-decoration-none d-flex align-items-center">
+                  <i class="fas fa-building me-2 text-primary"></i>
+                  <span>{{ $unitPage.Params.name | default $unitPage.Title }}</span>
+                </a>
+                {{ else }}
+                <span class="d-flex align-items-center">
+                  <i class="fas fa-building me-2 text-primary"></i>
+                  <span>{{ .Params.unit }}</span>
+                </span>
+                {{ end }}
+              </p>
+              {{ end }}
+              
               {{ if .Params.research_areas }}
-              <h3 class="h5 mb-3">Research Areas</h3>
+              <h3 class="h5 mb-3 fw-bold">Research Areas</h3>
               <ul class="list-unstyled mb-4">
                 {{ range .Params.research_areas }}
                 <li class="mb-2">
@@ -73,22 +99,12 @@
               </ul>
               {{ end }}
               
-              {{ if .Params.unit }}
-              <h3 class="h5 mb-3">Unit</h3>
-              <p class="mb-4">
-                <a href="/units" class="text-decoration-none">
-                  <i class="fas fa-building me-2 text-primary"></i>
-                  {{ .Params.unit }}
-                </a>
-              </p>
-              {{ end }}
-              
               {{ if .Params.email }}
-              <h3 class="h5 mb-3">Contact</h3>
-              <p class="mb-0">
-                <a href="mailto:{{ .Params.email }}" class="text-decoration-none">
+              <h3 class="h5 mb-3 fw-bold">Contact</h3>
+              <p class="mb-4">
+                <a href="mailto:{{ .Params.email }}" class="text-decoration-none d-flex align-items-center">
                   <i class="fas fa-envelope me-2 text-primary"></i>
-                  {{ .Params.email }}
+                  <span>{{ .Params.email }}</span>
                 </a>
               </p>
               {{ end }}
@@ -101,6 +117,122 @@
               </div>
             </div>
           </div>
+          
+          <!-- Projects Section -->
+          {{ $staffID := .Params.id }}
+          {{ $projectsFromStaff := slice }}
+          {{ range where site.RegularPages "Section" "projects" }}
+            {{ if .Params.related_staff }}
+              {{ if in .Params.related_staff $staffID }}
+                {{ $projectsFromStaff = $projectsFromStaff | append . }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          {{ $projectsFromParams := slice }}
+          {{ if .Params.related_projects }}
+            {{ range .Params.related_projects }}
+              {{ $projectPage := site.GetPage (printf "projects/%s" .) }}
+              {{ if $projectPage }}{{ $projectsFromParams = $projectsFromParams | append $projectPage }}{{ end }}
+            {{ end }}
+          {{ end }}
+          {{ $allProjects := $projectsFromStaff | union $projectsFromParams }}
+          
+          {{ if $allProjects }}
+          <div class="col-lg-12">
+            <div class="staff-projects-card p-4 rounded-3 shadow-sm mb-4">
+              <h2 class="h4 mb-4 fw-bold">Projects</h2>
+              <div class="row g-3">
+                {{ range $allProjects }}
+                <div class="col-md-6 col-lg-4">
+                  <a href="{{ .Permalink }}" class="text-decoration-none">
+                    <div class="staff-project-item p-3 rounded border h-100">
+                      {{ if .Params.image }}
+                      <div class="staff-project-image mb-3">
+                        {{ partial "image.html" (dict "Src" .Params.image "Alt" .Title "Class" "img-fluid rounded" "Size" "300x200") }}
+                      </div>
+                      {{ end }}
+                      <h4 class="h6 mb-2 fw-bold">{{ .Title }}</h4>
+                      {{ if .Params.status }}
+                      <span class="badge badge-{{ .Params.status }} mb-2">{{ .Params.status | title }}</span>
+                      {{ end }}
+                      {{ if .Params.description }}
+                      <p class="small text-muted mb-0">{{ .Params.description | truncate 100 }}</p>
+                      {{ end }}
+                    </div>
+                  </a>
+                </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Publications Section -->
+          {{ $publicationsFromAuthors := slice }}
+          {{ range where site.RegularPages "Section" "publications" }}
+            {{ $isAuthor := false }}
+            {{ if .Params.authors }}
+              {{ range .Params.authors }}
+                {{ if eq .staff $staffID }}
+                  {{ $isAuthor = true }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+            {{ if $isAuthor }}
+              {{ $publicationsFromAuthors = $publicationsFromAuthors | append . }}
+            {{ end }}
+          {{ end }}
+          {{ $publicationsFromParams := slice }}
+          {{ if .Params.related_publications }}
+            {{ range .Params.related_publications }}
+              {{ $pubPage := site.GetPage (printf "publications/%s" .) }}
+              {{ if $pubPage }}{{ $publicationsFromParams = $publicationsFromParams | append $pubPage }}{{ end }}
+            {{ end }}
+          {{ end }}
+          {{ $allPublications := $publicationsFromAuthors | union $publicationsFromParams }}
+          
+          {{ if $allPublications }}
+          <div class="col-lg-12">
+            <div class="staff-publications-card p-4 rounded-3 shadow-sm mb-4">
+              <h2 class="h4 mb-4 fw-bold">Publications</h2>
+              <div class="staff-publications-list">
+                {{ range $allPublications }}
+                <div class="staff-publication-item mb-3 p-3 rounded border">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-items-center mb-2">
+                        {{ if eq .Params.type "article" }}
+                        <span class="badge badge-article me-2">Article</span>
+                        {{ else if eq .Params.type "thesis" }}
+                        <span class="badge badge-thesis me-2">{{ .Params.degree | default "Thesis" }}</span>
+                        {{ else if eq .Params.type "report" }}
+                        <span class="badge badge-report me-2">Report</span>
+                        {{ end }}
+                        {{ if .Params.year }}
+                        <span class="text-muted small">{{ .Params.year }}</span>
+                        {{ end }}
+                      </div>
+                      <h4 class="h6 mb-2 fw-bold">
+                        <a href="{{ .Permalink }}" class="text-decoration-none">{{ .Title }}</a>
+                      </h4>
+                      {{ if .Params.description }}
+                      <p class="small text-muted mb-0">{{ .Params.description | truncate 150 }}</p>
+                      {{ end }}
+                    </div>
+                    {{ if .Params.pdf }}
+                    <div class="ms-3">
+                      <a href="{{ .Params.pdf | relURL }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                        <i class="fas fa-file-pdf"></i>
+                      </a>
+                    </div>
+                    {{ end }}
+                  </div>
+                </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ end }}
         </div>
       </div>
     </div>

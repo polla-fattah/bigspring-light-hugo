@@ -11,8 +11,8 @@ type: "Development Project"
 related_publications:
   - "pub-008"
 related_staff:
-  - "staff-researcher-2"
-  - "staff-researcher-1"
+  - "staff-shakar-jamal-aweez"
+  - "staff-sara-abdulkhaliq-yasin"
 related_datasets:
   - "dataset-climate-data"
 draft: false

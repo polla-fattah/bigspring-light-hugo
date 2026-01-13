@@ -105,9 +105,9 @@ icon = "fab fa-facebook" # fontawesome icon pack : https://fontawesome.com/icons
 link = "https://www.facebook.com/profile.php?id=100046700567984"
 
 [[social]]
-title = "twitter"
-icon = "fab fa-twitter" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "https://x.com/SalahaddinUni"
+title = "researchgate"
+icon = "fab fa-researchgate" # fontawesome icon pack : https://fontawesome.com/icons/
+link = "https://www.researchgate.net/institution/Salahaddin-University-Erbil"
 
 [[social]]
 title = "google scholar"

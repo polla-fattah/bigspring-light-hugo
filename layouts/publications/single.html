@@ -1,0 +1,215 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+
+<!-- Publication Detail -->
+<section class="section publication-detail-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- Publication Header -->
+        <div class="publication-detail-header mb-4">
+          <div class="publication-type-badge mb-3">
+            {{ if eq .Params.type "article" }}
+            <span class="badge badge-article">Article</span>
+            {{ else if eq .Params.type "thesis" }}
+            <span class="badge badge-thesis">{{ .Params.degree | default "Thesis" }}</span>
+            {{ else if eq .Params.type "report" }}
+            <span class="badge badge-report">Report</span>
+            {{ end }}
+            <span class="text-muted ms-3">{{ if .Params.year }}{{ .Params.year }}{{ else if .Date }}{{ .Date.Format "2006" }}{{ end }}</span>
+          </div>
+          
+          <h1 class="h2 mb-4 fw-bold">{{ .Title }}</h1>
+          
+          <!-- Authors -->
+          {{ if .Params.authors }}
+          <div class="publication-authors-detail mb-3">
+            <h6 class="text-muted text-uppercase small mb-2 fw-bold">Authors</h6>
+            <div class="authors-list">
+              {{ range .Params.authors }}
+                {{ $authorID := .staff }}
+                {{ $staffPage := site.GetPage (printf "staff/%s" $authorID) }}
+                {{ if $staffPage }}
+                <a href="{{ $staffPage.Permalink }}" class="author-link me-3 mb-2 d-inline-block">
+                  <i class="fas fa-user me-2"></i>{{ $staffPage.Title }}
+                </a>
+                {{ else }}
+                <span class="author-link me-3 mb-2 d-inline-block">
+                  <i class="fas fa-user me-2"></i>{{ $authorID }}
+                </span>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Supervisor (for theses) -->
+          {{ if .Params.supervisor }}
+          <div class="publication-supervisor-detail mb-3">
+            <h6 class="text-muted text-uppercase small mb-2 fw-bold">Supervisor</h6>
+            {{ $supervisorPage := site.GetPage (printf "staff/%s" .Params.supervisor) }}
+            {{ if $supervisorPage }}
+            <a href="{{ $supervisorPage.Permalink }}" class="author-link">
+              <i class="fas fa-user-tie me-2"></i>{{ $supervisorPage.Title }}
+            </a>
+            {{ else }}
+            <span class="author-link">
+              <i class="fas fa-user-tie me-2"></i>{{ .Params.supervisor }}
+            </span>
+            {{ end }}
+          </div>
+          {{ end }}
+        </div>
+        
+        <!-- Publication Content -->
+        <div class="publication-detail-content">
+          {{ if .Params.description }}
+          <div class="publication-description mb-4">
+            <h3 class="h5 mb-3 fw-bold">Abstract</h3>
+            <p class="lead text-muted">{{ .Params.description | markdownify }}</p>
+          </div>
+          {{ end }}
+          
+          <!-- Main Content -->
+          {{ if .Content }}
+          <div class="publication-main-content mb-4">
+            {{ .Content }}
+          </div>
+          {{ end }}
+          
+          <!-- Publication Metadata -->
+          <div class="publication-metadata mb-4">
+            <h3 class="h5 mb-3 fw-bold">Publication Details</h3>
+            <div class="metadata-list">
+              {{ if .Params.journal }}
+              <div class="metadata-item mb-2">
+                <i class="fas fa-book text-primary me-2"></i>
+                <strong>Journal:</strong> <span>{{ .Params.journal }}</span>
+              </div>
+              {{ end }}
+              
+              {{ if .Params.unit }}
+              {{ $unitPage := site.GetPage (printf "units/%s" .Params.unit) }}
+              <div class="metadata-item mb-2">
+                <i class="fas fa-building text-primary me-2"></i>
+                <strong>Research Unit:</strong> 
+                {{ if $unitPage }}
+                <a href="{{ $unitPage.Permalink }}" class="text-decoration-none">{{ $unitPage.Title }}</a>
+                {{ else }}
+                <span>{{ .Params.unit }}</span>
+                {{ end }}
+              </div>
+              {{ end }}
+              
+              {{ if .Params.year }}
+              <div class="metadata-item mb-2">
+                <i class="fas fa-calendar text-primary me-2"></i>
+                <strong>Year:</strong> <span>{{ .Params.year }}</span>
+              </div>
+              {{ end }}
+              
+              {{ if .Params.degree }}
+              <div class="metadata-item mb-2">
+                <i class="fas fa-graduation-cap text-primary me-2"></i>
+                <strong>Degree:</strong> <span>{{ .Params.degree }}</span>
+              </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div class="publication-sidebar">
+          <!-- PDF Download -->
+          {{ if .Params.pdf }}
+          <div class="sidebar-card mb-4">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-file-pdf text-danger mb-3" style="font-size: 3rem;"></i>
+                <h5 class="card-title mb-3">Download PDF</h5>
+                <a href="{{ .Params.pdf | relURL }}" class="btn btn-primary w-100" target="_blank">
+                  <i class="fas fa-download me-2"></i>Download Publication
+                </a>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Related Projects -->
+          {{ if .Params.related_projects }}
+          <div class="sidebar-card mb-4">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3 fw-bold">Related Projects</h5>
+                <ul class="list-unstyled mb-0">
+                  {{ range .Params.related_projects }}
+                    {{ $projectPage := site.GetPage (printf "projects/%s" .) }}
+                    {{ if $projectPage }}
+                    <li class="mb-2">
+                      <a href="{{ $projectPage.Permalink }}" class="text-decoration-none">
+                        <i class="fas fa-project-diagram text-primary me-2"></i>{{ $projectPage.Title }}
+                      </a>
+                    </li>
+                    {{ end }}
+                  {{ end }}
+                </ul>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Related Datasets -->
+          {{ if .Params.related_datasets }}
+          <div class="sidebar-card mb-4">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3 fw-bold">Related Datasets</h5>
+                <ul class="list-unstyled mb-0">
+                  {{ range .Params.related_datasets }}
+                    {{ $datasetPage := site.GetPage (printf "datasets/%s" .) }}
+                    {{ if $datasetPage }}
+                    <li class="mb-2">
+                      <a href="{{ $datasetPage.Permalink }}" class="text-decoration-none">
+                        <i class="fas fa-database text-primary me-2"></i>{{ $datasetPage.Title }}
+                      </a>
+                    </li>
+                    {{ end }}
+                  {{ end }}
+                </ul>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Share -->
+          <div class="sidebar-card">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-3 fw-bold">Share</h5>
+                <div class="share-buttons">
+                  <a href="https://www.researchgate.net/institution/Salahaddin-University-Erbil" 
+                     class="btn btn-sm btn-outline-secondary me-2 mb-2" target="_blank">
+                    <i class="fas fa-graduation-cap me-2"></i>ResearchGate
+                  </a>
+                  <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" 
+                     class="btn btn-sm btn-outline-secondary me-2 mb-2" target="_blank">
+                    <i class="fab fa-linkedin me-2"></i>LinkedIn
+                  </a>
+                  <a href="mailto:?subject={{ .Title | urlquery }}&body={{ .Permalink | absURL }}" 
+                     class="btn btn-sm btn-outline-secondary mb-2">
+                    <i class="fas fa-envelope me-2"></i>Email
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Publication Detail -->
+
+{{ end }}
