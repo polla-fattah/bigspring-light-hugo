@@ -1,26 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1e293b;
+  
+  --primary-maroon: #8A1538;
+  --primary-maroon-hover: #a31c45;
+  --secondary-blue: #0F2942;
+  --secondary-blue-hover: #173d61;
+  --accent-gold: #c5a059;
+  --accent-gold-hover: #d7b56d;
+  
+  --border-color: #e2e8f0;
+  --bg-neutral-light: #f8fafc;
+  --card-shadow: 0 4px 20px -2px rgba(15, 41, 66, 0.08);
+  --card-shadow-hover: 0 20px 35px -5px rgba(15, 41, 66, 0.15);
+  
+  --font-global: 'Inter', 'Noto Sans Arabic', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-sue-maroon: var(--primary-maroon);
+  --color-sue-blue: var(--secondary-blue);
+  --color-sue-gold: var(--accent-gold);
+  --font-sans: var(--font-global);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-global);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 41, 66, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom premium elements */
+.sue-gradient-bg {
+  background: linear-gradient(135deg, var(--secondary-blue) 0%, #1e3a5f 50%, var(--primary-maroon) 100%);
+}
+
+.sue-border-gradient {
+  border-image: linear-gradient(to right, var(--primary-maroon), var(--accent-gold)) 1;
+}
+
+/* Card hover animation system */
+.sue-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--card-shadow);
+}
+
+.sue-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.sue-btn-primary {
+  background-color: var(--primary-maroon);
+  color: white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sue-btn-primary:hover {
+  background-color: var(--primary-maroon-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(138, 21, 56, 0.3);
+}
+
+.sue-btn-secondary {
+  background-color: var(--secondary-blue);
+  color: white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sue-btn-secondary:hover {
+  background-color: var(--secondary-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(15, 41, 66, 0.3);
+}
+
+/* Language Swapper Animate dropdown */
+.lang-dropdown {
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lang-container:hover .lang-dropdown {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Micro-animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s infinite ease-in-out;
 }
