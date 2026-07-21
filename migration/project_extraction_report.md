@@ -352,6 +352,19 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 The extracted frontmatter from the markdown files maps to the following relational PostgreSQL tables:
 
 ```sql
+-- 0. Unified Users and Authentication Table (NextAuth / Auth.js Compatible)
+CREATE TABLE users (
+    id VARCHAR(50) PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    email_verified TIMESTAMP,
+    password_hash VARCHAR(255), -- For password-based dashboard login
+    image TEXT,
+    role VARCHAR(50) CHECK (role IN ('superadmin', 'lab_staff', 'researcher')) DEFAULT 'researcher',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 1. Research Units Table
 CREATE TABLE research_units (
     id VARCHAR(50) PRIMARY KEY,
@@ -365,6 +378,7 @@ CREATE TABLE research_units (
 -- 2. Staff / Researchers Table
 CREATE TABLE staff (
     id VARCHAR(50) PRIMARY KEY,
+    user_id VARCHAR(50) REFERENCES users(id) ON DELETE SET NULL, -- Null if researcher has no dashboard user account yet
     title VARCHAR(255) NOT NULL,
     subtitle VARCHAR(255),
     image TEXT,
@@ -449,6 +463,7 @@ CREATE TABLE labs (
     description TEXT,
     image TEXT,
     contact VARCHAR(255),
+    supervisor_id VARCHAR(50) REFERENCES staff(id) ON DELETE SET NULL, -- Tech lead responsible for reservations
     capacity VARCHAR(50),
     status VARCHAR(50) DEFAULT 'active',
     draft BOOLEAN DEFAULT FALSE
