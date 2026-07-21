@@ -300,11 +300,12 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
 *   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines.
 *   **Equipment Reservation Approvals:** Lab supervisors/staff can view incoming equipment booking requests, approve or reject reservations (with optional comments/rejection reasons), and view conflicts on a dynamic reservation calendar.
+*   **Feedback & Benefit Moderation:** Staff can review feedback logs and benefit statements submitted by students/researchers. They can approve positive feedback to be published as "Impact Stories" directly on public equipment pages.
 *   **Usage & Analytics Reports:** Managers, Directors, and Admins can see analytics reports on equipment utilization rates (e.g., total active hours vs. capacity, top-used instruments, and counts of reservations by department or user type: staff vs. students).
 *   **Role-Based Access Control (RBAC):**
     *   `ROLE_SUPERADMIN`: Complete access to all tables, settings, user permissions, and content lists.
-    *   `ROLE_LAB_STAFF`: Read-write access to their specific laboratory's equipment list and reservation request approval workspace.
-    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile, their linked projects, and authored publications.
+    *   `ROLE_LAB_STAFF`: Read-write access to their specific laboratory's equipment list, reservation request approvals, and feedback moderation workspace.
+    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile, their linked projects, authored publications, and reservation/feedback portal.
 
 #### 2. Database & ORM Stack
 *   **Database:** PostgreSQL 15+
@@ -430,6 +431,19 @@ CREATE TABLE equipment_reservations (
     status VARCHAR(50) CHECK (status IN ('pending', 'approved', 'rejected', 'completed')) DEFAULT 'pending',
     rejection_reason TEXT,
     approved_by VARCHAR(50) REFERENCES staff(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 9. Equipment Feedback / Impact Stories Table
+CREATE TABLE equipment_feedback (
+    id SERIAL PRIMARY KEY,
+    reservation_id INTEGER REFERENCES equipment_reservations(id) ON DELETE SET NULL,
+    equipment_id VARCHAR(50) REFERENCES equipment(id) ON DELETE CASCADE,
+    user_name VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+    benefit_statement TEXT NOT NULL,          -- Description of how they benefited (research outcome, results, etc.)
+    status VARCHAR(50) CHECK (status IN ('pending_review', 'approved', 'rejected')) DEFAULT 'pending_review',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
