@@ -294,7 +294,7 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **Authentication & Session Management:** Integrated with NextAuth.js (Auth.js v5) supporting credentials or institutional OAuth (e.g., `@su.edu.krd` Microsoft/Google university logins).
 *   **Profile Editing:** Each researcher can securely log in and update their personal metadata (biography, profile image, title, contact details, and list of dynamic research area tags).
 *   **Publication Management:** Researchers can create, edit, or delete their publications. They can upload PDFs directly to a media storage server (or S3/local folder) and link them to their records.
-*   **Project Workspace:** Edit project details, set progress statuses (e.g., ongoing/completed), and link research team members.
+*   **Project Workspace & Collaboration:** Create new research projects, which default to a `private` status. Researchers can link SUE staff members as team members. Team members can securely discuss the project, post updates, and communicate directly inside the private workspace. When ready, the project lead can publish/announce the project, toggling it to `public` to make it visible on the SUE public frontend website.
 
 ##### B. Administrative & Lab Staff Dashboard
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
@@ -350,10 +350,20 @@ CREATE TABLE projects (
     description TEXT,
     image TEXT,
     status VARCHAR(50) CHECK (status IN ('ongoing', 'completed')),
+    visibility VARCHAR(50) CHECK (visibility IN ('private', 'public')) DEFAULT 'private',
     unit_id VARCHAR(50) REFERENCES research_units(id) ON DELETE SET NULL,
     year VARCHAR(4),
     project_type VARCHAR(100),
     draft BOOLEAN DEFAULT FALSE
+);
+
+-- 3a. Project Discussion Messages Table (For Collaboration)
+CREATE TABLE project_discussion_messages (
+    id SERIAL PRIMARY KEY,
+    project_id VARCHAR(50) REFERENCES projects(id) ON DELETE CASCADE,
+    sender_id VARCHAR(50) REFERENCES staff(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 4. Publications Table
