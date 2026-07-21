@@ -541,6 +541,12 @@ To create a stunning first impression and elevate the SUE Research Center's bran
 *   **Aesthetic Theme Integration:**
     *   Utilize **SUE's Maroon/Crimson (`#C41E3A`)** and **Slate Blue (`#0B2545`)** as dominant branding pillars.
     *   Incorporate **Gold accents (`#D4AF37`)** for highlighting featured elements, awards, or priority tabs, giving the site a premium institutional feel.
+*   **Header Link to Main SUE Website:**
+    *   The top global navigation utility bar must include a prominent link redirecting users back to the **Salahaddin University-Erbil (SUE) main portal** ([su.edu.krd](https://su.edu.krd)).
+    *   This link should feature the official circular SUE emblem and clear typography ("Salahaddin University-Erbil Home") to anchor the research sub-portal within SUE's main domain.
+*   **Matching Institutional Footer:**
+    *   Redesign the global footer block using a high-contrast deep Navy Slate (`#0B2545`) background, matching the exact styling of the main SUE university footer.
+    *   Include official copyright, SUE contact details, and social icons, grouped cleanly alongside columns linking to Research Units, Laboratories, Publications, and the main university site.
 *   **Hero Section Glassmorphism:**
     *   The hero area will feature a slow-motion high-resolution **background video** (playing at 0.5x playback speed).
     *   The typography and buttons will sit on a **frosted-glass (glassmorphic) container overlay** (`backdrop-filter: blur(12px)` and semi-transparent borders `border: 1px solid rgba(255, 255, 255, 0.15)`) to maintain text readability while letting the video show through.
