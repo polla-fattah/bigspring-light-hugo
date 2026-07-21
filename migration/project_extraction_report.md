@@ -299,6 +299,7 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 ##### B. Administrative & Lab Staff Dashboard
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
 *   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines.
+*   **Events Management:** Direct UI forms to create, edit, or delete Events (Conferences, Seminars, Workshops), upload event cover images, set dates/venues, and toggle the "featured" badge status to highlight key events on the homepage.
 *   **Equipment Reservation Approvals:** Lab supervisors/staff can view incoming equipment booking requests, approve or reject reservations (with optional comments/rejection reasons), and view conflicts on a dynamic reservation calendar.
 *   **Feedback & Benefit Moderation:** Staff can review feedback logs and benefit statements submitted by students/researchers. They can approve positive feedback to be published as "Impact Stories" directly on public equipment pages.
 *   **Usage & Analytics Reports:** Managers, Directors, and Admins can see analytics reports on equipment utilization rates (e.g., total active hours vs. capacity, top-used instruments, and counts of reservations by department or user type: staff vs. students).
@@ -454,6 +455,24 @@ CREATE TABLE equipment_feedback (
     rating INTEGER CHECK (rating BETWEEN 1 AND 5),
     benefit_statement TEXT NOT NULL,          -- Description of how they benefited (research outcome, results, etc.)
     status VARCHAR(50) CHECK (status IN ('pending_review', 'approved', 'rejected')) DEFAULT 'pending_review',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 10. Events Table
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    event_date TIMESTAMP NOT NULL,
+    image TEXT,
+    event_type VARCHAR(50) DEFAULT 'regular', -- 'regular' | 'featured'
+    featured BOOLEAN DEFAULT FALSE,
+    description TEXT,                         -- Meta description
+    content TEXT,                             -- Markdown body / HTML content
+    category VARCHAR(100),                    -- 'Conference' | 'Seminar' | 'Workshop'
+    event_time VARCHAR(100),
+    location VARCHAR(255),
+    draft BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
