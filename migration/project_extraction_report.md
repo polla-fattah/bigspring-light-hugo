@@ -298,7 +298,8 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 
 ##### B. Administrative & Lab Staff Dashboard
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
-*   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines.
+*   **Administrative Services CRUD:** Direct UI forms to create, edit, or delete Forms/Templates and Regulations/Guidelines records, upload document files (PDF/DOCX/XLSX), and organize them into standard search categories.
+*   **Global Settings Management:** Provides an interface for administrators to edit global configurations, including the university's **Vision & Mission statements**, the Homepage President's quote, and brand headers/footers dynamically.
 *   **Events Management:** Direct UI forms to create, edit, or delete Events (Conferences, Seminars, Workshops), upload event cover images, set dates/venues, and toggle the "featured" badge status to highlight key events on the homepage.
 *   **Equipment Reservation Approvals:** Lab supervisors/staff can view incoming equipment booking requests, approve or reject reservations (with optional comments/rejection reasons), and view conflicts on a dynamic reservation calendar.
 *   **Feedback & Benefit Moderation:** Staff can review feedback logs and benefit statements submitted by students/researchers. They can approve positive feedback to be published as "Impact Stories" directly on public equipment pages.
@@ -474,6 +475,40 @@ CREATE TABLE events (
     location VARCHAR(255),
     draft BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 11. Regulations and Guidelines Table
+CREATE TABLE regulations (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,           -- e.g. 'Ethics', 'Safety', 'Policy'
+    description TEXT,
+    file_path TEXT NOT NULL,                  -- Path to the uploaded document PDF
+    file_size VARCHAR(50),
+    last_updated DATE,
+    draft BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 12. Forms and Templates Table
+CREATE TABLE forms (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,           -- e.g. 'Proposals', 'Lab Management', 'Funding'
+    description TEXT,
+    file_path TEXT NOT NULL,                  -- Path to the file docx/pdf/xlsx
+    file_format VARCHAR(50),                  -- e.g. 'DOCX', 'PDF', 'XLSX'
+    file_size VARCHAR(50),
+    icon VARCHAR(100) DEFAULT 'fas fa-file-alt',
+    draft BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 13. System Settings / Configuration Table (Vision, Mission, etc.)
+CREATE TABLE system_settings (
+    key_name VARCHAR(100) PRIMARY KEY,        -- e.g. 'vision_statement', 'mission_statement', 'homepage_president_quote'
+    value_text TEXT NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
