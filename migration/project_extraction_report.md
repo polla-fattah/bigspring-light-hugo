@@ -534,3 +534,18 @@ A clean Next.js App Router project that fetches data from the API Core and focus
 *   **Core Web Vitals:** Implement strict image optimizations using `next/image` to prevent CLS (Cumulative Layout Shift) and convert assets into high-performance webp formats dynamically.
 *   **Swiper Carousel:** Replace theme swiper plugins with `swiper/react` NPM package.
 *   **Client Filtering state:** Replace vanilla jQuery/DOM-based filters in Publications and Labs pages with React state variables (`useState` and `useMemo`) for instant interactive filtering.
+
+#### 2. Premium Visual Design & Homepage Aesthetics
+To create a stunning first impression and elevate the SUE Research Center's brand identity, the homepage must implement the following design assets:
+
+*   **Aesthetic Theme Integration:**
+    *   Utilize **SUE's Maroon/Crimson (`#C41E3A`)** and **Slate Blue (`#0B2545`)** as dominant branding pillars.
+    *   Incorporate **Gold accents (`#D4AF37`)** for highlighting featured elements, awards, or priority tabs, giving the site a premium institutional feel.
+*   **Hero Section Glassmorphism:**
+    *   The hero area will feature a slow-motion high-resolution **background video** (playing at 0.5x playback speed).
+    *   The typography and buttons will sit on a **frosted-glass (glassmorphic) container overlay** (`backdrop-filter: blur(12px)` and semi-transparent borders `border: 1px solid rgba(255, 255, 255, 0.15)`) to maintain text readability while letting the video show through.
+*   **Micro-Animations & Dynamic States:**
+    *   **Smooth Hover States:** Cards (Labs, Projects, Publications) must use smooth transitional lifts (`transform: translateY(-5px) scale(1.02)`) and light card shadows (`box-shadow: 0 10px 20px rgba(0,0,0,0.08)`) with a transition delay of `300ms ease`.
+    *   **Dynamic Counters:** The statistics blocks (e.g. `15+ Projects`, `50+ Publications`) will count up dynamically from zero when they enter the user's viewport, leveraging framer-motion or standard React count libraries.
+    *   **Gradient Highlights:** Replace solid background blocks with subtle, sweeping gradients (e.g. from light grey `#F5F5F5` to a soft cream `#FAFAFA`, or deep maroon gradients for call-to-actions) to create visual depth.
+*   **Multilingual Switching:** A clean, flag-less animated language switcher in the header (EN / KU / AR) matching the main SUE academic portal's top right styling.
