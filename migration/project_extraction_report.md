@@ -304,9 +304,9 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **Feedback & Benefit Moderation:** Staff can review feedback logs and benefit statements submitted by students/researchers. They can approve positive feedback to be published as "Impact Stories" directly on public equipment pages.
 *   **Usage & Analytics Reports:** Managers, Directors, and Admins can see analytics reports on equipment utilization rates (e.g., total active hours vs. capacity, top-used instruments, and counts of reservations by department or user type: staff vs. students).
 *   **Role-Based Access Control (RBAC):**
-    *   `ROLE_SUPERADMIN`: Complete access to all tables, settings, user permissions, and content lists.
-    *   `ROLE_LAB_STAFF`: Read-write access to their specific laboratory's equipment list, reservation request approvals, and feedback moderation workspace.
-    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile, their linked projects, authored publications, and reservation/feedback portal.
+    *   `ROLE_SUPERADMIN`: Complete access to all tables, settings, user permissions, and content lists. (Includes the **special privilege** to manage and publish public events).
+    *   `ROLE_LAB_STAFF`: Read-write access to their specific laboratory's equipment list, reservation request approvals, and feedback moderation workspace. (No event management privileges).
+    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile, their linked projects, authored publications, and reservation/feedback portal. (Explicitly restricted from adding or editing general university events).
 
 #### 2. Database & ORM Stack
 *   **Database:** PostgreSQL 15+
