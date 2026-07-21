@@ -1,0 +1,239 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 0. Unified Users and Authentication Table (NextAuth / Auth.js Compatible)
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?   // For credentials-based login
+  image         String?
+  role          String    @default("researcher") // superadmin, lab_staff, researcher
+  staff         Staff?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// 1. Research Units Table
+model ResearchUnit {
+  id           String        @id
+  title        String
+  name         String
+  image        String?
+  description  String?
+  draft        Boolean       @default(false)
+  staff        Staff[]
+  projects     Project[]
+  publications Publication[]
+}
+
+// 2. Staff / Researchers Table
+model Staff {
+  id                     String                     @id
+  userId                 String?                    @unique
+  user                   User?                      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  title                  String
+  subtitle               String?
+  image                  String?
+  unitId                 String?
+  unit                   ResearchUnit?              @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  titlePosition          String?
+  email                  String?                    @unique
+  orcid                  String?
+  googleScholar          String?
+  scopus                 String?
+  researchgate           String?
+  personalWebsite        String?
+  bio                    String?
+  content                String?
+  description            String?
+  researchAreas          String[]                   // Supported as native array in pg
+  draft                  Boolean                    @default(false)
+  projects               Project[]                  @relation("ProjectTeam")
+  publications           Publication[]              @relation("PublicationAuthors")
+  supervisedPublications Publication[]              @relation("SupervisedPublications")
+  discussionMessages     ProjectDiscussionMessage[]
+  labs                   Lab[]
+  approvedReservations   EquipmentReservation[]     @relation("ApprovedReservations")
+}
+
+// 3. Projects Table
+model Project {
+  id                 String                     @id
+  title              String
+  name               String
+  description        String?
+  image              String?
+  status             String                     // ongoing, completed
+  visibility         String                     @default("private") // private, public
+  unitId             String?
+  unit               ResearchUnit?              @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  year               String?
+  projectType        String?
+  draft              Boolean                    @default(false)
+  team               Staff[]                    @relation("ProjectTeam")
+  discussionMessages ProjectDiscussionMessage[]
+  createdAt          DateTime                   @default(now())
+}
+
+// 3a. Project Discussion Messages Table (For Collaboration)
+model ProjectDiscussionMessage {
+  id        Int      @id @default(autoincrement())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    Staff    @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  message   String
+  createdAt DateTime @default(now())
+}
+
+// 4. Publications Table
+model Publication {
+  id           String        @id
+  title        String
+  pubType      String        // article, thesis, report
+  degree       String?       // e.g., PhD, MSc for theses
+  year         String?
+  unitId       String?
+  unit         ResearchUnit? @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  description  String?
+  pdf          String?
+  journal      String?
+  supervisorId String?
+  supervisor   Staff?        @relation("SupervisedPublications", fields: [supervisorId], references: [id], onDelete: SetNull)
+  authors      Staff[]       @relation("PublicationAuthors")
+  draft        Boolean       @default(false)
+}
+
+// 5. Labs Table
+model Lab {
+  id             String      @id
+  title          String
+  shortName      String?
+  location       String?
+  locationName   String?
+  department     String?
+  departmentName String?
+  category       String?
+  categoryName   String?
+  description    String?
+  image          String?
+  contact        String?
+  supervisorId   String?
+  supervisor     Staff?      @relation(fields: [supervisorId], references: [id], onDelete: SetNull)
+  capacity       String?
+  status         String      @default("active")
+  draft          Boolean     @default(false)
+  equipment      Equipment[]
+}
+
+// 6. Equipment Table
+model Equipment {
+  id             String                 @id
+  name           String
+  labId          String
+  lab            Lab                    @relation(fields: [labId], references: [id], onDelete: Cascade)
+  category       String?
+  description    String?
+  status         String                 @default("available") // available, in-use, maintenance
+  workingUnits   Int                    @default(1)
+  outOfOrder     Int                    @default(0)
+  totalUnits     Int                    @default(1)
+  model          String?
+  specifications String[]
+  reservations   EquipmentReservation[]
+  feedback       EquipmentFeedback[]
+}
+
+// 7. Equipment Reservations Table
+model EquipmentReservation {
+  id              Int                 @id @default(autoincrement())
+  equipmentId     String
+  equipment       Equipment           @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  userName        String
+  userEmail       String
+  userType        String              // student, staff, external
+  purpose         String
+  startTime       DateTime
+  endTime         DateTime
+  status          String              @default("pending") // pending, approved, rejected, completed
+  rejectionReason String?
+  approvedById    String?
+  approvedBy      Staff?              @relation("ApprovedReservations", fields: [approvedById], references: [id], onDelete: SetNull)
+  createdAt       DateTime            @default(now())
+  feedback        EquipmentFeedback[]
+}
+
+// 8. Equipment Feedback / Impact Stories Table
+model EquipmentFeedback {
+  id               Int                   @id @default(autoincrement())
+  reservationId    Int?
+  reservation      EquipmentReservation? @relation(fields: [reservationId], references: [id], onDelete: SetNull)
+  equipmentId      String
+  equipment        Equipment             @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  userName         String
+  userEmail        String
+  rating           Int
+  benefitStatement String
+  status           String                @default("pending_review") // pending_review, approved, rejected
+  createdAt        DateTime              @default(now())
+}
+
+// 9. Events Table
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  eventDate   DateTime
+  image       String?
+  eventType   String   @default("regular") // regular, featured
+  featured    Boolean  @default(false)
+  description String?
+  content     String?
+  category    String?  // Conference, Seminar, Workshop
+  eventTime   String?
+  location    String?
+  draft       Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+// 10. Regulations and Guidelines Table
+model Regulation {
+  id          Int       @id @default(autoincrement())
+  title       String
+  category    String    // Ethics, Safety, Policy
+  description String?
+  filePath    String
+  fileSize    String?
+  lastUpdated DateTime?
+  draft       Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+// 11. Forms and Templates Table
+model Form {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String    // Proposals, Lab Management, Funding
+  description String?
+  filePath    String
+  fileFormat  String?
+  fileSize    String?
+  icon        String   @default("fas fa-file-alt")
+  draft       Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+// 12. System Settings / Configuration Table
+model SystemSettings {
+  keyName   String   @id // vision_statement, mission_statement, homepage_president_quote
+  valueText String
+  updatedAt DateTime @updatedAt
+}
