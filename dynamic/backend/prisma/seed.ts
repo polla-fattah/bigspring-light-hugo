@@ -403,6 +403,71 @@ async function main() {
     }
   }
 
+  // 9. Seed Datasets
+  console.log('Seeding Datasets...');
+  if (data.datasets && Array.isArray(data.datasets)) {
+    for (const ds of data.datasets) {
+      if (!ds.id) continue;
+      
+      await prisma.dataset.upsert({
+        where: { id: ds.id },
+        update: {
+          title: ds.title || 'Untitled Dataset',
+          description: ds.description || null,
+          unitId: (ds.unit && unitsMap.has(ds.unit)) ? ds.unit : null,
+          year: ds.year ? String(ds.year) : null,
+          access: ds.access || 'Open',
+          format: ds.format || null,
+          size: ds.size || null,
+          draft: typeof ds.draft === 'boolean' ? ds.draft : false
+        },
+        create: {
+          id: ds.id,
+          title: ds.title || 'Untitled Dataset',
+          description: ds.description || null,
+          unitId: (ds.unit && unitsMap.has(ds.unit)) ? ds.unit : null,
+          year: ds.year ? String(ds.year) : null,
+          access: ds.access || 'Open',
+          format: ds.format || null,
+          size: ds.size || null,
+          draft: typeof ds.draft === 'boolean' ? ds.draft : false
+        }
+      });
+    }
+  }
+
+  // 10. Seed Testimonials
+  console.log('Seeding Testimonials...');
+  if (data.testimonials && Array.isArray(data.testimonials)) {
+    for (const test of data.testimonials) {
+      const existing = await prisma.testimonial.findFirst({
+        where: { title: test.title || 'Anonymous' }
+      });
+
+      if (existing) {
+        await prisma.testimonial.update({
+          where: { id: existing.id },
+          data: {
+            quote: test.quote || '',
+            position: test.position || null,
+            image: test.image || null,
+            draft: typeof test.draft === 'boolean' ? test.draft : false
+          }
+        });
+      } else {
+        await prisma.testimonial.create({
+          data: {
+            title: test.title || 'Anonymous',
+            quote: test.quote || '',
+            position: test.position || null,
+            image: test.image || null,
+            draft: typeof test.draft === 'boolean' ? test.draft : false
+          }
+        });
+      }
+    }
+  }
+
   console.log('Successfully completed seeding the database!');
 }
 

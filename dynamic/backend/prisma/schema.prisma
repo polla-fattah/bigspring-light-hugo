@@ -32,6 +32,7 @@ model ResearchUnit {
   staff        Staff[]
   projects     Project[]
   publications Publication[]
+  datasets     Dataset[]
 }
 
 // 2. Staff / Researchers Table
@@ -236,4 +237,30 @@ model SystemSettings {
   keyName   String   @id // vision_statement, mission_statement, homepage_president_quote
   valueText String
   updatedAt DateTime @updatedAt
+}
+
+// 14. Testimonials Table
+model Testimonial {
+  id        String   @id @default(uuid())
+  title     String
+  quote     String
+  position  String?
+  image     String?
+  draft     Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// 15. Datasets Table
+model Dataset {
+  id          String        @id
+  title       String
+  description String?
+  unitId      String?
+  unit        ResearchUnit? @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  year        String?
+  access      String?       // e.g. Open, Restricted, On-Request
+  format      String?       // e.g. CSV, Excel
+  size        String?
+  draft       Boolean       @default(false)
+  createdAt   DateTime      @default(now())
 }
