@@ -23,6 +23,20 @@ All content pages (144 in total) have been parsed and compiled into a structured
     *   **regulations (Guidelines):** 3 pages
     *   **templates (Application Forms):** 2 pages
 
+### 1.1 Website Objectives & Target Audiences
+
+#### Core Objectives:
+*   **Academic Identity:** Establish the center's academic identity, research priorities, and accomplishments.
+*   **Output Promotion:** Showcase active research projects, laboratory equipment, datasets, and publications.
+*   **Operations Portal:** Advertise events, seminars, and download directories (forms/regulations).
+*   **Dynamic Scheduling:** Facilitate equipment reservation workflows for students and staff.
+
+#### Target Audiences:
+*   **University researchers and academic staff** (managing profiles, collaborating, logging projects).
+*   **Undergraduate and postgraduate students** (checking ethics regulations, scheduling lab equipment).
+*   **External academic collaborators and international universities** (reviewing research outputs).
+*   **Government institutions and industry partners** (exploring consultation and datasets).
+
 ---
 
 ## 2. Brand Design & Variables
@@ -37,8 +51,11 @@ The global site parameters are configured in [hugo.toml](file:///c:/Users/polla/
 *   **Accent Teal:** `.btn-teal` for secondary call-to-action buttons
 
 ### Typography & Multilingual Support
-*   **English/Global Font:** `Lato` (Weights: 300, 400, 500, 600, 700) or clean modern sans-serifs like `Inter` / `Roboto`
+*   **English/Global Font:** `Lato` (Weights: 300, 400, 500, 600, 700) or clean modern sans-serifs like `Inter` / `Roboto`.
 *   **Kurdish/Arabic Unicode Font Support:** Custom system-fallback stacks supporting Kurdish character sets (such as `Unikurd Web`, `Rabar`, or `Noto Sans Arabic`) to ensure clear rendering of Arabic-script low-resource languages on the main SUE portal.
+*   **Right-to-Left (RTL) Layout Alignment:** When switching to Kurdish or Arabic:
+    *   Use CSS logical properties (e.g., `margin-inline-start`, `text-align: start`, `flex-direction: row-reverse`) to flip the navigation bars, sidebars, forms, and grid directions automatically.
+    *   Ensure buttons and input fields align with RTL text entry standards.
 *   **Icons:** Font Awesome 6 Free (Solid, Regular, Brands)
 *   **Logo Width:** `180px` (utilizing the official SUE circular emblem format)
 
@@ -85,6 +102,11 @@ research_areas:
   - "Data Mining"
 related_projects: []                      # Custom linked project IDs
 related_publications: []                  # Custom linked publication IDs
+orcid: "https://orcid.org/0000-0002-XXXX-XXXX"
+google_scholar: "https://scholar.google.com/citations?user=XXXXXX"
+scopus: "https://www.scopus.com/authid/detail.uri?authorId=XXXXXX"
+researchgate: "https://www.researchgate.net/profile/XXXXXX"
+personal_website: "https://polla.dev"
 bio: "Dr Polla Fattah is a lecturer..."   # Short description
 draft: false
 ```
@@ -231,6 +253,17 @@ Hugo templates will correspond directly to Next.js layouts or page routes. Here 
 | `layouts/staff/single.html` | `app/staff/[slug]/page.tsx` | Profile layout containing: Bio, sidebar (Research areas, contact), **Projects list**, and **Publications list**. |
 | `layouts/services/single.html` (general wrapper) | `app/services/[slug]/page.tsx` or separate pages | Renders dynamically based on which array is present: Forms lists, Regulation logs, booking forms, data access forms. Used for page templates such as `forms-templates.md` and `trainings-tutorials.md`. |
 
+### 4.1 Search & Unified Discovery Specifications
+
+To maximize content accessibility, the SEO Frontend will expose a **Global Search Interface** connecting:
+*   **Researchers/Staff:** Matches on name, position, and research areas tags.
+*   **Projects:** Matches on title, status, description, and year.
+*   **Publications:** Matches on paper title, type, journal, and author name.
+*   **Labs & Equipment:** Matches on lab name, location, and equipment items list.
+*   **Events:** Matches on event title, categories, and location.
+
+The search endpoint must parse queries and filter results dynamically with tabbed filtering UI.
+
 ---
 
 ## 5. Relational Data Resolution (Critical Logic)
@@ -338,6 +371,11 @@ CREATE TABLE staff (
     unit_id VARCHAR(50) REFERENCES research_units(id) ON DELETE SET NULL,
     title_position VARCHAR(255),
     email VARCHAR(255) UNIQUE,
+    orcid VARCHAR(255),
+    google_scholar VARCHAR(255),
+    scopus VARCHAR(255),
+    researchgate VARCHAR(255),
+    personal_website VARCHAR(255),
     bio TEXT,
     content TEXT,
     description TEXT,
