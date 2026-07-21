@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log('Reading content_data.json...');
-  const jsonPath = path.resolve(__dirname, '../../../migration/content_data.json');
+  const jsonPath = path.resolve(process.cwd(), '../../migration/content_data.json');
   
   if (!fs.existsSync(jsonPath)) {
     throw new Error(`Data file not found at: ${jsonPath}`);
