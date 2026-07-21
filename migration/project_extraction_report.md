@@ -283,11 +283,28 @@ graph LR
 
 ---
 
-### Project 1: SUE-Backend-Core (API Engine)
+### Project 1: SUE-Backend-Core (API & Management Portal)
 
-A Next.js project dedicated to running API routes (`/api/*`), managing the PostgreSQL connection, handling database migrations, and exposing data streams to the frontend.
+A full-stack Next.js project dedicated to managing the PostgreSQL database connection, exposing secure API routes (`/api/*`) to the frontend, and hosting a **secure Admin Dashboard & Researcher Profile Portal**.
 
-#### 1. Database & ORM Stack
+#### 1. Content Management Dashboard & Profile Workspace
+To eliminate manual markdown updates and support dynamic researcher workflows, the backend core will feature:
+
+##### A. Researcher Profile Workspace (Self-Service)
+*   **Authentication & Session Management:** Integrated with NextAuth.js (Auth.js v5) supporting credentials or institutional OAuth (e.g., `@su.edu.krd` Microsoft/Google university logins).
+*   **Profile Editing:** Each researcher can securely log in and update their personal metadata (biography, profile image, title, contact details, and list of dynamic research area tags).
+*   **Publication Management:** Researchers can create, edit, or delete their publications. They can upload PDFs directly to a media storage server (or S3/local folder) and link them to their records.
+*   **Project Workspace:** Edit project details, set progress statuses (e.g., ongoing/completed), and link research team members.
+
+##### B. Administrative Dashboard (Superadmin Portal)
+*   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
+*   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines, and log capacity booking rules.
+*   **Workflow Verification:** (Optional) Approve publication uploads and project creation submissions from early-career researchers before they are compiled into the public database.
+*   **Role-Based Access Control (RBAC):**
+    *   `ROLE_SUPERADMIN`: Complete access to all tables, settings, user permissions, and content lists.
+    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile table, their linked project arrays, and their authored publication tables.
+
+#### 2. Database & ORM Stack
 *   **Database:** PostgreSQL 15+
 *   **ORM Layer:** Prisma or Drizzle ORM (for schema safety, query building, and migrations).
 *   **Hosting:** Local PostgreSQL cluster (or university servers) exposed securely.
