@@ -297,6 +297,7 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **Project Workspace & Collaboration:** Create new research projects, which default to a `private` status. Researchers can link SUE staff members as team members. Team members can securely discuss the project, post updates, and communicate directly inside the private workspace. When ready, the project lead can publish/announce the project, toggling it to `public` to make it visible on the SUE public frontend website.
 
 ##### B. Administrative & Lab Staff Dashboard
+*   **Personnel & Researcher Management:** Admins have full CRUD access over researcher profiles (`staff` table). They can create new researcher profiles, assign researchers to specific Research Units, update their email accounts (to enable dashboard access), toggle visibility/draft states, or archive profiles.
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
 *   **Administrative Services CRUD:** Direct UI forms to create, edit, or delete Forms/Templates and Regulations/Guidelines records, upload document files (PDF/DOCX/XLSX), and organize them into standard search categories.
 *   **Global Settings Management:** Provides an interface for administrators to edit global configurations, including the university's **Vision & Mission statements**, the Homepage President's quote, and brand headers/footers dynamically.
