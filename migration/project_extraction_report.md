@@ -2,7 +2,7 @@
 
 This report outlines the full requirements, data schemas, relational models, and layout mappings extracted from the **Salahaddin University Research Center (SURC)** Hugo-based website. It serves as a blueprint for migrating this project to **Next.js**.
 
-All content pages (144 in total) have been parsed and compiled into a structured JSON file: [content_data.json](file:///C:/Users/polla/.gemini/antigravity-ide/brain/569dae50-6c7c-4669-b5d0-ac4af68dc411/content_data.json) for easy ingestion into your Next.js application.
+All content pages (144 in total) have been parsed and compiled into a structured JSON file: [content_data.json](file:///c:/Users/polla/Drives/PollaFattah/UNi/SUE/DAC/bigspring-light/migration/content_data.json) for easy ingestion into your Next.js application.
 
 ---
 
@@ -348,7 +348,7 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **ORM Layer:** Prisma or Drizzle ORM (for schema safety, query building, and migrations).
 *   **Hosting:** Local PostgreSQL cluster (or university servers) exposed securely.
 
-#### 2. Relational Database Schemas (SQL Table Layout)
+#### 3. Relational Database Schemas (SQL Table Layout)
 The extracted frontmatter from the markdown files maps to the following relational PostgreSQL tables:
 
 ```sql
@@ -551,8 +551,8 @@ CREATE TABLE system_settings (
 );
 ```
 
-#### 3. Data Migration Pipeline
-A migration script will ingest the extracted [content_data.json](file:///C:/Users/polla/.gemini/antigravity-ide/brain/569dae50-6c7c-4669-b5d0-ac4af68dc411/content_data.json) and seed the PostgreSQL database:
+#### 4. Data Migration Pipeline
+A migration script will ingest the extracted [content_data.json](file:///c:/Users/polla/Drives/PollaFattah/UNi/SUE/DAC/bigspring-light/migration/content_data.json) and seed the PostgreSQL database:
 1.  Insert static parent tables (`research_units` first).
 2.  Seed child tables (`staff`, `projects`, `publications`).
 3.  Populate junction tables by parsing relational arrays (`related_staff`, `authors`).
