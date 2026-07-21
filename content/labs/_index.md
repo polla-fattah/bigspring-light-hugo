@@ -1,12 +1,9 @@
 ---
-title: "Labs & Facilities"
-subtitle: "Explore our research laboratories, facilities, and equipment"
-description: "Explore our research laboratories, facilities, and equipment"
+title: Laboratories
+description: Active laboratories (usable equipment only).
+layout: labs
+type: labs
 draft: false
-
-hero:
-  enable: false
-  image: ""
-  title: ""
-  description: ""
 ---
+
+Only labs with usable equipment are included.
