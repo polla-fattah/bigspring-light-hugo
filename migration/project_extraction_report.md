@@ -296,13 +296,15 @@ To eliminate manual markdown updates and support dynamic researcher workflows, t
 *   **Publication Management:** Researchers can create, edit, or delete their publications. They can upload PDFs directly to a media storage server (or S3/local folder) and link them to their records.
 *   **Project Workspace:** Edit project details, set progress statuses (e.g., ongoing/completed), and link research team members.
 
-##### B. Administrative Dashboard (Superadmin Portal)
+##### B. Administrative & Lab Staff Dashboard
 *   **Master Data Configuration:** Admins can create and configure Research Units, Labs, and dynamic system variables.
-*   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines, and log capacity booking rules.
-*   **Workflow Verification:** (Optional) Approve publication uploads and project creation submissions from early-career researchers before they are compiled into the public database.
+*   **Administrative Services CRUD:** Direct UI forms to upload new Forms and Templates, post local Regulations and Guidelines.
+*   **Equipment Reservation Approvals:** Lab supervisors/staff can view incoming equipment booking requests, approve or reject reservations (with optional comments/rejection reasons), and view conflicts on a dynamic reservation calendar.
+*   **Usage & Analytics Reports:** Managers, Directors, and Admins can see analytics reports on equipment utilization rates (e.g., total active hours vs. capacity, top-used instruments, and counts of reservations by department or user type: staff vs. students).
 *   **Role-Based Access Control (RBAC):**
     *   `ROLE_SUPERADMIN`: Complete access to all tables, settings, user permissions, and content lists.
-    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile table, their linked project arrays, and their authored publication tables.
+    *   `ROLE_LAB_STAFF`: Read-write access to their specific laboratory's equipment list and reservation request approval workspace.
+    *   `ROLE_RESEARCHER`: Read-write access limited strictly to their own `staff` profile, their linked projects, and authored publications.
 
 #### 2. Database & ORM Stack
 *   **Database:** PostgreSQL 15+
@@ -379,6 +381,56 @@ CREATE TABLE publication_author_junction (
     publication_id VARCHAR(50) REFERENCES publications(id) ON DELETE CASCADE,
     staff_id VARCHAR(50) REFERENCES staff(id) ON DELETE CASCADE,
     PRIMARY KEY (publication_id, staff_id)
+);
+
+-- 6. Labs Table
+CREATE TABLE labs (
+    id VARCHAR(50) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    short_name VARCHAR(100),
+    location VARCHAR(100),
+    location_name VARCHAR(255),
+    department VARCHAR(100),
+    department_name VARCHAR(255),
+    category VARCHAR(100),
+    category_name VARCHAR(255),
+    description TEXT,
+    image TEXT,
+    contact VARCHAR(255),
+    capacity VARCHAR(50),
+    status VARCHAR(50) DEFAULT 'active',
+    draft BOOLEAN DEFAULT FALSE
+);
+
+-- 7. Equipment Table
+CREATE TABLE equipment (
+    id VARCHAR(50) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    lab_id VARCHAR(50) REFERENCES labs(id) ON DELETE CASCADE,
+    category VARCHAR(100),
+    description TEXT,
+    status VARCHAR(50) CHECK (status IN ('available', 'in-use', 'maintenance')) DEFAULT 'available',
+    working_units INTEGER DEFAULT 1,
+    out_of_order INTEGER DEFAULT 0,
+    total_units INTEGER DEFAULT 1,
+    model VARCHAR(100),
+    specifications TEXT[]
+);
+
+-- 8. Equipment Reservations Table
+CREATE TABLE equipment_reservations (
+    id SERIAL PRIMARY KEY,
+    equipment_id VARCHAR(50) REFERENCES equipment(id) ON DELETE CASCADE,
+    user_name VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    user_type VARCHAR(50) CHECK (user_type IN ('student', 'staff', 'external')),
+    purpose TEXT NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+    status VARCHAR(50) CHECK (status IN ('pending', 'approved', 'rejected', 'completed')) DEFAULT 'pending',
+    rejection_reason TEXT,
+    approved_by VARCHAR(50) REFERENCES staff(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
