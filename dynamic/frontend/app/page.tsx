@@ -84,25 +84,25 @@ export default function Home() {
                 Pioneering scientific discovery, coordinating state-of-the-art laboratory equipment bookings, and publishing regional research outputs at the forefront of Kurdistan's academic ecosystem.
               </p>
               
-              {/* Dynamic search bar mockup */}
+              {/* Dynamic search bar */}
               <div className="max-w-xl mx-auto lg:mx-0 pt-4">
-                <div className="flex bg-white/10 backdrop-blur-md rounded-2xl p-1.5 border border-white/20 shadow-lg focus-within:ring-2 focus-within:ring-[var(--accent-gold)] focus-within:border-transparent transition-all">
+                <form action="/search" method="GET" className="flex bg-white/10 backdrop-blur-md rounded-2xl p-1.5 border border-white/20 shadow-lg focus-within:ring-2 focus-within:ring-[var(--accent-gold)] focus-within:border-transparent transition-all">
                   <div className="flex items-center pl-3 pr-2 text-slate-300">
                     <Search className="w-5 h-5" />
                   </div>
                   <input 
                     type="text" 
-                    placeholder="Search Hadiths, Narrators, Books, Researchers or Labs..." 
-                    className="w-full bg-transparent border-0 text-white placeholder-slate-300 text-sm focus:ring-0 focus:outline-none py-2.5 px-1"
-                    disabled
+                    name="q"
+                    placeholder="Search researchers, projects, publications, labs or datasets..." 
+                    className="w-full bg-transparent border-0 text-white placeholder-slate-350 text-sm focus:ring-0 focus:outline-none py-2.5 px-1"
                   />
-                  <button className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-hover)] text-[var(--secondary-blue)] transition-colors shadow">
+                  <button type="submit" className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-hover)] text-[var(--secondary-blue)] transition-colors shadow cursor-pointer">
                     Search
                   </button>
-                </div>
+                </form>
                 <p className="text-xs text-slate-300 mt-2.5 flex items-center justify-center lg:justify-start space-x-1.5">
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-gold)]"></span>
-                  <span>Feature upcoming in Sprint 2 (Search Implementation)</span>
+                  <span>Fully indexed by PostgreSQL full-text search engine</span>
                 </p>
               </div>
 
