@@ -10,6 +10,7 @@ interface StaffDetail {
   id: string;
   title: string;
   subtitle: string | null;
+  image: string | null;
   titlePosition: string | null;
   email: string | null;
   orcid: string | null;

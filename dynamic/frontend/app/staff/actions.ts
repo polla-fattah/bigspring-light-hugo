@@ -9,6 +9,7 @@ export async function updateStaffProfile(
   data: {
     title: string;
     subtitle?: string | null;
+    image?: string | null;
     titlePosition?: string | null;
     email?: string | null;
     orcid?: string | null;

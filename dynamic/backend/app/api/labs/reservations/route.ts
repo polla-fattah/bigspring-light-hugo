@@ -24,8 +24,58 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 1. Conflict detection algorithm:
-    // Check if there are overlapping approved reservations for the same equipment
+    // 1. Future validation: Ensure startTime is at least 15 minutes in the future
+    const minFutureTime = Date.now() + 15 * 60 * 1000;
+    if (start.getTime() < minFutureTime) {
+      return NextResponse.json(
+        { error: 'Reservation start time must be at least 15 minutes in the future.' },
+        { status: 400 }
+      );
+    }
+
+    // 2. Duration check: Enforce duration between 30 minutes and 24 hours
+    const durationMs = end.getTime() - start.getTime();
+    const minDurationMs = 30 * 60 * 1000; // 30 minutes
+    const maxDurationMs = 24 * 60 * 60 * 1000; // 24 hours
+    if (durationMs < minDurationMs || durationMs > maxDurationMs) {
+      return NextResponse.json(
+        { error: 'Reservation duration must be between 30 minutes and 24 hours.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. User pending limits: Maximum of 3 pending requests
+    const pendingCount = await prisma.equipmentReservation.count({
+      where: {
+        userEmail,
+        status: 'pending'
+      }
+    });
+    if (pendingCount >= 3) {
+      return NextResponse.json(
+        { error: 'You have reached the maximum limit of 3 active pending reservation requests.' },
+        { status: 400 }
+      );
+    }
+
+    // 4. Equipment verification & status check
+    const equipment = await prisma.equipment.findUnique({
+      where: { id: equipmentId }
+    });
+    if (!equipment) {
+      return NextResponse.json(
+        { error: 'Specified equipment not found.' },
+        { status: 404 }
+      );
+    }
+    if (equipment.status !== 'available') {
+      return NextResponse.json(
+        { error: `This equipment is currently ${equipment.status} and cannot be booked.` },
+        { status: 400 }
+      );
+    }
+
+    // 5. Conflict detection: Check for overlapping approved reservations
     const conflicts = await prisma.equipmentReservation.findFirst({
       where: {
         equipmentId,
@@ -44,7 +94,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Create the pending reservation
+    // 6. Create the pending reservation
     const newReservation = await prisma.equipmentReservation.create({
       data: {
         equipmentId,

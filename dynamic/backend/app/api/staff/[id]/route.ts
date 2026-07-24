@@ -83,6 +83,7 @@ export async function PUT(
       data: {
         title: body.title !== undefined ? body.title : undefined,
         subtitle: body.subtitle !== undefined ? body.subtitle : undefined,
+        image: body.image !== undefined ? body.image : undefined,
         titlePosition: body.titlePosition !== undefined ? body.titlePosition : undefined,
         email: body.email !== undefined ? body.email : undefined,
         orcid: body.orcid !== undefined ? body.orcid : undefined,

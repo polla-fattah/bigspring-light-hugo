@@ -17,6 +17,7 @@ export default function Navbar() {
     { name: 'Projects', href: '/projects' },
     { name: 'Publications', href: '/publications' },
     { name: 'Labs & Equipment', href: '/labs' },
+    { name: 'Events', href: '/events' },
   ];
 
   return (

@@ -2,6 +2,7 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { auth, signOut } from '../../../auth';
+import { fetchFromBackend } from '../../../lib/api';
 import { 
   User, 
   Layers, 
@@ -29,7 +30,7 @@ export default async function AdminDashboardPage() {
 
   // Quick action options based on user roles
   const researcherActions = [
-    { title: 'My Staff Profile', desc: 'Update public bio, research areas, and links.', href: `/staff/${user.staffId || ''}`, icon: User },
+    { title: 'My Staff Profile', desc: 'Update public bio, research areas, and links.', href: '/admin/profile', icon: User },
     { title: 'Project Coordination', desc: 'View active projects and write coordination notes.', href: '/projects', icon: Layers },
     { title: 'Publishing Records', desc: 'View associated publications and submit data.', href: '/publications', icon: BookOpen },
     { title: 'Book Laboratory Equipment', desc: 'Schedule equipment hours and view bookings.', href: '/labs', icon: Calendar }
@@ -45,6 +46,15 @@ export default async function AdminDashboardPage() {
     { title: 'System Configurations', desc: 'Change vision, mission, and homepage metadata.', href: '/', icon: Settings },
     { title: 'Research Datasets Registry', desc: 'Audit open data catalog uploads and accessibility.', href: '/datasets', icon: FileSpreadsheet },
   ];
+
+  let staffDetails: any = null;
+  if (user.staffId) {
+    try {
+      staffDetails = await fetchFromBackend<any>(`/api/staff/${user.staffId}`);
+    } catch (err) {
+      console.error('Failed to load researcher dashboard contributions:', err);
+    }
+  }
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
@@ -157,6 +167,65 @@ export default async function AdminDashboardPage() {
                       </span>
                     </Link>
                   ))}
+                </div>
+              </div>
+            )}
+            {/* Associated Contributions Card */}
+            {staffDetails && (
+              <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm space-y-6">
+                <div className="space-y-1">
+                  <h3 className="text-lg font-extrabold text-[var(--secondary-blue)]">My Research Contributions</h3>
+                  <p className="text-xs text-slate-400 font-medium">Overview of your linked publications and collaborative projects in SURC.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Collaborative Projects List */}
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 flex justify-between">
+                      <span>My Projects ({staffDetails.projects?.length || 0})</span>
+                      <Link href="/projects" className="text-[10px] text-[var(--primary-maroon)] lowercase font-bold hover:underline">View all</Link>
+                    </h4>
+                    {(!staffDetails.projects || staffDetails.projects.length === 0) ? (
+                      <p className="text-xs text-slate-400 font-medium italic">No active projects linked to your profile.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {staffDetails.projects.map((proj: any) => (
+                          <div key={proj.id} className="p-3 bg-slate-50 rounded-xl border border-slate-150 flex justify-between items-center">
+                            <Link href={`/projects/${proj.id}`} className="text-xs font-bold text-[var(--secondary-blue)] hover:underline truncate max-w-[180px]">
+                              {proj.title}
+                            </Link>
+                            <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-red-50 text-[var(--primary-maroon)]">
+                              {proj.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Publications List */}
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 flex justify-between">
+                      <span>My Publications ({staffDetails.publications?.length || 0})</span>
+                      <Link href="/publications" className="text-[10px] text-[var(--primary-maroon)] lowercase font-bold hover:underline">View all</Link>
+                    </h4>
+                    {(!staffDetails.publications || staffDetails.publications.length === 0) ? (
+                      <p className="text-xs text-slate-400 font-medium italic">No publications cataloged under your profile.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {staffDetails.publications.map((pub: any) => (
+                          <div key={pub.id} className="p-3 bg-slate-50 rounded-xl border border-slate-150 flex justify-between items-center">
+                            <Link href={`/publications/${pub.id}`} className="text-xs font-bold text-[var(--secondary-blue)] hover:underline truncate max-w-[180px]">
+                              {pub.title}
+                            </Link>
+                            <span className="text-[9px] text-slate-400 font-bold">
+                              {pub.year || '2024'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

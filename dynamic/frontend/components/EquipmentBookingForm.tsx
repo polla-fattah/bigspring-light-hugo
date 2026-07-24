@@ -57,6 +57,31 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
       return;
     }
 
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    // 1. Future validation
+    const minFutureTime = Date.now() + 15 * 60 * 1000;
+    if (start.getTime() < minFutureTime) {
+      setError('Reservation start time must be at least 15 minutes in the future.');
+      return;
+    }
+
+    // 2. Chronological check
+    if (start >= end) {
+      setError('Reservation end time must be after the start time.');
+      return;
+    }
+
+    // 3. Duration check
+    const durationMs = end.getTime() - start.getTime();
+    const minDurationMs = 30 * 60 * 1000; // 30 minutes
+    const maxDurationMs = 24 * 60 * 60 * 1000; // 24 hours
+    if (durationMs < minDurationMs || durationMs > maxDurationMs) {
+      setError('Reservation duration must be between 30 minutes and 24 hours.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -81,6 +106,8 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
       setLoading(false);
     }
   };
+
+  const currentMinTime = new Date(Date.now() + 15 * 60 * 1000).toISOString().slice(0, 16);
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5">
@@ -145,6 +172,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
               type="datetime-local" 
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
+              min={currentMinTime}
               className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3 py-2.5 text-xs text-slate-650 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white transition-all"
               required 
             />
@@ -155,6 +183,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
               type="datetime-local" 
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
+              min={startTime || currentMinTime}
               className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3 py-2.5 text-xs text-slate-650 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white transition-all"
               required 
             />
