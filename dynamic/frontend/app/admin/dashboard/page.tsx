@@ -122,6 +122,44 @@ export default async function AdminDashboardPage() {
               </div>
             </div>
 
+            {/* Draft Content Submissions */}
+            {user.staffId && (
+              <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm space-y-6">
+                <div className="space-y-1">
+                  <h3 className="text-lg font-extrabold text-[var(--secondary-blue)]">Draft Content Submissions</h3>
+                  <p className="text-xs text-slate-400 font-medium">Propose new research items to the repository catalog. Admins will verify submissions before they go live.</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Link href="/admin/submit/publication" className="p-5 rounded-2xl border border-slate-150 bg-slate-50/50 hover:bg-white hover:border-[var(--primary-maroon)] group transition-all duration-300 flex flex-col justify-between h-36">
+                    <div className="space-y-2">
+                      <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 group-hover:text-[var(--primary-maroon)] group-hover:border-[var(--primary-maroon)] transition-colors">
+                        <BookOpen className="w-5 h-5" />
+                      </div>
+                      <h4 className="text-xs font-bold text-[var(--secondary-blue)]">Draft Publication Proposal</h4>
+                      <p className="text-[10px] text-slate-400 font-medium leading-relaxed">Register a research paper, article, or thesis draft.</p>
+                    </div>
+                    <span className="text-[10px] font-extrabold text-[var(--primary-maroon)] group-hover:underline flex items-center space-x-1 self-end mt-2">
+                      <span>Propose draft</span>
+                      <span>→</span>
+                    </span>
+                  </Link>
+                  <Link href="/admin/submit/project" className="p-5 rounded-2xl border border-slate-150 bg-slate-50/50 hover:bg-white hover:border-[var(--primary-maroon)] group transition-all duration-300 flex flex-col justify-between h-36">
+                    <div className="space-y-2">
+                      <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 group-hover:text-[var(--primary-maroon)] group-hover:border-[var(--primary-maroon)] transition-colors">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <h4 className="text-xs font-bold text-[var(--secondary-blue)]">Draft Project Proposal</h4>
+                      <p className="text-[10px] text-slate-400 font-medium leading-relaxed">Propose a collaborative or funded research study draft.</p>
+                    </div>
+                    <span className="text-[10px] font-extrabold text-[var(--primary-maroon)] group-hover:underline flex items-center space-x-1 self-end mt-2">
+                      <span>Propose draft</span>
+                      <span>→</span>
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            )}
+
             {/* Role Restricted Consoles (Lab Staff / Superadmin) */}
             {(userRole === 'lab_staff' || userRole === 'superadmin') && (
               <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm space-y-6">
