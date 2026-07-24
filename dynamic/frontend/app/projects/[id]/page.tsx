@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { Layers, Calendar, Users, MessageSquare, ArrowLeft, Send } from 'lucide-react';
+import { Layers, Calendar, Users, MessageSquare, ArrowLeft } from 'lucide-react';
 import { fetchFromBackend } from '../../../lib/api';
+import { auth } from '../../../auth';
+import ProjectDiscussionForm from '../../../components/ProjectDiscussionForm';
 
 interface UnitSummary {
   id: string;
@@ -49,6 +51,9 @@ interface PageProps {
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { id } = await params;
+  const session = await auth();
+  const staffId = (session?.user as any)?.staffId || null;
+  
   let detail: ProjectDetail | null = null;
   let errorMsg = '';
 
@@ -192,21 +197,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Message Input Panel (Mock Client Action) */}
-              <div className="pt-4 border-t border-slate-100">
-                <div className="flex bg-slate-50 border border-slate-200 rounded-xl p-1.5 focus-within:ring-2 focus-within:ring-[var(--primary-maroon)] focus-within:border-transparent transition-all">
-                  <input 
-                    type="text" 
-                    placeholder="Post a status update or team coordination note..."
-                    className="w-full bg-transparent border-0 text-xs text-slate-700 placeholder-slate-400 focus:ring-0 focus:outline-none px-2 py-2"
-                    disabled
-                  />
-                  <button className="p-2.5 rounded-lg bg-[var(--primary-maroon)] hover:bg-[var(--primary-maroon-hover)] text-white transition-colors" disabled>
-                    <Send className="w-4 h-4" />
-                  </button>
-                </div>
-                <p className="text-[10px] text-slate-350 mt-2 text-right">Must login to portal access to send messages.</p>
-              </div>
+              {/* Message Input Panel */}
+              <ProjectDiscussionForm projectId={id} senderId={staffId} />
 
             </div>
           </div>

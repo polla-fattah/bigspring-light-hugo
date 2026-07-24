@@ -54,3 +54,58 @@ export async function GET(
     return NextResponse.json({ error: 'Failed to fetch project details.' }, { status: 500 });
   }
 }
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id: projectId } = await params;
+  try {
+    const { senderId, message } = await request.json();
+
+    if (!senderId || !message) {
+      return NextResponse.json(
+        { error: 'Sender ID and message content are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Verify staff member exists
+    const staffExists = await prisma.staff.findUnique({
+      where: { id: senderId }
+    });
+
+    if (!staffExists) {
+      return NextResponse.json(
+        { error: 'Sender profile not found in SUE researchers database.' },
+        { status: 404 }
+      );
+    }
+
+    // Create message
+    const newMessage = await prisma.projectDiscussionMessage.create({
+      data: {
+        projectId,
+        senderId,
+        message
+      },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            title: true,
+            image: true
+          }
+        }
+      }
+    });
+
+    return NextResponse.json(newMessage, { status: 201 });
+  } catch (error: any) {
+    console.error(`API Error in POST /api/projects/${projectId}:`, error);
+    return NextResponse.json(
+      { error: 'Failed to post project discussion message.' },
+      { status: 500 }
+    );
+  }
+}

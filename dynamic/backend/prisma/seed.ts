@@ -1,6 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
+import { pbkdf2Sync, randomBytes } from 'crypto';
+
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString('hex');
+  const hash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  return `${salt}:${hash}`;
+}
 
 const prisma = new PrismaClient();
 
@@ -111,13 +118,15 @@ async function main() {
       update: {
         name,
         image: fm.image || null,
-        role: 'researcher'
+        role: 'researcher',
+        passwordHash: hashPassword('password123')
       },
       create: {
         name,
         email,
         image: fm.image || null,
-        role: 'researcher'
+        role: 'researcher',
+        passwordHash: hashPassword('password123')
       }
     });
 
@@ -165,6 +174,39 @@ async function main() {
       }
     });
   }
+
+  // 3a. Seed Admin & Lab Staff Accounts
+  console.log('Seeding Administrative Users...');
+  await prisma.user.upsert({
+    where: { email: 'admin@su.edu.krd' },
+    update: {
+      name: 'SURC Superadmin',
+      role: 'superadmin',
+      passwordHash: hashPassword('adminpassword')
+    },
+    create: {
+      email: 'admin@su.edu.krd',
+      name: 'SURC Superadmin',
+      role: 'superadmin',
+      passwordHash: hashPassword('adminpassword')
+    }
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'lab_staff@su.edu.krd' },
+    update: {
+      name: 'SURC Lab Staff',
+      role: 'lab_staff',
+      passwordHash: hashPassword('labpassword')
+    },
+    create: {
+      email: 'lab_staff@su.edu.krd',
+      name: 'SURC Lab Staff',
+      role: 'lab_staff',
+      passwordHash: hashPassword('labpassword')
+    }
+  });
+
 
   // 4. Seed Projects
   console.log('Seeding Projects...');

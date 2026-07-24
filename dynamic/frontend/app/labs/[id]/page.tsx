@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { MapPin, Mail, ArrowLeft, Settings, ShieldCheck, Calendar, Info } from 'lucide-react';
 import { fetchFromBackend } from '../../../lib/api';
+import { auth } from '../../../auth';
+import EquipmentBookingForm from '../../../components/EquipmentBookingForm';
 
 interface EquipmentReservation {
   id: number;
@@ -56,6 +58,7 @@ interface PageProps {
 
 export default async function LabDetailPage({ params }: PageProps) {
   const { id } = await params;
+  const session = await auth();
   let detail: LabDetail | null = null;
   let errorMsg = '';
 
@@ -205,53 +208,9 @@ export default async function LabDetailPage({ params }: PageProps) {
             </div>
           </div>
 
-          {/* Right Block: Booking Panel Mockup */}
+          {/* Right Block: Booking Panel */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-3">
-                Request Facility Reservation
-              </h3>
-              
-              <div className="space-y-4 text-xs">
-                <div className="space-y-1.5">
-                  <label className="font-extrabold text-[var(--secondary-blue)]">Select Equipment</label>
-                  <select className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3.5 py-2.5 text-xs text-slate-600 focus:outline-none" disabled>
-                    <option>Choose from inventory...</option>
-                    {detail.equipment.map(eq => (
-                      <option key={eq.id}>{eq.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <label className="font-extrabold text-[var(--secondary-blue)]">Start Date</label>
-                    <input type="date" className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3 py-2 text-xs text-slate-500 focus:outline-none" disabled />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="font-extrabold text-[var(--secondary-blue)]">End Date</label>
-                    <input type="date" className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3 py-2 text-xs text-slate-500 focus:outline-none" disabled />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="font-extrabold text-[var(--secondary-blue)]">Purpose of Use</label>
-                  <textarea 
-                    placeholder="Describe your research project objectives and safety protocols..." 
-                    className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3.5 py-2.5 text-xs text-slate-650 focus:outline-none h-20"
-                    disabled
-                  ></textarea>
-                </div>
-
-                <button className="w-full py-3.5 bg-[var(--primary-maroon)] text-white font-bold rounded-xl shadow-md text-xs hover:bg-[var(--primary-maroon-hover)] transition-all cursor-not-allowed" disabled>
-                  Submit Booking Request
-                </button>
-
-                <p className="text-[10px] text-slate-350 text-center leading-relaxed">
-                  Authentication is required to submit reservation requests to lab technicians.
-                </p>
-              </div>
-            </div>
+            <EquipmentBookingForm equipmentList={detail.equipment} sessionUser={session?.user || null} />
           </div>
 
         </div>

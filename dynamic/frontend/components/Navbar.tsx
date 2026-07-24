@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Globe, ArrowUpRight, Menu, X, Landmark, Search, BookOpen, Layers } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('EN');
+  const { data: session } = useSession();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -94,12 +96,21 @@ export default function Navbar() {
             </div>
 
             {/* Premium Admin Console Login */}
-            <Link 
-              href="/admin/login" 
-              className="px-5 py-2.5 rounded-xl text-xs font-bold sue-btn-primary"
-            >
-              Portal Access
-            </Link>
+            {session ? (
+              <Link 
+                href="/admin/dashboard" 
+                className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[var(--secondary-blue)] text-white hover:bg-[var(--secondary-blue-hover)] transition-all shadow"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link 
+                href="/admin/login" 
+                className="px-5 py-2.5 rounded-xl text-xs font-bold sue-btn-primary"
+              >
+                Portal Access
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -145,13 +156,23 @@ export default function Navbar() {
               <span>Main SUE Website</span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
-            <Link
-              href="/admin/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-xl text-sm font-bold sue-btn-primary block"
-            >
-              Portal Access
-            </Link>
+            {session ? (
+              <Link
+                href="/admin/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-3 rounded-xl text-sm font-bold bg-[var(--secondary-blue)] text-white hover:bg-[var(--secondary-blue-hover)] block"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/admin/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-3 rounded-xl text-sm font-bold sue-btn-primary block"
+              >
+                Portal Access
+              </Link>
+            )}
           </div>
         </div>
       )}
