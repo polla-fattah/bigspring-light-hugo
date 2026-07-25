@@ -1,51 +1,45 @@
 import React from 'react';
 import Link from 'next/link';
-import { 
-  Search, 
-  Layers, 
-  BookOpen, 
-  Settings, 
-  Users, 
-  Calendar, 
-  FileText, 
-  Shield, 
-  ArrowRight, 
-  FileCheck, 
-  Cpu, 
-  Globe, 
+import {
+  Search,
+  Layers,
+  ArrowRight,
+  FileCheck,
+  Cpu,
+  Globe,
   Award,
   BookOpenCheck
 } from 'lucide-react';
 
 export default function Home() {
   const stats = [
-    { label: 'Research Units', count: '8', desc: 'Specialized focus areas', icon: Layers },
-    { label: 'Faculty Researchers', count: '45+', desc: 'Experts & instructors', icon: Users },
-    { label: 'Scientific Publications', count: '120+', desc: 'Indexed journals & theses', icon: BookOpen },
-    { label: 'Specialized Laboratories', count: '12+', desc: 'State-of-the-art facilities', icon: Settings },
+    { label: 'Research Units', count: '8', desc: 'Specialized focus areas' },
+    { label: 'Researchers', count: '45+', desc: 'Experts & instructors' },
+    { label: 'Publications', count: '120+', desc: 'Indexed journals & theses' },
+    { label: 'Laboratories', count: '12+', desc: 'State-of-the-art facilities' },
   ];
 
   const priorities = [
-    { 
-      title: 'Data Analysis & Informatics', 
+    {
+      title: 'Data Analysis & Informatics',
       desc: 'Advancing research in computational data mining, low-resource Kurdish NLP models, and machine learning systems.',
       unit: 'Informatics Unit',
       icon: Cpu
     },
-    { 
-      title: 'Environmental & Water Studies', 
+    {
+      title: 'Environmental & Water Studies',
       desc: 'Developing innovative solutions for regional water quality, carbon footprints, and sustainable urban infrastructure.',
       unit: 'Water & Environment Unit',
       icon: Globe
     },
-    { 
-      title: 'Low-Resource Kurdish NLP', 
+    {
+      title: 'Low-Resource Kurdish NLP',
       desc: 'Preserving and digitizing Kurdish textual heritage through modern AI models, OCR, and language technologies.',
       unit: 'Data Analysis Center',
       icon: BookOpenCheck
     },
-    { 
-      title: 'Regional History & Preservation', 
+    {
+      title: 'Regional History & Preservation',
       desc: 'Focusing on Kurdish historical archives, local architectural studies, and heritage documentation.',
       unit: 'Heritage Unit',
       icon: Award
@@ -59,157 +53,167 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-slate-55 flex flex-col min-h-screen">
-      
-      {/* 1. HERO SECTION WITH GRADIENT BACKGROUND */}
-      <section className="relative text-white overflow-hidden py-24 sm:py-32 sue-gradient-bg border-b border-slate-900/10">
-        
-        {/* Decorative Grid Overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_80%)]"></div>
-        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    <div className="flex flex-col min-h-screen">
+
+      {/* 1. HERO — deep maroon academic banner */}
+      <section className="relative text-white overflow-hidden pt-24 sm:pt-28 pb-14 sm:pb-16 sue-gradient-bg">
+
+        {/* Fine grid + vignette overlays */}
+        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(35,7,14,0.45)_100%)]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Headline Column */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold bg-[var(--accent-gold)] text-[var(--secondary-blue)] tracking-wider uppercase animate-pulse-soft">
-                Scientific Advancement
+            <div className="lg:col-span-7 space-y-7 text-center lg:text-left animate-fade-up">
+              <span className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-[11px] font-sans font-extrabold bg-white/10 border border-[var(--accent-gold)]/40 text-[var(--accent-gold)] tracking-[0.18em] uppercase">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-gold)]"></span>
+                <span>Scientific Advancement</span>
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                Salahaddin University <br className="hidden sm:inline" />
-                <span className="text-[var(--accent-gold)]">Research Center</span>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.12]">
+                Research Center
+                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-gold)] via-[#e8cd8b] to-[var(--accent-gold)]">
+                  Salahaddin University-Erbil
+                </span>
               </h1>
-              <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                Pioneering scientific discovery, coordinating state-of-the-art laboratory equipment bookings, and publishing regional research outputs at the forefront of Kurdistan's academic ecosystem.
+
+              <p className="font-sans text-base sm:text-lg text-rose-100/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Pioneering scientific discovery, coordinating state-of-the-art laboratory equipment bookings, and publishing regional research outputs at the forefront of Kurdistan&apos;s academic ecosystem.
               </p>
-              
+
               {/* Dynamic search bar */}
-              <div className="max-w-xl mx-auto lg:mx-0 pt-4">
-                <form action="/search" method="GET" className="flex bg-white/10 backdrop-blur-md rounded-2xl p-1.5 border border-white/20 shadow-lg focus-within:ring-2 focus-within:ring-[var(--accent-gold)] focus-within:border-transparent transition-all">
-                  <div className="flex items-center pl-3 pr-2 text-slate-300">
+              <div className="max-w-xl mx-auto lg:mx-0 pt-2">
+                <form action="/search" method="GET" className="flex bg-white rounded-full p-1.5 shadow-2xl shadow-black/25 focus-within:ring-4 focus-within:ring-[var(--accent-gold)]/40 transition-all">
+                  <div className="flex items-center pl-4 pr-2 text-stone-400">
                     <Search className="w-5 h-5" />
                   </div>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="q"
-                    placeholder="Search researchers, projects, publications, labs or datasets..." 
-                    className="w-full bg-transparent border-0 text-white placeholder-slate-350 text-sm focus:ring-0 focus:outline-none py-2.5 px-1"
+                    placeholder="Search researchers, projects, publications, labs..."
+                    className="w-full bg-transparent border-0 text-[var(--maroon-ink)] placeholder-stone-400 font-sans text-sm focus:ring-0 focus:outline-none py-2.5 px-1"
                   />
-                  <button type="submit" className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-hover)] text-[var(--secondary-blue)] transition-colors shadow cursor-pointer">
+                  <button type="submit" className="px-6 py-2.5 rounded-full text-xs font-sans font-bold sue-btn-primary cursor-pointer">
                     Search
                   </button>
                 </form>
-                <p className="text-xs text-slate-300 mt-2.5 flex items-center justify-center lg:justify-start space-x-1.5">
+                <p className="font-sans text-xs text-rose-100/60 mt-3 flex items-center justify-center lg:justify-start space-x-1.5">
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-gold)]"></span>
                   <span>Fully indexed by PostgreSQL full-text search engine</span>
                 </p>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
-                <Link href="/units" className="px-6 py-3.5 rounded-xl text-sm font-bold bg-white text-[var(--secondary-blue)] hover:bg-slate-100 transition-all text-center">
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2 font-sans">
+                <Link href="/units" className="px-7 py-3.5 rounded-full text-sm font-bold sue-btn-gold text-center shadow-lg">
                   Explore Units
                 </Link>
-                <Link href="/labs" className="px-6 py-3.5 rounded-xl text-sm font-bold border border-white/30 text-white hover:bg-white/10 transition-all text-center">
+                <Link href="/labs" className="px-7 py-3.5 rounded-full text-sm font-bold border border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all text-center">
                   Book Equipment
                 </Link>
               </div>
             </div>
 
             {/* Right Card Panel Column */}
-            <div className="lg:col-span-5 hidden lg:block">
+            <div className="lg:col-span-5 hidden lg:block animate-fade-up">
               <div className="glass-panel-dark text-white rounded-3xl p-8 space-y-6 shadow-2xl relative">
-                <div className="absolute top-0 right-0 transform translate-x-3 -translate-y-3 w-16 h-16 bg-[var(--primary-maroon)] rounded-full blur-2xl opacity-50"></div>
-                <h3 className="text-lg font-bold text-[var(--accent-gold)] flex items-center space-x-2 border-b border-white/10 pb-4">
+                <div className="absolute top-0 right-0 transform translate-x-3 -translate-y-3 w-20 h-20 bg-[var(--accent-gold)] rounded-full blur-3xl opacity-30"></div>
+                <h3 className="text-lg font-display font-bold text-[var(--accent-gold)] flex items-center space-x-2 border-b border-white/10 pb-4">
                   <Layers className="w-5 h-5" />
-                  <span>Center Mission & Vision</span>
+                  <span>Center Mission &amp; Vision</span>
                 </h3>
-                <blockquote className="text-sm italic leading-relaxed text-slate-200">
-                  "Salahaddin University Research Center is dedicated to supporting advanced data analytics, scientific laboratory protocols, and computational linguistics to elevate regional policy and scientific standing."
+                <blockquote className="font-display text-[15px] italic leading-relaxed text-rose-100/85">
+                  &ldquo;Salahaddin University Research Center is dedicated to supporting advanced data analytics, scientific laboratory protocols, and computational linguistics to elevate regional policy and scientific standing.&rdquo;
                 </blockquote>
                 <div className="flex items-center space-x-3 pt-2">
-                  <div className="w-10 h-10 rounded-full bg-slate-700/50 border border-white/20 flex items-center justify-center font-bold text-xs">
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-maroon)] ring-1 ring-[var(--accent-gold)]/50 flex items-center justify-center font-bold text-xs">
                     SUE
                   </div>
                   <div>
                     <h5 className="text-xs font-bold text-white">Office of the Director</h5>
-                    <p className="text-[10px] text-slate-400">Research Management, Salahaddin University-Erbil</p>
+                    <p className="text-[10px] text-rose-100/60">Research Management, Salahaddin University-Erbil</p>
                   </div>
                 </div>
               </div>
             </div>
 
           </div>
-        </div>
-      </section>
 
-      {/* 2. STATS COMPONENT */}
-      <section className="relative z-20 -mt-12 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl shadow-xl border border-slate-200/80 p-8 sm:p-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
-            {stats.map((stat, i) => (
-              <div key={stat.label} className={`flex items-start space-x-4 ${i > 0 ? 'sm:pl-6 lg:pl-8' : ''} ${i > 0 ? 'pt-6 sm:pt-0' : ''}`}>
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-50 text-[var(--primary-maroon)]">
-                  <stat.icon className="w-6 h-6" />
-                </div>
-                <div>
-                  <div className="text-3xl font-extrabold text-[var(--secondary-blue)] tracking-tight">
+          {/* Figures rail — forms the base of the hero */}
+          <div className="mt-16 sm:mt-20 border-t border-white/15 grid grid-cols-2 lg:grid-cols-4 gap-y-10">
+            {stats.map((stat, i) => {
+              // 2-up on small screens, 4-up on large — a hairline only where a column
+              // starts mid-row, so no row ever opens with a stray rule.
+              const divider =
+                i === 1 || i === 3
+                  ? 'border-l border-white/12 pl-6 lg:pl-8'
+                  : i === 2
+                    ? 'lg:border-l lg:border-white/12 lg:pl-8'
+                    : '';
+
+              return (
+                <div key={stat.label} className={`pt-8 ${divider}`}>
+                  <div className="text-4xl sm:text-[2.75rem] font-display font-bold text-[var(--accent-gold)] tracking-tight leading-none">
                     {stat.count}
                   </div>
-                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mt-1">
+                  <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.15em] mt-3.5">
                     {stat.label}
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  </h3>
+                  <p className="text-[11px] text-rose-100/50 mt-1.5">
                     {stat.desc}
                   </p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
         </div>
       </section>
 
       {/* 3. RESEARCH PRIORITIES GRID */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="priorities">
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
-          <span className="text-xs font-extrabold text-[var(--primary-maroon)] uppercase tracking-widest">
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+          <span className="font-sans text-[11px] font-extrabold text-[var(--primary-maroon)] uppercase tracking-[0.18em]">
             Institutional Priorities
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--secondary-blue)] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--maroon-ink)] tracking-tight">
             Strategic Research Focus Areas
           </h2>
-          <p className="text-sm text-slate-500 leading-relaxed">
+          <div className="sue-gold-rule mx-auto"></div>
+          <p className="text-sm text-stone-500 leading-relaxed">
             Salahaddin University Research Center coordinates priority studies mapping environmental resilience, computational data analysis, and heritage digitizations in Iraq.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {priorities.map((item) => (
-            <div 
-              key={item.title} 
-              className="bg-white rounded-3xl p-8 border border-slate-200/80 sue-card flex flex-col justify-between"
+            <div
+              key={item.title}
+              className="group bg-white rounded-3xl p-8 border border-[var(--border-color)] sue-card flex flex-col justify-between relative overflow-hidden"
             >
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--primary-maroon)] to-[var(--accent-gold)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="space-y-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-slate-50 text-[var(--primary-maroon)]">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[var(--maroon-wash)] text-[var(--primary-maroon)] group-hover:bg-[var(--primary-maroon)] group-hover:text-white transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                  <span className="text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-[0.14em]">
                     {item.unit}
                   </span>
-                  <h3 className="text-lg font-extrabold text-[var(--secondary-blue)]">
+                  <h3 className="text-xl font-display font-bold text-[var(--maroon-ink)]">
                     {item.title}
                   </h3>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-[13px] text-stone-500 leading-relaxed">
                   {item.desc}
                 </p>
               </div>
-              
-              <div className="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-[var(--primary-maroon)]">
+
+              <div className="pt-6 border-t border-[var(--border-color)] mt-6 flex items-center justify-between text-xs font-bold text-[var(--primary-maroon)]">
                 <span>View priority map</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
           ))}
@@ -217,23 +221,24 @@ export default function Home() {
       </section>
 
       {/* 4. DOCUMENTS & RESOURCES */}
-      <section className="py-16 bg-slate-100 border-y border-slate-200/50">
+      <section className="py-20 bg-[var(--maroon-wash)] border-y border-[var(--maroon-wash-border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Column Text */}
-            <div className="lg:col-span-5 space-y-4">
-              <span className="text-xs font-bold text-[var(--primary-maroon)] uppercase tracking-wider">
+            <div className="lg:col-span-5 space-y-5">
+              <span className="font-sans text-[11px] font-extrabold text-[var(--primary-maroon)] uppercase tracking-[0.18em]">
                 Academic Governance
               </span>
-              <h2 className="text-3xl font-extrabold text-[var(--secondary-blue)] tracking-tight">
-                Forms, Regulations <br />& Ethics Codes
+              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--maroon-ink)] tracking-tight leading-tight">
+                Forms, Regulations<br />&amp; Ethics Codes
               </h2>
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <div className="sue-gold-rule"></div>
+              <p className="text-[13px] text-stone-500 leading-relaxed">
                 Access official administrative files, proposal application templates, and laboratory booking codes. Researchers must conform with these safety guidelines when conducting investigations.
               </p>
               <div className="pt-2">
-                <Link href="/regulations" className="inline-flex items-center space-x-1.5 text-xs font-bold text-[var(--primary-maroon)] hover:underline">
+                <Link href="/regulations" className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-xs font-bold sue-btn-primary shadow">
                   <span>Explore all governance files</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -243,30 +248,28 @@ export default function Home() {
             {/* Right Column Files Grid */}
             <div className="lg:col-span-7 space-y-4">
               {quickResources.map((file) => (
-                <div 
-                  key={file.title} 
-                  className="bg-white rounded-2xl p-5 border border-slate-250/70 hover:border-slate-300 shadow-sm flex items-center justify-between transition-all"
+                <Link
+                  key={file.title}
+                  href={file.link}
+                  className="group bg-white rounded-2xl p-5 border border-[var(--border-color)] hover:border-[var(--primary-maroon)]/30 shadow-sm hover:shadow-md flex items-center justify-between transition-all"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 text-[var(--primary-maroon)] flex items-center justify-center flex-shrink-0">
+                    <div className="w-11 h-11 rounded-xl bg-[var(--maroon-wash)] text-[var(--primary-maroon)] group-hover:bg-[var(--primary-maroon)] group-hover:text-white flex items-center justify-center flex-shrink-0 transition-colors">
                       <FileCheck className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-[var(--secondary-blue)]">
+                      <h4 className="text-[13px] font-bold text-[var(--maroon-ink)] group-hover:text-[var(--primary-maroon)] transition-colors">
                         {file.title}
                       </h4>
-                      <p className="text-[10px] text-slate-400 mt-0.5">
+                      <p className="text-[10px] text-stone-400 mt-0.5">
                         {file.type} • {file.size}
                       </p>
                     </div>
                   </div>
-                  <Link 
-                    href={file.link} 
-                    className="p-2 rounded-lg text-slate-400 hover:text-[var(--primary-maroon)] hover:bg-slate-50 transition-colors"
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </div>
+                  <div className="p-2 rounded-lg text-stone-300 group-hover:text-[var(--primary-maroon)] transition-colors">
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
               ))}
             </div>
 

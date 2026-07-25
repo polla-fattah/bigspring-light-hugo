@@ -1,32 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/* ==========================================================================
+   SUE Research Center — Design System v2
+   Maroon-first academic identity (matched to su.edu.krd brand crimson)
+   ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #1e293b;
-  
-  --primary-maroon: #8A1538;
-  --primary-maroon-hover: #a31c45;
-  --secondary-blue: #0F2942;
-  --secondary-blue-hover: #173d61;
-  --accent-gold: #c5a059;
-  --accent-gold-hover: #d7b56d;
-  
-  --border-color: #e2e8f0;
-  --bg-neutral-light: #f8fafc;
-  --card-shadow: 0 4px 20px -2px rgba(15, 41, 66, 0.08);
-  --card-shadow-hover: 0 20px 35px -5px rgba(15, 41, 66, 0.15);
-  
+  --background: #fdfcfb;
+  --foreground: #292524;
+
+  /* Brand maroon scale */
+  --primary-maroon: #9a1b30;          /* brand crimson-maroon */
+  --primary-maroon-hover: #b02039;
+  --maroon-deep: #6d1224;             /* hero / emphasis */
+  --maroon-ink: #43101c;              /* headings, dark surfaces */
+  --maroon-wash: #faf2f4;             /* tinted backgrounds */
+  --maroon-wash-border: #f0dbe0;
+
+  /* Legacy alias — previously navy; now maps into the maroon ink scale
+     so every page referencing it inherits the new identity */
+  --secondary-blue: #43101c;
+  --secondary-blue-hover: #5c1627;
+
+  /* Gold accent */
+  --accent-gold: #c9a24b;
+  --accent-gold-hover: #dbb763;
+
+  --border-color: #e7e2de;
+  --bg-neutral-light: #f7f5f3;
+  --card-shadow: 0 1px 3px rgba(67, 16, 28, 0.06), 0 8px 24px -8px rgba(67, 16, 28, 0.10);
+  --card-shadow-hover: 0 2px 6px rgba(67, 16, 28, 0.08), 0 24px 45px -12px rgba(67, 16, 28, 0.22);
+
   --font-global: 'Inter', 'Noto Sans Arabic', sans-serif;
+  --font-display: 'Playfair Display', 'Noto Sans Arabic', Georgia, serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sue-maroon: var(--primary-maroon);
+  --color-sue-ink: var(--maroon-ink);
   --color-sue-blue: var(--secondary-blue);
   --color-sue-gold: var(--accent-gold);
   --font-sans: var(--font-global);
+  --font-serif: var(--font-display);
 }
 
 body {
@@ -36,31 +54,63 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism styling */
+/* Academic serif voice for major headings, site-wide */
+h1, h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--primary-maroon);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Surfaces
+   ========================================================================== */
+
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(154, 27, 48, 0.08);
 }
 
 .glass-panel-dark {
-  background: rgba(15, 41, 66, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(67, 16, 28, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Custom premium elements */
+/* Deep maroon hero / banner gradient */
 .sue-gradient-bg {
-  background: linear-gradient(135deg, var(--secondary-blue) 0%, #1e3a5f 50%, var(--primary-maroon) 100%);
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(201, 162, 75, 0.16) 0%, transparent 55%),
+    radial-gradient(900px 600px at -10% 110%, rgba(176, 32, 57, 0.5) 0%, transparent 60%),
+    linear-gradient(150deg, var(--maroon-ink) 0%, var(--maroon-deep) 55%, var(--primary-maroon) 130%);
 }
 
 .sue-border-gradient {
   border-image: linear-gradient(to right, var(--primary-maroon), var(--accent-gold)) 1;
 }
 
-/* Card hover animation system */
+/* Thin gold ceremonial rule (used under headings / atop sections) */
+.sue-gold-rule {
+  height: 3px;
+  width: 64px;
+  background: linear-gradient(to right, var(--accent-gold), var(--primary-maroon));
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   Cards & buttons
+   ========================================================================== */
+
 .sue-card {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: var(--card-shadow);
@@ -69,6 +119,7 @@ body {
 .sue-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--card-shadow-hover);
+  border-color: var(--maroon-wash-border);
 }
 
 .sue-btn-primary {
@@ -80,11 +131,11 @@ body {
 .sue-btn-primary:hover {
   background-color: var(--primary-maroon-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px -4px rgba(138, 21, 56, 0.3);
+  box-shadow: 0 10px 20px -6px rgba(154, 27, 48, 0.45);
 }
 
 .sue-btn-secondary {
-  background-color: var(--secondary-blue);
+  background-color: var(--maroon-ink);
   color: white;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -92,8 +143,24 @@ body {
 .sue-btn-secondary:hover {
   background-color: var(--secondary-blue-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px -4px rgba(15, 41, 66, 0.3);
+  box-shadow: 0 10px 20px -6px rgba(67, 16, 28, 0.4);
 }
+
+.sue-btn-gold {
+  background-color: var(--accent-gold);
+  color: var(--maroon-ink);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sue-btn-gold:hover {
+  background-color: var(--accent-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -6px rgba(201, 162, 75, 0.45);
+}
+
+/* ==========================================================================
+   Navigation helpers
+   ========================================================================== */
 
 /* Language Swapper Animate dropdown */
 .lang-dropdown {
@@ -109,7 +176,10 @@ body {
   pointer-events: auto;
 }
 
-/* Micro-animations */
+/* ==========================================================================
+   Micro-animations
+   ========================================================================== */
+
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.8; transform: scale(1.02); }
@@ -117,4 +187,13 @@ body {
 
 .animate-pulse-soft {
   animation: pulse-soft 3s infinite ease-in-out;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
