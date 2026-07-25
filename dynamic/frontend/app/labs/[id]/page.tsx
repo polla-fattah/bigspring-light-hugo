@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Mail, ArrowLeft, Settings, ShieldCheck, Calendar, Info } from 'lucide-react';
+import { MapPin, Mail, ArrowLeft, Settings, ShieldCheck, Calendar, Info, Star, Quote, Award } from 'lucide-react';
 import { fetchFromBackend } from '../../../lib/api';
 import { auth } from '../../../auth';
 import EquipmentBookingForm from '../../../components/EquipmentBookingForm';
+import EquipmentFeedbackForm from '../../../components/EquipmentFeedbackForm';
 
 interface EquipmentReservation {
   id: number;
@@ -26,6 +27,19 @@ interface Equipment {
   model: string | null;
   specifications: string[];
   reservations: EquipmentReservation[];
+}
+
+interface FeedbackReview {
+  id: number;
+  userName: string;
+  userEmail: string;
+  rating: number;
+  benefitStatement: string;
+  createdAt: string;
+  equipment: {
+    id: string;
+    name: string;
+  };
 }
 
 interface LabDetail {
@@ -60,10 +74,16 @@ export default async function LabDetailPage({ params }: PageProps) {
   const { id } = await params;
   const session = await auth();
   let detail: LabDetail | null = null;
+  let approvedFeedbacks: FeedbackReview[] = [];
   let errorMsg = '';
 
   try {
     detail = await fetchFromBackend<LabDetail>(`/api/labs/${id}`);
+    const allApproved = await fetchFromBackend<FeedbackReview[]>(`/api/labs/feedback?status=approved`);
+    
+    // Filter feedbacks relevant to equipment inside this lab
+    const labEquipmentIds = new Set(detail.equipment.map((e) => e.id));
+    approvedFeedbacks = (allApproved || []).filter((fb) => labEquipmentIds.has(fb.equipment?.id));
   } catch (err) {
     errorMsg = 'Could not load laboratory details.';
   }
@@ -153,11 +173,13 @@ export default async function LabDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Equipment listing and Interactive Booking mock Panel */}
+        {/* Equipment listing and Interactive Booking Panel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Left Block: Equipment items */}
-          <div className="lg:col-span-8 space-y-6">
+          {/* Left Block: Equipment items & Impact Stories */}
+          <div className="lg:col-span-8 space-y-8">
+            
+            {/* Equipment Listing Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
               <h3 className="text-sm font-bold text-[var(--secondary-blue)] flex items-center space-x-2 border-b border-slate-100 pb-4">
                 <Settings className="w-5 h-5 text-[var(--primary-maroon)]" />
@@ -206,11 +228,69 @@ export default async function LabDetailPage({ params }: PageProps) {
                 </div>
               )}
             </div>
+
+            {/* Public Impact Stories Section */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+                <h3 className="text-sm font-bold text-[var(--secondary-blue)] flex items-center space-x-2">
+                  <Award className="w-5 h-5 text-[var(--primary-maroon)]" />
+                  <span>Scientific Impact Stories & Research Reviews ({approvedFeedbacks.length})</span>
+                </h3>
+              </div>
+
+              {approvedFeedbacks.length === 0 ? (
+                <div className="text-center py-6 text-slate-400 space-y-2">
+                  <Quote className="w-8 h-8 mx-auto text-slate-300" />
+                  <p className="text-xs font-semibold">No public impact reviews featured yet for this lab facility.</p>
+                  <p className="text-[11px] text-slate-400">Be the first researcher to submit a research benefit story using the form on the right!</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {approvedFeedbacks.map((fb) => (
+                    <div key={fb.id} className="p-5 rounded-2xl bg-amber-50/40 border border-amber-200/60 space-y-3 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        {/* Rating Stars */}
+                        <div className="flex items-center space-x-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`w-3.5 h-3.5 ${
+                                fb.rating >= star ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
+                              }`}
+                            />
+                          ))}
+                          <span className="text-[10px] font-bold text-amber-800 ml-1.5">{fb.rating}/5</span>
+                        </div>
+
+                        {/* Benefit statement */}
+                        <p className="text-xs text-slate-600 italic leading-relaxed">
+                          "{fb.benefitStatement}"
+                        </p>
+                      </div>
+
+                      <div className="pt-3 border-t border-amber-200/50 flex justify-between items-center text-[10px]">
+                        <div>
+                          <span className="font-bold text-[var(--secondary-blue)] block">{fb.userName}</span>
+                          <span className="text-slate-400 block">{fb.equipment?.name || 'Lab Equipment'}</span>
+                        </div>
+                        <span className="text-slate-400">{new Date(fb.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </div>
 
-          {/* Right Block: Booking Panel */}
+          {/* Right Block: Booking Panel & Impact Submission Form */}
           <div className="lg:col-span-4 space-y-6">
             <EquipmentBookingForm equipmentList={detail.equipment} sessionUser={session?.user || null} />
+
+            {/* Impact Submission Form */}
+            {detail.equipment.length > 0 && (
+              <EquipmentFeedbackForm equipmentList={detail.equipment} sessionUser={session?.user || null} />
+            )}
           </div>
 
         </div>
@@ -219,3 +299,4 @@ export default async function LabDetailPage({ params }: PageProps) {
     </div>
   );
 }
+
