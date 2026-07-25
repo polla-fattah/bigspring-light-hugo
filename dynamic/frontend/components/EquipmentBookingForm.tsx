@@ -1,13 +1,23 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Loader2, CalendarRange, CheckCircle2 } from 'lucide-react';
+import { Loader2, CalendarRange, CheckCircle2, AlertTriangle, Clock } from 'lucide-react';
 import { submitReservation } from '../app/labs/actions';
+
+interface EquipmentReservation {
+  id: number;
+  userName: string;
+  userType: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+}
 
 interface EquipmentItem {
   id: string;
   name: string;
+  reservations?: EquipmentReservation[];
 }
 
 interface Props {
@@ -27,6 +37,34 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  // Selected equipment item and its active reservations
+  const selectedEquipment = useMemo(() => {
+    return equipmentList.find((e) => e.id === equipmentId) || null;
+  }, [equipmentList, equipmentId]);
+
+  const activeReservations = useMemo(() => {
+    if (!selectedEquipment || !selectedEquipment.reservations) return [];
+    return selectedEquipment.reservations.filter(
+      (r) => r.status === 'approved' || r.status === 'pending'
+    );
+  }, [selectedEquipment]);
+
+  // Conflict Detection Check
+  const conflictReservation = useMemo(() => {
+    if (!startTime || !endTime || activeReservations.length === 0) return null;
+    const reqStart = new Date(startTime).getTime();
+    const reqEnd = new Date(endTime).getTime();
+
+    if (isNaN(reqStart) || isNaN(reqEnd)) return null;
+
+    return activeReservations.find((res) => {
+      const resStart = new Date(res.startTime).getTime();
+      const resEnd = new Date(res.endTime).getTime();
+      // Overlap condition: reqStart < resEnd AND reqEnd > resStart
+      return reqStart < resEnd && reqEnd > resStart;
+    }) || null;
+  }, [startTime, endTime, activeReservations]);
 
   if (!sessionUser) {
     return (
@@ -54,6 +92,11 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
 
     if (!equipmentId || !startTime || !endTime || !purpose.trim()) {
       setError('Please fill in all fields.');
+      return;
+    }
+
+    if (conflictReservation) {
+      setError(`Time conflict detected! Equipment is already reserved by ${conflictReservation.userName}.`);
       return;
     }
 
@@ -132,6 +175,19 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
         </div>
       )}
 
+      {/* Real-time Conflict Alert Banner */}
+      {conflictReservation && (
+        <div className="p-3.5 bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl flex items-start space-x-2.5 text-xs">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="space-y-0.5">
+            <p className="font-extrabold text-amber-900">Time Slot Conflict Warning</p>
+            <p className="text-[11px] text-amber-800 leading-relaxed">
+              Selected times overlap with a reservation by <span className="font-bold">{conflictReservation.userName}</span> ({new Date(conflictReservation.startTime).toLocaleString()} - {new Date(conflictReservation.endTime).toLocaleString()}).
+            </p>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4 text-xs">
         
         {/* Select Equipment */}
@@ -149,6 +205,34 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
             ))}
           </select>
         </div>
+
+        {/* Occupied Time Slots Notice */}
+        {selectedEquipment && (
+          <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
+              <Clock className="w-3.5 h-3.5 text-[var(--primary-maroon)]" />
+              <span>Current Reserved Slots ({activeReservations.length})</span>
+            </h4>
+
+            {activeReservations.length === 0 ? (
+              <p className="text-[11px] text-green-700 font-semibold">No active reservations. All slots open!</p>
+            ) : (
+              <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                {activeReservations.map((res) => (
+                  <div key={res.id} className="text-[10px] bg-white p-2 rounded-lg border border-slate-200 flex justify-between items-center">
+                    <div>
+                      <span className="font-bold text-[var(--secondary-blue)] block">{res.userName}</span>
+                      <span className="text-slate-400">{new Date(res.startTime).toLocaleDateString()}</span>
+                    </div>
+                    <span className="font-mono text-[9px] px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-semibold">
+                      {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* User Type */}
         <div className="space-y-1.5">
@@ -204,7 +288,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
 
         <button 
           type="submit"
-          disabled={loading}
+          disabled={loading || !!conflictReservation}
           className="w-full py-3.5 bg-[var(--primary-maroon)] text-white font-bold rounded-xl shadow-md text-xs hover:bg-[var(--primary-maroon-hover)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
         >
           {loading ? (
@@ -220,3 +304,4 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
     </div>
   );
 }
+
