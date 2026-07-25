@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: sue_portal_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sue_secure_password_2026
+      POSTGRES_DB: sue_portal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sue_portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./dynamic/backend
+      dockerfile: Dockerfile
+    container_name: sue_portal_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:sue_secure_password_2026@postgres:5432/sue_portal?schema=public"
+      ALLOWED_ORIGIN: "http://localhost:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./dynamic/frontend
+      dockerfile: Dockerfile
+    container_name: sue_portal_frontend
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:3000"
+      AUTH_SECRET: "sue_portal_auth_secret_session_encryption_key_2026"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
