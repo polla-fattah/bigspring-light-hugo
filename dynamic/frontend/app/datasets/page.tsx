@@ -95,10 +95,13 @@ export default async function DatasetsPage() {
                   <span>Year: {ds.year || '2024'}</span>
                 </span>
                 
-                <button className="text-[var(--primary-maroon)] hover:underline flex items-center space-x-1 hover:scale-102 transition-all cursor-not-allowed" disabled>
-                  <Download className="w-4 h-4" />
-                  <span>Request File ({ds.size || 'N/A'})</span>
-                </button>
+                <Link 
+                  href={`/datasets/${ds.id}`}
+                  className="inline-flex items-center space-x-1 text-[var(--primary-maroon)] hover:underline font-bold"
+                >
+                  <span>View Specifications & Download</span>
+                  <ExternalLink className="w-3.5 h-3.5 ml-1" />
+                </Link>
               </div>
 
             </div>
