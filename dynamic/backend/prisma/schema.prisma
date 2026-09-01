@@ -9,16 +9,17 @@ generator client {
 
 // 0. Unified Users and Authentication Table (NextAuth / Auth.js Compatible)
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  passwordHash  String?   // For credentials-based login
-  image         String?
-  role          String    @default("researcher") // superadmin, lab_staff, researcher
-  staff         Staff?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id               String    @id @default(uuid())
+  name             String?
+  email            String    @unique
+  emailVerified    DateTime?
+  verificationCode String?
+  passwordHash     String?   // For credentials-based login
+  image            String?
+  role             String    @default("researcher") // superadmin, lab_staff, researcher
+  staff            Staff?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
 
 // 1. Research Units Table
@@ -145,6 +146,7 @@ model Equipment {
   lab            Lab                    @relation(fields: [labId], references: [id], onDelete: Cascade)
   category       String?
   description    String?
+  image          String?
   status         String                 @default("available") // available, in-use, maintenance
   workingUnits   Int                    @default(1)
   outOfOrder     Int                    @default(0)
@@ -195,8 +197,9 @@ model Event {
   title       String
   slug        String   @unique
   eventDate   DateTime
-  image       String?
-  eventType   String   @default("regular") // regular, featured
+  image         String?
+  galleryImages String[] @default([])
+  eventType     String   @default("regular") // regular, featured
   featured    Boolean  @default(false)
   description String?
   content     String?

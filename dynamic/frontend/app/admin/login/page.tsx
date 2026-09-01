@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Landmark, Lock, Mail, AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
@@ -59,8 +60,12 @@ export default function LoginPage() {
           
           {/* SUE Institutional Branding Header */}
           <div className="text-center space-y-2">
-            <div className="mx-auto flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--primary-maroon)] text-white shadow-lg animate-pulse-soft">
-              <Landmark className="w-8 h-8" />
+            <div className="mx-auto flex items-center justify-center">
+              <img 
+                src="/logo.png" 
+                alt="Salahaddin University-Erbil Logo" 
+                className="h-16 w-auto object-contain drop-shadow-md" 
+              />
             </div>
             <div className="space-y-1">
               <h2 className="text-2xl font-extrabold text-[var(--secondary-blue)] tracking-tight">
@@ -152,13 +157,21 @@ export default function LoginPage() {
             </div>
           </form>
 
-          {/* Admin help footer */}
-          <div className="pt-4 border-t border-slate-100 text-center space-y-1">
-            <p className="text-[10px] text-slate-400 font-medium">
-              Authorized personnel and faculty members only.
-            </p>
+          {/* Admin & Researcher Registration CTA Footer */}
+          <div className="pt-4 border-t border-slate-100 text-center space-y-3">
+            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+              <p className="text-xs text-slate-600 font-semibold mb-1">
+                Don't have an SURC account yet?
+              </p>
+              <Link 
+                href="/admin/register" 
+                className="inline-flex items-center space-x-1 font-extrabold text-xs text-[var(--primary-maroon)] hover:underline"
+              >
+                <span>Register with your @su.edu.krd email →</span>
+              </Link>
+            </div>
             <p className="text-[10px] text-slate-400 font-semibold">
-              Default password for all seeded accounts is <span className="text-[var(--primary-maroon)] font-bold">password123</span>
+              Default password for initial demo accounts: <span className="text-[var(--primary-maroon)] font-bold">password123</span>
             </p>
           </div>
 
