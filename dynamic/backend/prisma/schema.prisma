@@ -55,6 +55,7 @@ model Staff {
   bio                    String?
   content                String?
   description            String?
+  subCategory            String?                    // academic, administration
   researchAreas          String[]                   // Supported as native array in pg
   draft                  Boolean                    @default(false)
   projects               Project[]                  @relation("ProjectTeam")
@@ -130,6 +131,7 @@ model Lab {
   supervisorId   String?
   supervisor     Staff?      @relation(fields: [supervisorId], references: [id], onDelete: SetNull)
   capacity       String?
+  platforms      String[]    // Cell Culture, Molecular Biology, Cell Imaging, etc.
   status         String      @default("active")
   draft          Boolean     @default(false)
   equipment      Equipment[]
@@ -222,7 +224,9 @@ model Regulation {
 model Form {
   id          Int      @id @default(autoincrement())
   title       String
-  category    String    // Proposals, Lab Management, Funding
+  category    String    // Proposals, Lab Management, Funding, Ethics, Contracts
+  formType    String?   // ethics_human, ethics_animal, ethics_botanical, ethics_humanities, proposal, clearance, volunteer_contract
+  subCategory String?
   description String?
   filePath    String
   fileFormat  String?

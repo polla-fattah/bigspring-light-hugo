@@ -93,6 +93,35 @@ export default async function UnitDetailPage({ params }: PageProps) {
             <p className="text-sm text-slate-500 leading-relaxed max-w-3xl">
               {detail.description || 'No description guidelines available for this research center unit.'}
             </p>
+
+            {/* Special Spotlight for EMCCU: JISDS Journal & Dashboards */}
+            {detail.id === 'emccu' && (
+              <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50/50 p-4 rounded-2xl border border-amber-200/80 space-y-1.5">
+                  <span className="inline-block px-2 py-0.5 rounded text-[8px] font-extrabold uppercase bg-amber-200/60 text-amber-900">
+                    Flagship Journal Initiative
+                  </span>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">
+                    Journal of Intelligent Spatial Data Science (JISDS)
+                  </h4>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    Peer-reviewed scientific journal focusing on GIS, satellite remote sensing, and AI-driven spatial analysis, established in partnership with Sapienza University of Rome.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50/50 p-4 rounded-2xl border border-blue-200/80 space-y-1.5">
+                  <span className="inline-block px-2 py-0.5 rounded text-[8px] font-extrabold uppercase bg-blue-200/60 text-blue-900">
+                    Real-Time Environmental Monitoring
+                  </span>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">
+                    GIS & Remote Sensing Dashboards
+                  </h4>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    Broadcast and decision-ready dashboards tracking mountain snow-cover change (Zagros range), precipitation, ERA5 climate datasets, and soil contamination.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="lg:col-span-4 hidden lg:flex justify-end pr-4">

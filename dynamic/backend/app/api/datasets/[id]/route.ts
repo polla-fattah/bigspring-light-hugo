@@ -1,7 +1,6 @@
+import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
 
 export async function GET(
   request: NextRequest,
@@ -12,9 +11,7 @@ export async function GET(
     const item = await prisma.dataset.findUnique({
       where: { id },
       include: {
-        unit: true,
-        projects: true,
-        publications: true
+        unit: true
       }
     });
 

@@ -1,18 +1,20 @@
+import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+
+import { EquipmentReservationSchema } from '@/lib/validations';
 
 export async function POST(request: NextRequest) {
   try {
-    const { equipmentId, userName, userEmail, userType, purpose, startTime, endTime } = await request.json();
+    const rawBody = await request.json();
+    const validation = EquipmentReservationSchema.safeParse(rawBody);
 
-    if (!equipmentId || !userName || !userEmail || !userType || !purpose || !startTime || !endTime) {
-      return NextResponse.json(
-        { error: 'All fields are required.' },
-        { status: 400 }
-      );
+    if (!validation.success) {
+      const firstError = validation.error.issues[0]?.message || 'Invalid input payload.';
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
+
+    const { equipmentId, userName, userEmail, userType, purpose, startTime, endTime } = validation.data;
 
     const start = new Date(startTime);
     const end = new Date(endTime);

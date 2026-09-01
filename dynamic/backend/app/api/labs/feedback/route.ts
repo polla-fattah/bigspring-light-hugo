@@ -1,36 +1,31 @@
+import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+
+import { EquipmentFeedbackSchema } from '@/lib/validations';
 
 export async function POST(request: NextRequest) {
   try {
-    const { reservationId, equipmentId, userName, userEmail, rating, benefitStatement } = await request.json();
+    const rawBody = await request.json();
+    const validation = EquipmentFeedbackSchema.safeParse({
+      ...rawBody,
+      rating: typeof rawBody.rating === 'string' ? parseInt(rawBody.rating, 10) : rawBody.rating
+    });
 
-    if (!equipmentId || !userName || !userEmail || !rating || !benefitStatement) {
-      return NextResponse.json(
-        { error: 'Missing required feedback fields.' },
-        { status: 400 }
-      );
+    if (!validation.success) {
+      const firstError = validation.error.issues[0]?.message || 'Invalid feedback payload.';
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const ratingInt = parseInt(rating, 10);
-    if (isNaN(ratingInt) || ratingInt < 1 || ratingInt > 5) {
-      return NextResponse.json(
-        { error: 'Rating must be an integer between 1 and 5.' },
-        { status: 400 }
-      );
-    }
-
-    const parsedReservationId = reservationId ? parseInt(reservationId, 10) : null;
+    const { reservationId, equipmentId, userName, userEmail, rating, benefitStatement } = validation.data;
 
     const newFeedback = await prisma.equipmentFeedback.create({
       data: {
-        reservationId: parsedReservationId && !isNaN(parsedReservationId) ? parsedReservationId : null,
+        reservationId: reservationId || null,
         equipmentId,
         userName,
         userEmail,
-        rating: ratingInt,
+        rating,
         benefitStatement,
         status: 'pending_review' // Superadmin reviews this before making public
       }

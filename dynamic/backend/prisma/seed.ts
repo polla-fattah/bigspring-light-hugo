@@ -12,9 +12,11 @@ function hashPassword(password: string): string {
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Reading content_data.json...');
-  const jsonPath = path.resolve(process.cwd(), '../../migration/content_data.json');
-  
+  let jsonPath = path.resolve(process.cwd(), 'prisma/content_data.json');
+  if (!fs.existsSync(jsonPath)) {
+    jsonPath = path.resolve(process.cwd(), '../../migration/content_data.json');
+  }
+
   if (!fs.existsSync(jsonPath)) {
     throw new Error(`Data file not found at: ${jsonPath}`);
   }
@@ -129,6 +131,19 @@ async function main() {
         passwordHash: hashPassword('password123')
       }
     });
+
+    // Ensure no conflicting staff has this userId or email
+    await prisma.staff.updateMany({
+      where: { userId: user.id, id: { not: fm.id } },
+      data: { userId: null }
+    });
+
+    if (fm.email) {
+      await prisma.staff.updateMany({
+        where: { email: fm.email, id: { not: fm.id } },
+        data: { email: null }
+      });
+    }
 
     // Seed staff profile linked to user
     await prisma.staff.upsert({
@@ -569,7 +584,386 @@ async function main() {
     });
   }
 
-  console.log('Successfully completed seeding the database!');
+  // 12. Explicit SURC Requirements Seeding
+  console.log('Seeding Explicit SURC Requirements (Units, Labs, Platforms, Forms, Policies, Staff)...');
+
+  // 12a. Core Units
+  const surcUnits = [
+    {
+      id: 'emccu',
+      title: 'Environmental Monitoring & Climate Change Unit (EMCCU)',
+      name: 'Environmental Monitoring & Climate Change Unit',
+      description: 'Centralized research hub for GIS, satellite remote sensing, cryosphere snow-cover analysis, and regional climate resilience.'
+    },
+    {
+      id: 'data-analysis-ai',
+      title: 'Data Analysis and AI Unit',
+      name: 'Data Analysis and AI Unit',
+      description: 'Advanced data analytics, machine learning, bioinformatics, and computational decision-support systems.'
+    },
+    {
+      id: 'development-cooperation',
+      title: 'Development & Cooperation Unit',
+      name: 'Development & Cooperation Unit',
+      description: 'Promoting interinstitutional collaboration, technology transfer, policy advisories, and international research partnerships.'
+    }
+  ];
+
+  for (const u of surcUnits) {
+    unitsMap.add(u.id);
+    await prisma.researchUnit.upsert({
+      where: { id: u.id },
+      update: { title: u.title, name: u.name, description: u.description },
+      create: { id: u.id, title: u.title, name: u.name, description: u.description }
+    });
+  }
+
+  // 12b. Core Staff Profiles
+  const surcStaff = [
+    {
+      id: 'dr-huner-khayyat',
+      title: 'Asst. Prof. Dr. Huner Khayyat',
+      subtitle: 'Ph.D. in GIS & Remote Sensing',
+      titlePosition: 'Head, Environmental Monitoring & Climate Change Unit (EMCCU)',
+      email: 'huner.khayyat@su.edu.krd',
+      unitId: 'emccu',
+      subCategory: 'academic',
+      bio: 'Ph.D. in GIS and Remote Sensing (Climate Change focus). Strategic direction, cryosphere & climate-data research, government and international liaison.',
+      researchAreas: ['GIS', 'Remote Sensing', 'Climate Change', 'Cryosphere', 'Spatial Data Science']
+    },
+    {
+      id: 'dr-suhad-mustafa',
+      title: 'Prof. Dr. Suhad A. Mustafa',
+      subtitle: 'Professor of Molecular Engineering',
+      titlePosition: 'Director of Molecular Engineering Laboratory & Head of Animal Research Ethics Committee (AREC)',
+      email: 'suhad.mustafa@su.edu.krd',
+      unitId: 'emccu',
+      subCategory: 'academic',
+      bio: 'Provides scientific leadership in molecular engineering, postgraduate supervision, serves as Head of AREC, and member of the University Academic Titles Committee.',
+      researchAreas: ['Molecular Engineering', 'Recombinant Proteins', 'Gene Cloning', 'Animal Research Ethics']
+    },
+    {
+      id: 'dr-treska-hassan',
+      title: 'Dr. Treska Salih Hassan',
+      subtitle: 'Ph.D. in Molecular & Cellular Oncology',
+      titlePosition: 'Director, Cancer Biology Laboratory',
+      email: 'treska.hasan@su.edu.krd',
+      unitId: 'emccu',
+      subCategory: 'academic',
+      bio: 'Directs multidisciplinary cancer research in molecular oncology, tumor microenvironment, experimental therapeutics, and precision oncology.',
+      researchAreas: ['Cancer Biology', 'Molecular Oncology', 'Tumor Microenvironment', 'Biomarker Discovery']
+    },
+    {
+      id: 'shakar-jamal',
+      title: 'Shakar Jamal Aweez Sadeq',
+      subtitle: 'Ph.D. Candidate (Soil Pollution)',
+      titlePosition: 'Staff Member (Environmental Researcher), EMCCU',
+      email: 'shakar.sadeq@su.edu.krd',
+      unitId: 'emccu',
+      subCategory: 'academic',
+      bio: 'Leads EMCCU soil and environmental pollution research line, heavy metal analysis, environmental microbiology, and soil remediation science.',
+      researchAreas: ['Soil Pollution', 'Environmental Microbiology', 'Heavy Metal Analysis', 'Remediation']
+    },
+    {
+      id: 'sara-abdulkhaleq',
+      title: 'Sara Abdulkhaleq Yaseen',
+      subtitle: 'Ph.D. Candidate, SURC',
+      titlePosition: 'Staff Member (Environmental Researcher), EMCCU',
+      email: 'sara.yaseen@su.edu.krd',
+      unitId: 'emccu',
+      subCategory: 'academic',
+      bio: 'Environmental researcher contributing to climate monitoring, scientific workshop coordination, and institutional partnership development.',
+      researchAreas: ['Environmental Science', 'Climate Monitoring', 'Event Coordination', 'Sustainability']
+    }
+  ];
+
+  for (const st of surcStaff) {
+    staffMap.add(st.id);
+    const user = await prisma.user.upsert({
+      where: { email: st.email },
+      update: { name: st.title, role: 'researcher' },
+      create: { email: st.email, name: st.title, role: 'researcher', passwordHash: hashPassword('password123') }
+    });
+
+    // Ensure no conflicting staff has this userId or email
+    await prisma.staff.updateMany({
+      where: { userId: user.id, id: { not: st.id } },
+      data: { userId: null }
+    });
+
+    await prisma.staff.updateMany({
+      where: { email: st.email, id: { not: st.id } },
+      data: { email: null }
+    });
+
+    await prisma.staff.upsert({
+      where: { id: st.id },
+      update: {
+        userId: user.id,
+        title: st.title,
+        subtitle: st.subtitle,
+        titlePosition: st.titlePosition,
+        email: st.email,
+        unitId: st.unitId,
+        subCategory: st.subCategory,
+        bio: st.bio,
+        researchAreas: st.researchAreas
+      },
+      create: {
+        id: st.id,
+        userId: user.id,
+        title: st.title,
+        subtitle: st.subtitle,
+        titlePosition: st.titlePosition,
+        email: st.email,
+        unitId: st.unitId,
+        subCategory: st.subCategory,
+        bio: st.bio,
+        researchAreas: st.researchAreas
+      }
+    });
+  }
+
+  // 12c. Core Laboratories & Research Platforms
+  const surcLabs = [
+    {
+      id: 'cancer-biology',
+      title: 'Cancer Biology Laboratory',
+      shortName: 'Cancer Bio Lab',
+      supervisorId: 'dr-treska-hassan',
+      description: 'Dedicated research facility directed by Dr. Treska S. Hassan, supporting basic, translational, and clinical cancer research.',
+      platforms: [
+        'Cell Culture Platform (BSL-2)',
+        'Molecular Biology Platform (qPCR/PCR)',
+        'Protein Analysis Platform (SDS-PAGE/Western Blot)',
+        'Cell Imaging Platform (Fluorescence Microscopy)',
+        'Cancer Therapeutics & Drug Screening',
+        'Biomarker Discovery Platform',
+        'Experimental Oncology Platform',
+        'Sample Biobanking (-80°C & Liquid Nitrogen)'
+      ]
+    },
+    {
+      id: 'molecular-engineering',
+      title: 'Molecular Engineering Laboratory',
+      shortName: 'Molecular Eng Lab',
+      supervisorId: 'dr-suhad-mustafa',
+      description: 'Directed by Prof. Dr. Suhad A. Mustafa, focusing on recombinant protein production, gene cloning, and molecular diagnostics.',
+      platforms: [
+        'Recombinant Protein Production & Purification',
+        'Gene Cloning & Transformation',
+        'DNA/RNA Extraction & Quantitative PCR',
+        'Protein Electrophoresis & SDS-PAGE Analysis'
+      ]
+    },
+    {
+      id: 'chemical-analysis',
+      title: 'Chemical Analysis Laboratory',
+      shortName: 'Chemical Lab',
+      description: 'Specialized analytical laboratory for soil, water, and environmental sample physicochemical testing.',
+      platforms: [
+        'UV-Visible Double Beam Spectrophotometry',
+        'Soil & Water Quality Analysis',
+        'Chromatography & Heavy Metal Testing'
+      ]
+    },
+    {
+      id: 'nanotechnology',
+      title: 'Nanotechnology Laboratory',
+      shortName: 'Nano Lab',
+      description: 'Research space dedicated to nano-remediation, nanomaterial synthesis, and advanced material characterization.',
+      platforms: [
+        'Nano-remediation & Synthesis',
+        'Material Characterization',
+        'Environmental Nanotechnology'
+      ]
+    }
+  ];
+
+  for (const lab of surcLabs) {
+    await prisma.lab.upsert({
+      where: { id: lab.id },
+      update: {
+        title: lab.title,
+        shortName: lab.shortName,
+        supervisorId: lab.supervisorId || null,
+        description: lab.description,
+        platforms: lab.platforms
+      },
+      create: {
+        id: lab.id,
+        title: lab.title,
+        shortName: lab.shortName,
+        supervisorId: lab.supervisorId || null,
+        description: lab.description,
+        platforms: lab.platforms
+      }
+    });
+  }
+
+  // 12d. SURC Downloadable Forms
+  const surcForms = [
+    {
+      title: 'Application Form for Human Research Ethics Review',
+      category: 'Ethics',
+      formType: 'ethics_human',
+      description: 'Ethical review form for projects involving prospective human participants, clinical trials, or medical data.',
+      filePath: '/forms/SUE_Human_Research_Form (2).docx',
+      fileFormat: 'DOCX',
+      icon: 'fas fa-user-shield'
+    },
+    {
+      title: 'Application Form for Animal Research Ethics Committee (AREC)',
+      category: 'Ethics',
+      formType: 'ethics_animal',
+      description: 'Required application for research involving laboratory or experimental animals under the 3Rs principles.',
+      filePath: '/forms/SUE_Animal_Resaerch_Form.docx',
+      fileFormat: 'DOCX',
+      icon: 'fas fa-paw'
+    },
+    {
+      title: 'Application Form for Botanical Research Ethics Review',
+      category: 'Ethics',
+      formType: 'ethics_botanical',
+      description: 'Review form for botanical collection, plant protection, environmental risk, and biodiversity research.',
+      filePath: '/forms/SUE_Botanical_Resaerch_Form.docx',
+      fileFormat: 'DOCX',
+      icon: 'fas fa-leaf'
+    },
+    {
+      title: 'Application Form for Humanities and Law Research Ethics Committee',
+      category: 'Ethics',
+      formType: 'ethics_humanities',
+      description: 'Ethics review application for qualitative, social science, humanities, legal, and community-based research.',
+      filePath: '/forms/SUE_Humanities_and_Law_Research_Form.docx',
+      fileFormat: 'DOCX',
+      icon: 'fas fa-gavel'
+    },
+    {
+      title: 'Teacher Research Plan Information Form (فۆرمی زانیاری پلانی توێژینەوەی مامۆستایان)',
+      category: 'Proposals',
+      formType: 'proposal',
+      description: 'Official template for university faculty and researchers submitting annual scientific research plans.',
+      filePath: '/forms/Reseach Proposal form.pdf',
+      fileFormat: 'PDF',
+      icon: 'fas fa-file-signature'
+    },
+    {
+      title: 'Higher Education Student Guideline & Laboratory Usage Contract',
+      category: 'Contracts',
+      formType: 'contract',
+      description: 'Laboratory safety regulations (40 rules), equipment usage agreement, and 300,000 IQD deposit requirements.',
+      filePath: '/policies/instructions & contract.pdf',
+      fileFormat: 'PDF',
+      icon: 'fas fa-file-contract'
+    },
+    {
+      title: 'Volunteer & External Placement Work Contract (ڕێککەوتنامەی خۆبەخش)',
+      category: 'Contracts',
+      formType: 'volunteer_contract',
+      description: 'Official terms of agreement for volunteer researchers and external seconded staff at SURC.',
+      filePath: '/policies/ڕێککەوتنامەی کارکردن بە خۆبەخش.pdf',
+      fileFormat: 'PDF',
+      icon: 'fas fa-handshake'
+    }
+  ];
+
+  for (const f of surcForms) {
+    const existing = await prisma.form.findFirst({ where: { title: f.title } });
+    if (existing) {
+      await prisma.form.update({
+        where: { id: existing.id },
+        data: {
+          category: f.category,
+          formType: f.formType,
+          description: f.description,
+          filePath: f.filePath,
+          fileFormat: f.fileFormat,
+          icon: f.icon
+        }
+      });
+    } else {
+      await prisma.form.create({
+        data: {
+          title: f.title,
+          category: f.category,
+          formType: f.formType,
+          description: f.description,
+          filePath: f.filePath,
+          fileFormat: f.fileFormat,
+          icon: f.icon
+        }
+      });
+    }
+  }
+
+  // 12e. Governance Policies
+  const surcPolicies = [
+    {
+      title: 'Research Center Policy & Governance',
+      category: 'Policy',
+      description: 'General governance framework governing all research centers and laboratories at Salahaddin University-Erbil.',
+      filePath: '/policies/instructions & contract.pdf'
+    },
+    {
+      title: 'Biosafety and Biosecurity Policy',
+      category: 'Safety',
+      description: 'Protocol governing BSL-2 cell culture, chemical containment, hazard disposal, and personal protective equipment.',
+      filePath: '/policies/instructions & contract.pdf'
+    },
+    {
+      title: 'Information and Data Security Policy',
+      category: 'Security',
+      description: 'Protects research data repositories, sequencing files, AI models, laboratory servers, and network infrastructure.',
+      filePath: '/policies/instructions & contract.pdf'
+    },
+    {
+      title: 'Publication & Authorship Policy',
+      category: 'Ethics',
+      description: 'Defines mandatory authorship criteria, ORCID integration, preprint guidelines, and anti-plagiarism compliance.',
+      filePath: '/policies/instructions & contract.pdf'
+    },
+    {
+      title: 'Intellectual Property (IP) & Commercialization Policy',
+      category: 'IP',
+      description: 'Defines institutional ownership of patents, inventions, software, research databases, and technology transfer pathways.',
+      filePath: '/policies/instructions & contract.pdf'
+    },
+    {
+      title: 'Open Science and FAIR Data Policy',
+      category: 'Open Science',
+      description: 'Encourages open access publishing, FAIR data repository standards, and experimental reproducibility.',
+      filePath: '/policies/instructions & contract.pdf'
+    }
+  ];
+
+  for (const p of surcPolicies) {
+    const existing = await prisma.regulation.findFirst({ where: { title: p.title } });
+    if (existing) {
+      await prisma.regulation.update({
+        where: { id: existing.id },
+        data: { category: p.category, description: p.description, filePath: p.filePath }
+      });
+    } else {
+      await prisma.regulation.create({
+        data: { title: p.title, category: p.category, description: p.description, filePath: p.filePath }
+      });
+    }
+  }
+
+  // 12f. Journal of Intelligent Spatial Data Science (JISDS) System Setting
+  await prisma.systemSettings.upsert({
+    where: { keyName: 'jisds_journal_info' },
+    update: {
+      valueText: 'Journal of Intelligent Spatial Data Science (JISDS) is an international peer-reviewed journal established by the Environmental Monitoring & Climate Change Unit (EMCCU) at SURC, in collaboration with Sapienza University of Rome.'
+    },
+    create: {
+      keyName: 'jisds_journal_info',
+      valueText: 'Journal of Intelligent Spatial Data Science (JISDS) is an international peer-reviewed journal established by the Environmental Monitoring & Climate Change Unit (EMCCU) at SURC, in collaboration with Sapienza University of Rome.'
+    }
+  });
+
+  console.log('Successfully completed seeding all SURC explicit requirements!');
 }
 
 main()

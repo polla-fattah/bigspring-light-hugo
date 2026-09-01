@@ -56,6 +56,7 @@ interface LabDetail {
   image: string | null;
   contact: string | null;
   capacity: string | null;
+  platforms?: string[];
   status: string;
   equipment: Equipment[];
   supervisor: {
@@ -125,6 +126,23 @@ export default async function LabDetailPage({ params }: PageProps) {
             <p className="text-sm text-slate-500 leading-relaxed max-w-3xl">
               {detail.description || 'No detailed instructions exist for this lab facilities profile.'}
             </p>
+            
+            {/* Lab Research Platforms Badges */}
+            {detail.platforms && detail.platforms.length > 0 && (
+              <div className="pt-3 border-t border-slate-100 space-y-2">
+                <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                  Specialized Research Platforms:
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {detail.platforms.map((plat, idx) => (
+                    <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-maroon-50 text-[var(--primary-maroon)] border border-maroon-100/60">
+                      <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[var(--primary-maroon)]" />
+                      {plat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
             
             {/* Meta values */}
             <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-450 pt-2 border-t border-slate-50">

@@ -42,9 +42,9 @@ export default async function AdminDashboardPage() {
   ];
 
   const superadminActions = [
-    { title: 'Review Content Approvals', desc: 'Toggle draft mode for projects, staff profiles, and units.', href: '/units', icon: FolderLock },
-    { title: 'System Configurations', desc: 'Change vision, mission, and homepage metadata.', href: '/', icon: Settings },
-    { title: 'Research Datasets Registry', desc: 'Audit open data catalog uploads and accessibility.', href: '/datasets', icon: FileSpreadsheet },
+    { title: 'Forms & Governance Policies Console', desc: 'Create, edit, delete, or publish ethics forms and regulations.', href: '/admin/super/manage', icon: FolderLock },
+    { title: 'Manage User Roles & Staff Access', desc: 'Assign master admin, lab staff, and researcher privileges.', href: '/admin/super', icon: User },
+    { title: 'Research Datasets & Catalog Audit', desc: 'Audit open data catalog uploads and accessibility.', href: '/datasets', icon: FileSpreadsheet },
   ];
 
   let staffDetails: any = null;
