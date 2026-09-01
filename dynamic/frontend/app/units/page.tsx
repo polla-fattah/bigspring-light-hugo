@@ -11,14 +11,32 @@ interface ResearchUnit {
   description: string | null;
 }
 
+interface CoreLab {
+  id: string;
+  title: string;
+  name: string;
+  platforms?: string[];
+  supervisor?: {
+    id: string;
+    title: string;
+    email: string;
+  } | null;
+}
+
 export default async function UnitsPage() {
   let units: ResearchUnit[] = [];
+  let labs: CoreLab[] = [];
   let errorMsg = '';
 
   try {
-    units = await fetchFromBackend<ResearchUnit[]>('/api/units');
+    const [unitsData, labsData] = await Promise.all([
+      fetchFromBackend<ResearchUnit[]>('/api/units', {}, []),
+      fetchFromBackend<CoreLab[]>('/api/labs', {}, [])
+    ]);
+    units = unitsData;
+    labs = labsData;
   } catch (err) {
-    errorMsg = 'Could not load research units data.';
+    errorMsg = 'Could not load research units or core laboratories data.';
   }
 
   return (
@@ -43,114 +61,6 @@ export default async function UnitsPage() {
             {errorMsg}
           </div>
         )}
-
-        {/* 🏛️ 1. Visual Organizational Flow-Chart Section */}
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm space-y-8">
-          <div className="flex items-center space-x-3 border-b border-slate-100 pb-4">
-            <div className="w-10 h-10 rounded-xl bg-red-50 text-[var(--primary-maroon)] flex items-center justify-center">
-              <GitFork className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-extrabold text-[var(--secondary-blue)]">
-                Organizational Hierarchy & Structure
-              </h2>
-              <p className="text-xs text-slate-500">
-                Institutional reporting lines and operational oversight workflow at SURC.
-              </p>
-            </div>
-          </div>
-
-          {/* Flow Chart Diagram */}
-          <div className="flex flex-col items-center space-y-6 pt-2">
-            
-            {/* Level 1: Presidency */}
-            <div className="w-full max-w-md bg-gradient-to-r from-[var(--secondary-blue)] to-slate-800 text-white rounded-2xl p-4 text-center shadow-md border border-slate-700 space-y-1">
-              <span className="text-[9px] font-extrabold uppercase text-[var(--accent-gold)] tracking-widest block">
-                Executive Leadership
-              </span>
-              <h3 className="text-sm font-extrabold flex items-center justify-center space-x-2">
-                <Landmark className="w-4 h-4 text-[var(--accent-gold)]" />
-                <span>Salahaddin University-Erbil — University Presidency</span>
-              </h3>
-            </div>
-
-            <div className="w-0.5 h-6 bg-slate-300"></div>
-
-            {/* Level 2: Directorate General */}
-            <div className="w-full max-w-lg bg-gradient-to-r from-[var(--primary-maroon)] to-rose-900 text-white rounded-2xl p-4 text-center shadow-md space-y-1">
-              <span className="text-[9px] font-extrabold uppercase text-amber-200 tracking-widest block">
-                Directorate General
-              </span>
-              <h3 className="text-sm font-extrabold">
-                General Directorate of the Scientific Research Center (SURC)
-              </h3>
-            </div>
-
-            <div className="w-0.5 h-6 bg-slate-300"></div>
-
-            {/* Level 3: Dual Columns (Units & Laboratories) */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Specialized Research Units */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-3">
-                <h4 className="text-xs font-extrabold text-[var(--secondary-blue)] uppercase tracking-wider flex items-center space-x-2 border-b border-slate-200 pb-2">
-                  <Layers className="w-4 h-4 text-[var(--primary-maroon)]" />
-                  <span>Specialized Research Units</span>
-                </h4>
-                <ul className="space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Environmental Monitoring & Climate Change (EMCCU)</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-green-100 text-green-800 rounded font-bold">Active</span>
-                  </li>
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Data Analysis & Artificial Intelligence Unit</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded font-bold">Active</span>
-                  </li>
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Development & Institutional Cooperation Unit</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded font-bold">Active</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Core Research Laboratories */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-3">
-                <h4 className="text-xs font-extrabold text-[var(--secondary-blue)] uppercase tracking-wider flex items-center space-x-2 border-b border-slate-200 pb-2">
-                  <Award className="w-4 h-4 text-[var(--primary-maroon)]" />
-                  <span>Core Research Laboratories</span>
-                </h4>
-                <ul className="space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Cancer Biology Laboratory (Dr. Treska Hassan)</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-purple-100 text-purple-800 rounded font-bold">BSL-2</span>
-                  </li>
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Molecular Engineering Laboratory (Prof. Suhad Mustafa)</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-rose-100 text-rose-800 rounded font-bold">AREC</span>
-                  </li>
-                  <li className="p-2 bg-white rounded-lg border border-slate-150 flex items-center justify-between">
-                    <span>Chemical Analysis & Nanotechnology Labs</span>
-                    <span className="text-[9px] px-1.5 py-0.5 bg-cyan-100 text-cyan-800 rounded font-bold">Core</span>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-
-            <div className="w-0.5 h-6 bg-slate-300"></div>
-
-            {/* Level 4: Research Personnel */}
-            <div className="w-full max-w-xl bg-white border border-slate-200 rounded-2xl p-4 text-center space-y-1 shadow-sm">
-              <span className="text-[9px] font-extrabold uppercase text-slate-400 tracking-widest block">
-                Research Staff & Academic Fellows
-              </span>
-              <p className="text-xs font-bold text-[var(--secondary-blue)]">
-                Principal Investigators, Environmental Researchers, Postgraduates & Volunteer Fellows
-              </p>
-            </div>
-
-          </div>
-        </div>
 
         {/* 🎯 2. 5-Year Strategic Plan & Activity Roadmap (2026–2030) */}
         <div className="bg-gradient-to-br from-slate-900 to-[var(--secondary-blue)] text-white rounded-3xl p-8 sm:p-12 shadow-md space-y-8">

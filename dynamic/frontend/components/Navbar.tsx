@@ -16,7 +16,7 @@ export default function Navbar() {
     { name: 'Researchers', href: '/staff' },
     { name: 'Projects', href: '/projects' },
     { name: 'Publications', href: '/publications' },
-    { name: 'Labs & Equipment', href: '/labs' },
+    { name: 'Labs', href: '/labs' },
     { name: 'Events', href: '/events' },
   ];
 
@@ -95,9 +95,11 @@ export default function Navbar() {
 
             {/* Logo & SUE Identity */}
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="flex items-center justify-center w-11 h-11 rounded-full bg-[var(--primary-maroon)] text-white shadow-md ring-2 ring-[var(--accent-gold)]/60 ring-offset-2 ring-offset-white group-hover:bg-[var(--primary-maroon-hover)] transition-colors">
-                <Landmark className="w-5 h-5" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Salahaddin University-Erbil Research Center Logo" 
+                className="h-12 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-sm" 
+              />
               <div className="flex flex-col leading-tight">
                 <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-[var(--maroon-ink)]">
                   Research Center

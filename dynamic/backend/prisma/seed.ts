@@ -585,7 +585,89 @@ async function main() {
   }
 
   // 12. Explicit SURC Requirements Seeding
-  console.log('Seeding Explicit SURC Requirements (Units, Labs, Platforms, Forms, Policies, Staff)...');
+  console.log('Seeding Explicit SURC Requirements (Units, Labs, Platforms, Forms, Policies, Staff, Facebook Events)...');
+
+  // 12-Events. Official SURC Facebook Page Events
+  const fbEvents = [
+    {
+      slug: 'powerbi-data-visualization-course-2026',
+      title: 'Interactive Dashboard with Power BI & Data Visualization Training Course',
+      eventDate: new Date('2026-01-18T09:00:00.000Z'),
+      category: 'Specialized Workshop',
+      location: 'Data Analysis Unit Computer Lab, SURC Building',
+      description: 'Specialized hands-on training course organized by the Data Analysis Unit equipping university researchers, lecturers, and postgraduate students with practical skills in Business Intelligence, data modeling, and interactive dashboards.',
+      content: 'ڕاگەیاندنی خولێکی ڕاهێنانی تایبەتمەند: ئەنجامدانی خولی Interactive Dashboard with Power BI & Data Visualization لەلایەن یەکەی شیکاری زانیاری سەنتەری توێژینەوەی زانستی بۆ توێژەران، مامۆستایان و خوێندکارانی خوێندنی باڵا.',
+      image: '/images/events/powerbi-course.jpg',
+      galleryImages: ['/images/events/powerbi-course-gallery-1.jpg', '/images/events/powerbi-course-gallery-2.jpg'],
+      eventType: 'workshop',
+      featured: true,
+      draft: false
+    },
+    {
+      slug: 'high-performance-gpu-ai-computing-2025',
+      title: 'High-Performance GPU Computing Hardware for AI & Data Analysis Research',
+      eventDate: new Date('2025-12-23T10:00:00.000Z'),
+      category: 'Research Infrastructure',
+      location: 'AI & Data Analysis Unit, SURC',
+      description: 'Major announcement regarding the provision of high-performance computing hardware dedicated to artificial intelligence research, deep learning workloads, and multi-modal data analysis for SUE researchers.',
+      content: 'یەکەی شیکاری زانیاری و زیرەکی دەستکرد بە هاوکاری سەرۆکایەتی زانکۆی سەڵاحەدین ڕایدەگەیەنێت بە دابینکردنی کۆمپیوتەری بەرز-توانا (High-Performance GPU Computing) بۆ توێژەرانی بوارەکانی زیرەکی دەستکرد، فێربوونی قووڵ و شیکاری زانیاری.',
+      image: '/images/events/gpu-ai-computing.jpg',
+      galleryImages: ['/images/events/gpu-ai-computing-gallery-1.jpg', '/images/events/gpu-ai-computing-gallery-2.jpg'],
+      eventType: 'announcement',
+      featured: true,
+      draft: false
+    },
+    {
+      slug: 'surc-autumn-2025-2026-graduation-ceremony',
+      title: 'SURC Autumn 2025–2026 Training Graduation & Certificate Ceremony',
+      eventDate: new Date('2025-12-24T10:00:00.000Z'),
+      category: 'Academic Ceremony',
+      location: 'Seminars Hall, Cultural and Academic Center, SUE',
+      description: 'Formal closing ceremony for the Autumn 2025–2026 scientific training courses, presided over by SUE President Prof. Dr. Kamaran Younis Muhammad Amin, Vice President Prof. Dr. Sharif Maulood, and SURC Director General Prof. Dr. Samir Jawdat.',
+      content: 'ئاهەنگی بەخشینی بڕوانامەی خولەکانی وەرزەکانی پایز بە بەشداری سەرۆکی زانکۆی سەڵاحەدین-هەولێر پ.د. کامەران یونس محەمەدئەمین و یاریدەدەری سەرۆکی زانکۆ و بەڕێوەبەری گشتی سەنتەری توێژینەوە پ.د. سمیر جەودەت.',
+      image: '/images/events/surc-autumn-graduation.jpg',
+      galleryImages: ['/images/events/surc-autumn-graduation-gallery-1.jpg', '/images/events/surc-autumn-graduation-gallery-2.jpg'],
+      eventType: 'ceremony',
+      featured: true,
+      draft: false
+    },
+    {
+      slug: 'genomics-proteomics-workshop-2025',
+      title: 'Genomics & Proteomics Molecular Biology Training Workshop & Flag Day Celebration',
+      eventDate: new Date('2025-12-17T09:00:00.000Z'),
+      category: 'Laboratory Workshop',
+      location: 'Molecular Biology & Genomics Laboratory, SURC',
+      description: 'Advanced hands-on laboratory workshop on genomics, proteomics, and DNA/protein analysis techniques at the SURC specialized laboratories.',
+      content: 'خولی ڕاهێنانی بەکرداری لە بواری (Genomics & Proteomics) و نیشاندانی دەستکەوتە زانستییەکانی تاقیگەی بایۆلۆجی گەردیلەیی لە سەنتەری توێژینەوەی زانستی.',
+      image: '/images/events/genomics-proteomics-workshop.jpg',
+      galleryImages: ['/images/events/genomics-proteomics-workshop-gallery-1.jpg', '/images/events/genomics-proteomics-workshop-gallery-2.jpg'],
+      eventType: 'workshop',
+      featured: false,
+      draft: false
+    },
+    {
+      slug: 'krg-environmental-climate-change-delegation-meeting-2026',
+      title: 'Strategic Environmental & Climate Change Policy Meeting with KRG Senior Advisory Office',
+      eventDate: new Date('2026-05-24T10:00:00.000Z'),
+      category: 'Policy Advisory',
+      location: 'SURC Executive Directorate, Erbil',
+      description: 'Scientific coordination meeting between SURC Environmental Monitoring & Climate Change Unit (EMCCU) and Senior Advisory Delegation of KRG Prime Minister for Environment & Climate Change (Ms. Vian Sami Abdulrahman & Ms. Wafaa Muhammad).',
+      content: 'کۆبوونەوەی بەڕێوەبەری گشتی سەنتەری توێژینەوەی زانستی و ئەندامانی یەکەی چاودێری ژینگە و گۆڕانی ئاووهەوا لەگەڵ شاندی نووسینگەی ڕاوێژکاری باڵای سەرۆکی حکومەتی هەرێمی کوردستان بۆ کارووباری ژینگە.',
+      image: '/images/events/krg-climate-meeting.jpg',
+      galleryImages: ['/images/events/krg-climate-meeting-gallery-1.jpg', '/images/events/krg-climate-meeting-gallery-2.jpg'],
+      eventType: 'meeting',
+      featured: true,
+      draft: false
+    }
+  ];
+
+  for (const ev of fbEvents) {
+    await prisma.event.upsert({
+      where: { slug: ev.slug },
+      update: ev,
+      create: ev
+    });
+  }
 
   // 12a. Core Units
   const surcUnits = [

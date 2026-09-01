@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Calendar, MapPin, Clock, ArrowRight, Bookmark } from 'lucide-react';
 import { fetchFromBackend } from '../../lib/api';
+import { getEventImageUrl } from '@/lib/imageResolver';
 
 interface Event {
   id: number;
@@ -80,27 +81,38 @@ export default async function EventsListPage() {
                   key={ev.id} 
                   className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:border-[var(--primary-maroon)] hover:shadow-md transition-all group"
                 >
-                  <div className="p-6 sm:p-8 space-y-4">
-                    <div className="flex justify-between items-center text-[10px] font-bold">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase bg-red-50 text-[var(--primary-maroon)] border border-red-100">
-                        {ev.category || 'Seminar'}
-                      </span>
-                      {ev.featured && (
-                        <span className="text-amber-600 uppercase font-extrabold tracking-wider">
-                          ★ Featured
-                        </span>
-                      )}
-                    </div>
-                    
-                    <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] leading-snug line-clamp-2 group-hover:text-[var(--primary-maroon)] transition-colors">
-                      <Link href={`/events/${ev.slug}`}>
-                        {ev.title}
-                      </Link>
-                    </h3>
+                  {/* Event Primary Image */}
+                  <div className="h-48 w-full relative overflow-hidden bg-slate-100 border-b border-slate-100">
+                    <img 
+                      src={getEventImageUrl(ev.image, ev.title)} 
+                      alt={ev.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
 
-                    <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
-                      {ev.description || 'No detailed announcements text provided.'}
-                    </p>
+                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center text-[10px] font-bold">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase bg-red-50 text-[var(--primary-maroon)] border border-red-100">
+                          {ev.category || 'Seminar'}
+                        </span>
+                        {ev.featured && (
+                          <span className="text-amber-600 uppercase font-extrabold tracking-wider">
+                            ★ Featured
+                          </span>
+                        )}
+                      </div>
+                      
+                      <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] leading-snug line-clamp-2 group-hover:text-[var(--primary-maroon)] transition-colors">
+                        <Link href={`/events/${ev.slug}`}>
+                          {ev.title}
+                        </Link>
+                      </h3>
+
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                        {ev.description || 'No detailed announcements text provided.'}
+                      </p>
+                    </div>
 
                     <div className="space-y-2 text-xs font-semibold text-slate-600 pt-4 border-t border-slate-100">
                       <div className="flex items-center space-x-2">
@@ -152,26 +164,45 @@ export default async function EventsListPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {pastEvents.slice(0, 9).map((ev) => (
+              {pastEvents.slice(0, 12).map((ev) => (
                 <div 
                   key={ev.id} 
-                  className="bg-white/80 rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col justify-between opacity-85 hover:opacity-100 transition-all group"
+                  className="bg-white/80 rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col justify-between opacity-90 hover:opacity-100 transition-all group"
                 >
-                  <div className="p-6 sm:p-8 space-y-4">
-                    <div className="flex justify-between items-center text-[10px] font-bold">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase bg-slate-100 text-slate-500">
-                        {ev.category || 'Archived'}
-                      </span>
-                      <span className="text-slate-400">Completed</span>
+                  {/* Event Cover Image */}
+                  <div className="h-44 w-full relative overflow-hidden bg-slate-100 border-b border-slate-100">
+                    {ev.image ? (
+                      <img 
+                        src={ev.image} 
+                        alt={ev.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center p-6 text-center text-white">
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-300">
+                          SUE Archived Event
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-bold">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase bg-slate-100 text-slate-500">
+                          {ev.category || 'Archived'}
+                        </span>
+                        <span className="text-slate-400">Completed</span>
+                      </div>
+
+                      <h3 className="text-sm font-bold text-slate-800 leading-snug line-clamp-2">
+                        <Link href={`/events/${ev.slug}`} className="hover:text-[var(--primary-maroon)]">
+                          {ev.title}
+                        </Link>
+                      </h3>
                     </div>
 
-                    <h3 className="text-sm font-bold text-slate-655 leading-snug line-clamp-2">
-                      <Link href={`/events/${ev.slug}`} className="hover:text-[var(--primary-maroon)]">
-                        {ev.title}
-                      </Link>
-                    </h3>
-
-                    <div className="space-y-1.5 text-[11px] font-medium text-slate-455 pt-4 border-t border-slate-100">
+                    <div className="space-y-1.5 text-[11px] font-medium text-slate-500 pt-4 border-t border-slate-100">
                       <div className="flex items-center space-x-1.5">
                         <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         <span>Date: {new Date(ev.eventDate).toLocaleDateString()}</span>
@@ -188,9 +219,9 @@ export default async function EventsListPage() {
                   <div className="bg-slate-50/50 p-4 border-t border-slate-100 text-right">
                     <Link 
                       href={`/events/${ev.slug}`} 
-                      className="inline-flex items-center space-x-1 text-xs font-bold text-slate-455 hover:text-[var(--primary-maroon)] hover:underline"
+                      className="inline-flex items-center space-x-1 text-xs font-bold text-slate-600 hover:text-[var(--primary-maroon)] hover:underline"
                     >
-                      <span>View Archive Summary</span>
+                      <span>View Archive & Gallery</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>

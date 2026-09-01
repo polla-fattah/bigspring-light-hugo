@@ -8,6 +8,7 @@ interface EventDetail {
   slug: string;
   eventDate: string;
   image: string | null;
+  galleryImages?: string[];
   eventType: string;
   featured: boolean;
   description: string | null;
@@ -51,9 +52,9 @@ export default async function EventDetailPage({ params }: PageProps) {
         
         {/* Back Link */}
         <div>
-          <Link href="/" className="text-xs font-bold text-slate-500 hover:text-[var(--primary-maroon)] flex items-center space-x-1.5 w-fit">
+          <Link href="/events" className="text-xs font-bold text-slate-500 hover:text-[var(--primary-maroon)] flex items-center space-x-1.5 w-fit">
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home page</span>
+            <span>Back to All Events</span>
           </Link>
         </div>
 
@@ -121,11 +122,32 @@ export default async function EventDetailPage({ params }: PageProps) {
             )}
             
             {detail.content && (
-              <div className="text-xs text-slate-500 leading-relaxed space-y-3 pt-2">
+              <div className="text-xs text-slate-600 leading-relaxed space-y-3 pt-2 font-medium">
                 {detail.content}
               </div>
             )}
           </div>
+
+          {/* Photo Gallery inside event details */}
+          {((detail.galleryImages && detail.galleryImages.length > 0) || detail.image) && (
+            <div className="space-y-4 pt-6 border-t border-slate-100">
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-[var(--secondary-blue)]">
+                Event Photo Gallery
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {detail.image && (
+                  <a href={detail.image} target="_blank" rel="noreferrer" className="block rounded-2xl overflow-hidden border border-slate-200 shadow-sm group">
+                    <img src={detail.image} alt={detail.title} className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300" />
+                  </a>
+                )}
+                {detail.galleryImages?.map((imgUrl, idx) => (
+                  <a key={idx} href={imgUrl} target="_blank" rel="noreferrer" className="block rounded-2xl overflow-hidden border border-slate-200 shadow-sm group">
+                    <img src={imgUrl} alt={`${detail.title} - photo ${idx + 1}`} className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
         </div>
 

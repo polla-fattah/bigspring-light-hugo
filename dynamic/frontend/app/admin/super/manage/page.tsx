@@ -20,17 +20,22 @@ export default async function MasterAdminManagePage() {
 
   let forms: any[] = [];
   let regulations: any[] = [];
+  let units: any[] = [];
+  let labs: any[] = [];
 
   try {
-    forms = await fetchFromBackend<any[]>('/api/forms?includeDraft=true');
+    const [formsData, regsData, unitsData, labsData] = await Promise.all([
+      fetchFromBackend<any[]>('/api/forms?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/regulations?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/units?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/labs?includeDraft=true', {}, [])
+    ]);
+    forms = formsData;
+    regulations = regsData;
+    units = unitsData;
+    labs = labsData;
   } catch (err) {
-    console.error('Failed to load forms for admin:', err);
-  }
-
-  try {
-    regulations = await fetchFromBackend<any[]>('/api/regulations?includeDraft=true');
-  } catch (err) {
-    console.error('Failed to load regulations for admin:', err);
+    console.error('Failed to load master admin datasets:', err);
   }
 
   return (
@@ -51,7 +56,7 @@ export default async function MasterAdminManagePage() {
                 Master Admin Portal
               </span>
               <h1 className="text-2xl font-extrabold text-[var(--secondary-blue)]">
-                Forms & Policy Governance Console
+                SURC Master Governance & Structure Console
               </h1>
             </div>
           </div>
@@ -62,7 +67,12 @@ export default async function MasterAdminManagePage() {
         </div>
 
         {/* Client Interactive Component */}
-        <MasterAdminConsoleClient initialForms={forms} initialRegulations={regulations} />
+        <MasterAdminConsoleClient 
+          initialForms={forms} 
+          initialRegulations={regulations}
+          initialUnits={units}
+          initialLabs={labs}
+        />
 
       </div>
     </div>

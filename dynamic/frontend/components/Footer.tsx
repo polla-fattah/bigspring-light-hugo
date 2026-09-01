@@ -37,9 +37,11 @@ export default function Footer() {
           {/* SUE Emblem & Summary */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3 text-white">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--primary-maroon)] ring-1 ring-[var(--accent-gold)]/50 shadow">
-                <Landmark className="w-5 h-5" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Salahaddin University-Erbil Research Center Logo" 
+                className="h-11 w-auto object-contain bg-white/90 p-1 rounded-xl shadow" 
+              />
               <div className="flex flex-col leading-tight">
                 <span className="font-display font-bold text-lg tracking-tight">Research Center</span>
                 <span className="text-[9px] font-bold text-[var(--accent-gold)] tracking-[0.16em] uppercase">Salahaddin University-Erbil</span>
