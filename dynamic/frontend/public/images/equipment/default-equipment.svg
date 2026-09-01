@@ -1,0 +1,26 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' width='100%' height='100%'>
+  <defs>
+    <linearGradient id='bgGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#0f172a'/>
+      <stop offset='50%' stop-color='#1e293b'/>
+      <stop offset='100%' stop-color='#800020'/>
+    </linearGradient>
+    <linearGradient id='goldGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#f59e0b'/>
+      <stop offset='100%' stop-color='#d97706'/>
+    </linearGradient>
+  </defs>
+  <rect width='600' height='400' fill='url(#bgGrad)' />
+  <!-- Subtle grid pattern -->
+  <path d='M0 100 H600 M0 200 H600 M0 300 H600 M150 0 V400 M300 0 V400 M450 0 V400' stroke='white' stroke-opacity='0.05' stroke-width='1'/>
+  <!-- Flask graphic -->
+  <g transform='translate(230, 110) scale(1.4)'>
+    <path d='M45 20 H55 V40 L80 90 C85 100 78 110 65 110 H35 C22 110 15 100 20 90 L45 40 Z' fill='none' stroke='url(#goldGrad)' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/>
+    <path d='M25 82 L75 82 L65 102 H35 Z' fill='url(#goldGrad)' opacity='0.3'/>
+    <circle cx='45' cy='65' r='3' fill='#fbbf24'/>
+    <circle cx='55' cy='75' r='4' fill='#fbbf24'/>
+    <circle cx='40' cy='88' r='2' fill='#fbbf24'/>
+  </g>
+  <text x='300' y='320' text-anchor='middle' fill='#ffffff' font-family='sans-serif' font-size='20' font-weight='800' letter-spacing='2'>SURC LABORATORY EQUIPMENT</text>
+  <text x='300' y='345' text-anchor='middle' fill='#cbd5e1' font-family='sans-serif' font-size='13' font-weight='600'>Salahaddin University-Erbil Research Facility</text>
+</svg>

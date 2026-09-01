@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- WATER BATH CHASSIS -->
+  <rect x="180" y="160" width="440" height="320" rx="32" fill="#e2e8f0" stroke="#475569" stroke-width="6"/>
+
+  <!-- WATER BASIN -->
+  <rect x="220" y="200" width="360" height="180" rx="16" fill="#0284c7" stroke="#0369a1" stroke-width="4"/>
+  <rect x="225" y="230" width="350" height="145" rx="10" fill="url(#water)" opacity="0.8"/>
+
+  <!-- STEAM RIPPLES -->
+  <path d="M 260 210 Q 280 190 300 210" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M 360 200 Q 380 180 400 200" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M 460 210 Q 480 190 500 210" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+  <!-- TUBE RACK FLOATING IN WATER -->
+  <rect x="280" y="250" width="240" height="90" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  
+  <!-- Test Tubes in Rack -->
+  <rect x="300" y="220" width="16" height="80" rx="8" fill="#ef4444" opacity="0.9"/>
+  <rect x="340" y="220" width="16" height="80" rx="8" fill="#10b981" opacity="0.9"/>
+  <rect x="380" y="220" width="16" height="80" rx="8" fill="#f59e0b" opacity="0.9"/>
+  <rect x="420" y="220" width="16" height="80" rx="8" fill="#38bdf8" opacity="0.9"/>
+  <rect x="460" y="220" width="16" height="80" rx="8" fill="#a855f7" opacity="0.9"/>
+
+  <!-- FRONT PANEL CONTROLS -->
+  <rect x="220" y="400" width="360" height="50" rx="12" fill="#0f172a"/>
+  <text x="240" y="432" fill="#ef4444" font-family="monospace" font-size="20" font-weight="bold">SET: 60.0 °C</text>
+  <circle cx="530" cy="425" r="14" fill="#38bdf8"/>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="280" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#38bdf8"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">HEATED WATER BATH</text>
+</svg>

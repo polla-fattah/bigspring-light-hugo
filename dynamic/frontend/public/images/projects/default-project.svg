@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- PROJECT BLUEPRINT &amp; GRAPHICS -->
+  <rect x="200" y="150" width="400" height="320" rx="32" fill="#1e293b" stroke="#22c55e" stroke-width="4"/>
+
+  <!-- BLUEPRINT GRID LINES -->
+  <line x1="220" y1="230" x2="580" y2="230" stroke="#15803d" stroke-width="2" stroke-dasharray="4,4"/>
+  <line x1="220" y1="310" x2="580" y2="310" stroke="#15803d" stroke-width="2" stroke-dasharray="4,4"/>
+  <line x1="220" y1="390" x2="580" y2="390" stroke="#15803d" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- PROJECT PROGRESS CHARTS -->
+  <polyline points="240,420 300,360 360,380 420,280 480,310 560,220" fill="none" stroke="#4ade80" stroke-width="5"/>
+  <polyline points="240,420 300,360 360,380 420,280 480,310 560,220 560,430 240,430" fill="#22c55e" opacity="0.2"/>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="310" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#22c55e"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">SURC RESEARCH PROJECT</text>
+</svg>

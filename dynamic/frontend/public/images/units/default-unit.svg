@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- RESEARCH UNIT HUBS -->
+  <circle cx="400" cy="300" r="80" fill="#4338ca" stroke="#818cf8" stroke-width="4"/>
+  <circle cx="260" cy="200" r="50" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
+  <circle cx="540" cy="200" r="50" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
+  <circle cx="280" cy="420" r="50" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
+  <circle cx="520" cy="420" r="50" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
+
+  <!-- CONNECTING NETWORK BRANCHES -->
+  <line x1="400" y1="300" x2="260" y2="200" stroke="#818cf8" stroke-width="4"/>
+  <line x1="400" y1="300" x2="540" y2="200" stroke="#818cf8" stroke-width="4"/>
+  <line x1="400" y1="300" x2="280" y2="420" stroke="#818cf8" stroke-width="4"/>
+  <line x1="400" y1="300" x2="520" y2="420" stroke="#818cf8" stroke-width="4"/>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="310" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#818cf8"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">SURC RESEARCH UNIT</text>
+</svg>

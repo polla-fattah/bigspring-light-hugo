@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="air" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- CABINET HOOD STRUCTURE -->
+  <rect x="200" y="80" width="400" height="440" rx="24" fill="#f8fafc" stroke="#475569" stroke-width="6"/>
+
+  <!-- TOP HEPA FILTER BLOWER HOUSING -->
+  <rect x="220" y="100" width="360" height="90" rx="12" fill="#1e293b"/>
+  <text x="240" y="145" fill="#10b981" font-family="monospace" font-size="14" font-weight="bold">HEPA AIRFLOW: 0.45 m/s [NORMAL]</text>
+
+  <!-- LAMINAR FLOW WORKING ENCLOSURE -->
+  <rect x="220" y="200" width="360" height="240" fill="#0f172a" stroke="#334155" stroke-width="4"/>
+  
+  <!-- Downward Air Flow Streams -->
+  <rect x="230" y="200" width="340" height="240" fill="url(#air)"/>
+  <line x1="280" y1="200" x2="280" y2="440" stroke="#34d399" stroke-width="2" stroke-dasharray="6,6"/>
+  <line x1="360" y1="200" x2="360" y2="440" stroke="#34d399" stroke-width="2" stroke-dasharray="6,6"/>
+  <line x1="440" y1="200" x2="440" y2="440" stroke="#34d399" stroke-width="2" stroke-dasharray="6,6"/>
+  <line x1="520" y1="200" x2="520" y2="440" stroke="#34d399" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- STAINLESS STEEL BENCH &amp; BUNSEN BURNER -->
+  <rect x="220" y="420" width="360" height="20" fill="#94a3b8"/>
+  <rect x="360" y="380" width="30" height="40" fill="#cbd5e1"/>
+  <!-- Blue Flame -->
+  <path d="M 375 380 Q 365 350 375 330 Q 385 350 375 380" fill="#38bdf8"/>
+
+  <!-- GLASS SASH WINDOW -->
+  <rect x="220" y="200" width="360" height="150" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="3"/>
+
+  <!-- CONTROL TOUCHPAD -->
+  <rect x="220" y="450" width="360" height="50" rx="12" fill="#1e293b"/>
+  <circle cx="260" cy="475" r="10" fill="#10b981"/>
+  <circle cx="300" cy="475" r="10" fill="#38bdf8"/>
+  <circle cx="340" cy="475" r="10" fill="#a855f7"/>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="300" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#10b981"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">BIOSAFETY / LAMINAR FLOW HOOD</text>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="30%" stop-color="#f8fafc"/>
+      <stop offset="70%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- Steam Plume Vectors -->
+  <path d="M 400 130 Q 380 90 410 50" stroke="#f8fafc" stroke-width="4" fill="none" opacity="0.3" stroke-linecap="round"/>
+  <path d="M 430 140 Q 450 90 420 40" stroke="#f8fafc" stroke-width="3" fill="none" opacity="0.2" stroke-linecap="round"/>
+
+  <!-- AUTOCLAVE VERTICAL CYLINDER BODY -->
+  <rect x="260" y="150" width="280" height="360" rx="40" fill="url(#steel)" stroke="#334155" stroke-width="6"/>
+
+  <!-- HEAVY LOCKING TOP LID -->
+  <ellipse cx="400" cy="150" rx="140" ry="30" fill="#475569" stroke="#94a3b8" stroke-width="4"/>
+  <ellipse cx="400" cy="142" rx="120" ry="22" fill="#1e293b"/>
+
+  <!-- WHEEL LOCK HANDLE -->
+  <circle cx="400" cy="115" r="28" fill="none" stroke="#f59e0b" stroke-width="8"/>
+  <line x1="400" y1="87" x2="400" y2="143" stroke="#f59e0b" stroke-width="6"/>
+  <line x1="372" y1="115" x2="428" y2="115" stroke="#f59e0b" stroke-width="6"/>
+  <circle cx="400" cy="115" r="10" fill="#78350f"/>
+
+  <!-- PRESSURE GAUGE METER -->
+  <circle cx="340" cy="220" r="30" fill="#ffffff" stroke="#334155" stroke-width="4"/>
+  <circle cx="340" cy="220" r="26" fill="#f8fafc"/>
+  <path d="M 320 220 A 20 20 0 0 1 360 220" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <line x1="340" y1="220" x2="355" y2="205" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="340" cy="220" r="4" fill="#0f172a"/>
+
+  <!-- DIGITAL TEMP DISPLAY -->
+  <rect x="400" y="200" width="100" height="40" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+  <text x="415" y="226" fill="#ef4444" font-family="monospace" font-size="18" font-weight="bold">121 °C</text>
+
+  <!-- CONTROL PANEL BUTTONS -->
+  <rect x="310" y="280" width="180" height="180" rx="16" fill="#1e293b"/>
+  <text x="330" y="310" fill="#94a3b8" font-family="monospace" font-size="12">PRESS: 15 PSI</text>
+  <text x="330" y="330" fill="#94a3b8" font-family="monospace" font-size="12">TIMER: 20 MIN</text>
+  
+  <rect x="330" y="360" width="140" height="35" rx="8" fill="#10b981"/>
+  <text x="355" y="382" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="bold">STERILIZE</text>
+
+  <!-- BASE FEET -->
+  <rect x="280" y="510" width="40" height="30" rx="6" fill="#1e293b"/>
+  <rect x="480" y="510" width="40" height="30" rx="6" fill="#1e293b"/>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="280" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#ef4444"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">STEAM STERILIZER / AUTOCLAVE</text>
+</svg>

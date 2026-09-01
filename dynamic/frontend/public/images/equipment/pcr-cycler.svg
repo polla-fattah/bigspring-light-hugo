@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- DNA Helix Graphic Vector Background -->
+  <path d="M 100 100 C 200 150 200 250 100 300 C 0 350 0 450 100 500" stroke="#818cf8" stroke-width="4" fill="none" opacity="0.3"/>
+  <path d="M 100 300 C 200 350 200 450 100 500" stroke="#c084fc" stroke-width="4" fill="none" opacity="0.3"/>
+
+  <!-- MAIN CHASSIS -->
+  <rect x="220" y="140" width="360" height="380" rx="36" fill="url(#body)" stroke="#475569" stroke-width="6"/>
+
+  <!-- TOUCH SCREEN DISPLAY -->
+  <rect x="250" y="170" width="300" height="170" rx="16" fill="#0f172a" stroke="#6366f1" stroke-width="3"/>
+  
+  <!-- PCR Amplification Curves Graph -->
+  <path d="M 270 310 Q 340 310 370 230 T 520 200" fill="none" stroke="#22c55e" stroke-width="4"/>
+  <path d="M 270 310 Q 350 310 390 250 T 520 210" fill="none" stroke="#38bdf8" stroke-width="3"/>
+  <path d="M 270 310 Q 370 310 410 270 T 520 220" fill="none" stroke="#eab308" stroke-width="2"/>
+  
+  <text x="270" y="195" fill="#f8fafc" font-family="monospace" font-size="13" font-weight="bold">qPCR Real-Time Cycler</text>
+  <text x="470" y="195" fill="#22c55e" font-family="monospace" font-size="12">Cq: 18.4</text>
+
+  <!-- 96-WELL THERMAL BLOCK LID -->
+  <rect x="250" y="360" width="300" height="120" rx="16" fill="#1e293b" stroke="#334155" stroke-width="3"/>
+  <rect x="270" y="380" width="260" height="80" rx="8" fill="#0f172a"/>
+  
+  <!-- 96-Well Microplate Tubes Grid (Simulated Matrix) -->
+  <g fill="#6366f1">
+    <circle cx="290" cy="400" r="5"/> <circle cx="310" cy="400" r="5"/> <circle cx="330" cy="400" r="5"/> <circle cx="350" cy="400" r="5"/> <circle cx="370" cy="400" r="5"/> <circle cx="390" cy="400" r="5"/> <circle cx="410" cy="400" r="5"/> <circle cx="430" cy="400" r="5"/> <circle cx="450" cy="400" r="5"/> <circle cx="470" cy="400" r="5"/> <circle cx="490" cy="400" r="5"/> <circle cx="510" cy="400" r="5"/>
+    <circle cx="290" cy="420" r="5"/> <circle cx="310" cy="420" r="5"/> <circle cx="330" cy="420" r="5"/> <circle cx="350" cy="420" r="5"/> <circle cx="370" cy="420" r="5"/> <circle cx="390" cy="420" r="5"/> <circle cx="410" cy="420" r="5"/> <circle cx="430" cy="420" r="5"/> <circle cx="450" cy="420" r="5"/> <circle cx="470" cy="420" r="5"/> <circle cx="490" cy="420" r="5"/> <circle cx="510" cy="420" r="5"/>
+    <circle cx="290" cy="440" r="5"/> <circle cx="310" cy="440" r="5"/> <circle cx="330" cy="440" r="5"/> <circle cx="350" cy="440" r="5"/> <circle cx="370" cy="440" r="5"/> <circle cx="390" cy="440" r="5"/> <circle cx="410" cy="440" r="5"/> <circle cx="430" cy="440" r="5"/> <circle cx="450" cy="440" r="5"/> <circle cx="470" cy="440" r="5"/> <circle cx="490" cy="440" r="5"/> <circle cx="510" cy="440" r="5"/>
+  </g>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="280" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#818cf8"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">PCR THERMAL CYCLER</text>
+</svg>

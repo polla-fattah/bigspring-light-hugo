@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- INCUBATOR OUTER FRAME -->
+  <rect x="200" y="120" width="400" height="400" rx="36" fill="url(#body)" stroke="#475569" stroke-width="6"/>
+
+  <!-- DOUBLE GLASS DOOR -->
+  <rect x="230" y="150" width="340" height="300" rx="20" fill="#0f172a" stroke="#334155" stroke-width="4"/>
+  <rect x="245" y="165" width="310" height="270" rx="12" fill="#022c22" opacity="0.8"/>
+
+  <!-- INTERIOR SHELVES &amp; PETRI DISHES -->
+  <!-- Shelf 1 -->
+  <line x1="250" y1="240" x2="550" y2="240" stroke="#34d399" stroke-width="3" stroke-dasharray="8 4"/>
+  <!-- Petri Dishes on Shelf 1 -->
+  <ellipse cx="320" cy="235" rx="30" ry="8" fill="#10b981" opacity="0.7"/>
+  <ellipse cx="400" cy="235" rx="25" ry="6" fill="#34d399" opacity="0.7"/>
+
+  <!-- Shelf 2 -->
+  <line x1="250" y1="330" x2="550" y2="330" stroke="#34d399" stroke-width="3" stroke-dasharray="8 4"/>
+  <!-- Erlenmeyer Flask on Shelf 2 -->
+  <polygon points="460,325 480,325 495,290 445,290" fill="#a7f3d0" opacity="0.6"/>
+
+  <!-- CONTROL DISPLAY PANEL -->
+  <rect x="230" y="460" width="340" height="40" rx="10" fill="#1e293b"/>
+  <text x="250" y="485" fill="#34d399" font-family="monospace" font-size="16" font-weight="bold">TEMP: 37.0 °C</text>
+  <text x="410" y="485" fill="#38bdf8" font-family="monospace" font-size="16" font-weight="bold">CO2: 5.0 %</text>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="280" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#10b981"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">LABORATORY INCUBATOR</text>
+</svg>

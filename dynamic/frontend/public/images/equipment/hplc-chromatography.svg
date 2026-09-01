@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#581c87"/>
+    </linearGradient>
+    <linearGradient id="tower" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- HPLC STACKED TOWER MODULES -->
+  <g stroke="#475569" stroke-width="4">
+    <!-- Module 1: Solvent Tray &amp; Degasser (Top) -->
+    <rect x="250" y="110" width="300" height="90" rx="16" fill="url(#tower)"/>
+    <rect x="270" y="125" width="40" height="60" rx="6" fill="#38bdf8" opacity="0.8"/>
+    <rect x="320" y="125" width="40" height="60" rx="6" fill="#a855f7" opacity="0.8"/>
+    <rect x="370" y="125" width="40" height="60" rx="6" fill="#10b981" opacity="0.8"/>
+
+    <!-- Module 2: Binary Pump &amp; Autosampler -->
+    <rect x="250" y="210" width="300" height="100" rx="16" fill="url(#tower)"/>
+    <rect x="270" y="230" width="140" height="60" rx="8" fill="#0f172a"/>
+    <text x="285" y="265" fill="#a855f7" font-family="monospace" font-size="14" font-weight="bold">PUMP: 400 BAR</text>
+
+    <!-- Module 3: Column Oven -->
+    <rect x="250" y="320" width="300" height="90" rx="16" fill="url(#tower)"/>
+    <rect x="380" y="335" width="140" height="60" rx="8" fill="#1e293b"/>
+    <!-- C18 Column -->
+    <rect x="400" y="355" width="100" height="20" rx="10" fill="#f59e0b"/>
+
+    <!-- Module 4: UV/Vis DAD Detector (Bottom) -->
+    <rect x="250" y="420" width="300" height="90" rx="16" fill="url(#tower)"/>
+    <rect x="270" y="435" width="260" height="60" rx="8" fill="#0f172a"/>
+    <!-- Chromatogram Peaks -->
+    <polyline points="280,480 320,480 340,440 360,480 390,480 410,430 430,480 510,480" fill="none" stroke="#c084fc" stroke-width="3"/>
+  </g>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="300" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#c084fc"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">HPLC CHROMATOGRAPHY SYSTEM</text>
+</svg>

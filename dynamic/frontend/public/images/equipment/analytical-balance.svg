@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- BASE BODY -->
+  <rect x="200" y="380" width="400" height="130" rx="24" fill="url(#metal)" stroke="#475569" stroke-width="5"/>
+  <rect x="200" y="480" width="400" height="30" rx="12" fill="#0f172a"/>
+
+  <!-- GLASS DRAFT SHIELD (3D BOX) -->
+  <rect x="230" y="160" width="340" height="230" rx="12" fill="#38bdf8" fill-opacity="0.1" stroke="#38bdf8" stroke-width="3"/>
+  <rect x="245" y="175" width="310" height="200" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- WEIGHING PAN &amp; PILLAR -->
+  <ellipse cx="400" cy="340" rx="70" ry="16" fill="url(#metal)" stroke="#64748b" stroke-width="3"/>
+  <rect x="390" y="340" width="20" height="40" fill="#64748b"/>
+
+  <!-- SAMPLE POWDER ON PAN -->
+  <ellipse cx="400" cy="336" rx="18" ry="5" fill="#f8fafc"/>
+
+  <!-- DIGITAL DISPLAY -->
+  <rect x="260" y="415" width="280" height="50" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+  <text x="310" y="450" fill="#f59e0b" font-family="monospace" font-size="26" font-weight="bold">0.0001 g</text>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="280" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#f59e0b"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">ANALYTICAL BALANCE</text>
+</svg>

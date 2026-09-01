@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" rx="24" fill="url(#bg)"/>
+
+  <!-- VACUUM PUMP &amp; VORTEX MIXER CHASSIS -->
+  <rect x="200" y="160" width="400" height="320" rx="32" fill="#e2e8f0" stroke="#475569" stroke-width="6"/>
+
+  <!-- VORTEX RUBBER CUP HEAD -->
+  <path d="M 350,220 L 450,220 L 470,160 L 330,160 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
+
+  <!-- ERLENMEYER FLASK BEING SHAKEN -->
+  <polygon points="380,150 420,150 440,70 360,70" fill="#2dd4bf" opacity="0.7"/>
+
+  <!-- VACUUM PRESSURE DIAL METER -->
+  <circle cx="300" cy="300" r="45" fill="#ffffff" stroke="#334155" stroke-width="4"/>
+  <line x1="300" y1="300" x2="325" y2="280" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- SPEED CONTROL KNOB -->
+  <circle cx="500" cy="300" r="35" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
+  <line x1="500" y1="300" x2="500" y2="275" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- CONTROL PANEL -->
+  <rect x="230" y="400" width="340" height="50" rx="12" fill="#0f172a"/>
+  <text x="250" y="432" fill="#2dd4bf" font-family="monospace" font-size="18" font-weight="bold">3000 RPM</text>
+  <text x="410" y="432" fill="#f59e0b" font-family="monospace" font-size="18" font-weight="bold">-0.08 MPa</text>
+
+  <!-- TEXT BADGE -->
+  <rect x="50" y="50" width="300" height="48" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <circle cx="74" cy="74" r="8" fill="#2dd4bf"/>
+  <text x="94" y="79" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="1">VACUUM PUMP &amp; VORTEX MIXER</text>
+</svg>
