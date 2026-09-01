@@ -132,7 +132,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
         equipmentId,
         userName: sessionUser.name || 'SUE Researcher',
         userEmail: sessionUser.email || '',
-        userType,
+        userType: (sessionUser as any)?.role || 'researcher',
         purpose,
         startTime,
         endTime,
@@ -153,7 +153,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
   const currentMinTime = new Date(Date.now() + 15 * 60 * 1000).toISOString().slice(0, 16);
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5">
+    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5" id="booking-form">
       <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-3 flex items-center space-x-2">
         <CalendarRange className="w-4 h-4 text-[var(--primary-maroon)]" />
         <span>Request Facility Reservation</span>
@@ -234,19 +234,7 @@ export default function EquipmentBookingForm({ equipmentList, sessionUser }: Pro
           </div>
         )}
 
-        {/* User Type */}
-        <div className="space-y-1.5">
-          <label className="font-extrabold text-[var(--secondary-blue)]">User Category</label>
-          <select 
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-250 rounded-xl px-3.5 py-2.5 text-xs text-slate-650 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white transition-all"
-          >
-            <option value="student">Student Researcher</option>
-            <option value="staff">Faculty Staff Member</option>
-            <option value="external">External Collaborator</option>
-          </select>
-        </div>
+
 
         {/* Datetime Selection */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
