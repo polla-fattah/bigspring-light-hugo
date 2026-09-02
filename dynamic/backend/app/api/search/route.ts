@@ -61,7 +61,6 @@ export async function GET(request: NextRequest) {
       const projectList = await prisma.project.findMany({
         where: {
           draft: false,
-          visibility: 'public',
           AND: [
             unitFilter ? { unitId: unitFilter } : {},
             q ? {
