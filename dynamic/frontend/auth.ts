@@ -2,6 +2,8 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'sue_portal_auth_secret_session_encryption_key_2026',
   providers: [
     Credentials({
       name: 'Credentials',
