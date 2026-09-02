@@ -51,6 +51,8 @@ export async function POST(request: NextRequest) {
       ? 'superadmin'
       : (role === 'faculty' ? 'lab_staff' : 'researcher');
 
+    const passwordHash = hashPassword(password);
+
     const newUser = await prisma.user.create({
       data: {
         name: name.trim(),

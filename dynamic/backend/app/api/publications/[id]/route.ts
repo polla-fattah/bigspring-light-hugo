@@ -63,10 +63,11 @@ export async function PUT(
       data: {
         title: body.title !== undefined ? body.title : undefined,
         pubType: body.pubType !== undefined ? body.pubType : undefined,
+        degree: body.degree !== undefined ? body.degree : undefined,
         year: body.year !== undefined ? body.year : undefined,
         journal: body.journal !== undefined ? body.journal : undefined,
-        doi: body.doi !== undefined ? body.doi : undefined,
-        link: body.link !== undefined ? body.link : undefined,
+        pdf: body.pdf !== undefined ? body.pdf : (body.link !== undefined ? body.link : undefined),
+        description: body.description !== undefined ? body.description : undefined,
         unitId: body.unitId !== undefined ? body.unitId : undefined,
         draft: body.draft !== undefined ? body.draft : undefined
       }
