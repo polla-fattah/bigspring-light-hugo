@@ -128,14 +128,19 @@ pm2 start npm --name "surc-frontend" -- run start -- --port 3001
 pm2 save
 pm2 startup systemd -u root --hp /root || true
 
-# 8. CONFIGURE NGINX REVERSE PROXY & SSL
+# 8. CONFIGURE NGINX REVERSE PROXY & OVERRIDE VIRTUALMIN DEFAULT
 echo -e "${GREEN}[8/8] Configuring Nginx Reverse Proxy for rc.su.edu.krd...${NC}"
 
-NGINX_CONF="/etc/nginx/sites-available/rc.su.edu.krd.conf"
+# Remove any conflicting default or Virtualmin site files for rc.su.edu.krd
+rm -f /etc/nginx/sites-enabled/*rc.su.edu.krd* 2>/dev/null || true
+rm -f /etc/nginx/sites-available/*rc.su.edu.krd* 2>/dev/null || true
+rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
+
+NGINX_CONF="/etc/nginx/conf.d/surc_rc.conf"
 cat <<EOF > "$NGINX_CONF"
 server {
     listen 80;
-    server_name rc.su.edu.krd;
+    server_name rc.su.edu.krd www.rc.su.edu.krd;
 
     client_max_body_size 50M;
 
@@ -165,11 +170,8 @@ server {
 }
 EOF
 
-# Enable site in Nginx
-ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/rc.su.edu.krd.conf
-rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
 nginx -t
-systemctl restart nginx
+systemctl reload nginx || systemctl restart nginx
 
 echo -e "${GOLD}"
 echo "=========================================================================="
