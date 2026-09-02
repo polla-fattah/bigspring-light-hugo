@@ -12,13 +12,6 @@ import {
 } from 'lucide-react';
 
 export default function Home() {
-  const stats = [
-    { label: 'Research Units', count: '8', desc: 'Specialized focus areas' },
-    { label: 'Researchers', count: '45+', desc: 'Experts & instructors' },
-    { label: 'Publications', count: '120+', desc: 'Indexed journals & theses' },
-    { label: 'Laboratories', count: '12+', desc: 'State-of-the-art facilities' },
-  ];
-
   const priorities = [
     {
       title: 'Data Analysis & Informatics',
@@ -131,34 +124,6 @@ export default function Home() {
               </div>
             </div>
 
-          </div>
-
-          {/* Figures rail — forms the base of the hero */}
-          <div className="mt-16 sm:mt-20 border-t border-white/15 grid grid-cols-2 lg:grid-cols-4 gap-y-10">
-            {stats.map((stat, i) => {
-              // 2-up on small screens, 4-up on large — a hairline only where a column
-              // starts mid-row, so no row ever opens with a stray rule.
-              const divider =
-                i === 1 || i === 3
-                  ? 'border-l border-white/12 pl-6 lg:pl-8'
-                  : i === 2
-                    ? 'lg:border-l lg:border-white/12 lg:pl-8'
-                    : '';
-
-              return (
-                <div key={stat.label} className={`pt-8 ${divider}`}>
-                  <div className="text-4xl sm:text-[2.75rem] font-display font-bold text-[var(--accent-gold)] tracking-tight leading-none">
-                    {stat.count}
-                  </div>
-                  <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.15em] mt-3.5">
-                    {stat.label}
-                  </h3>
-                  <p className="text-[11px] text-rose-100/50 mt-1.5">
-                    {stat.desc}
-                  </p>
-                </div>
-              );
-            })}
           </div>
 
         </div>
