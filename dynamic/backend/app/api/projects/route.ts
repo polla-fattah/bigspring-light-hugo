@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const list = await prisma.project.findMany({
       where: {
         draft: false,
-        visibility: 'public',
         ...(status ? { status } : {}),
         ...(unitId ? { unitId } : {})
       },
