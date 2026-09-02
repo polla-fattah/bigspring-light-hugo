@@ -62,24 +62,24 @@ fi
 # 4. SETUP POSTGRESQL DATABASE & ENVIRONMENT VARIABLES
 echo -e "${GREEN}[4/8] Configuring PostgreSQL Database & Environment Variables...${NC}"
 
+# Generate cryptographically strong random DB password & NextAuth secret
+DB_PASS=$(openssl rand -hex 16)
+SECRET_KEY=$(openssl rand -base64 32)
+
 # Ensure PostgreSQL service is running and create database/user if needed
 if command -v psql &> /dev/null; then
   echo "Setting up PostgreSQL database 'surc_db' and user 'surc_user'..."
   systemctl restart postgresql || systemctl start postgresql || true
-  sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" 2>/dev/null || true
-  sudo -u postgres psql -c "CREATE USER surc_user WITH PASSWORD 'surc_password_2026';" 2>/dev/null || true
-  sudo -u postgres psql -c "ALTER USER surc_user WITH PASSWORD 'surc_password_2026';" 2>/dev/null || true
+  sudo -u postgres psql -c "CREATE USER surc_user WITH PASSWORD '${DB_PASS}';" 2>/dev/null || true
+  sudo -u postgres psql -c "ALTER USER surc_user WITH PASSWORD '${DB_PASS}';" 2>/dev/null || true
   sudo -u postgres psql -c "CREATE DATABASE surc_db OWNER surc_user;" 2>/dev/null || true
   sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE surc_db TO surc_user;" 2>/dev/null || true
 fi
 
-# Generate random NextAuth Secret if not exists
-SECRET_KEY=$(openssl rand -base64 32)
-
 cat <<EOF > "$APP_DIR/dynamic/backend/.env"
 NODE_ENV=production
 ALLOWED_ORIGIN="https://rc.su.edu.krd"
-DATABASE_URL="postgresql://surc_user:surc_password_2026@localhost:5432/surc_db?schema=public"
+DATABASE_URL="postgresql://surc_user:${DB_PASS}@localhost:5432/surc_db?schema=public"
 
 # Nodemailer SMTP Setup (Defaulting to Dr. Polla's email; update password in .env)
 SMTP_HOST=smtp.office365.com
