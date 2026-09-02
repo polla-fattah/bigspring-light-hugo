@@ -7,6 +7,11 @@ import SessionProvider from "../components/SessionProvider";
 export const metadata: Metadata = {
   title: "Salahaddin University-Erbil | Research Center Portal",
   description: "Official portal of Salahaddin University-Erbil Research Center, offering dynamic search, laboratory scheduling, equipment bookings, open datasets, and research priorities.",
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export default function RootLayout({
