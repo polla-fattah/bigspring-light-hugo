@@ -99,17 +99,14 @@ export default async function StaffDetailPage({ params }: PageProps) {
           
           {/* Avatar column */}
           <div className="lg:col-span-3 flex justify-center">
-            {detail.image && detail.image.trim() !== '' && detail.image !== 'null' ? (
-              <img 
-                src={detail.image.startsWith('/') || detail.image.startsWith('http') ? detail.image : `/${detail.image}`} 
-                alt={detail.title} 
-                className="w-40 h-40 rounded-full object-cover border-4 border-slate-100 shadow-md" 
-              />
-            ) : (
-              <div className="w-40 h-40 rounded-full bg-slate-50 border-4 border-slate-100 flex items-center justify-center text-5xl font-extrabold text-[var(--primary-maroon)] shadow-inner animate-fade-in">
-                {detail.title.charAt(0)}
-              </div>
-            )}
+            <img 
+              src={detail.image && detail.image.trim() !== '' && detail.image !== 'null' 
+                ? (detail.image.startsWith('/') || detail.image.startsWith('http') ? detail.image : `/${detail.image}`)
+                : '/images/staff/default-avatar.svg'
+              } 
+              alt={detail.title} 
+              className="w-40 h-40 rounded-full object-cover border-4 border-slate-100 shadow-md" 
+            />
           </div>
 
           {/* Details column */}

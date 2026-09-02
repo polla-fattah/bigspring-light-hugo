@@ -63,17 +63,14 @@ export default async function StaffPage() {
                 
                 {/* Header profile details */}
                 <div className="flex items-center space-x-4">
-                  {member.image && member.image.trim() !== '' && member.image !== 'null' ? (
-                    <img 
-                      src={member.image.startsWith('/') || member.image.startsWith('http') ? member.image : `/${member.image}`} 
-                      alt={member.title} 
-                      className="w-14 h-14 rounded-full object-cover border border-slate-200 shadow-sm shrink-0" 
-                    />
-                  ) : (
-                    <div className="w-14 h-14 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-[var(--primary-maroon)] text-lg shrink-0">
-                      {member.title.charAt(0)}
-                    </div>
-                  )}
+                  <img 
+                    src={member.image && member.image.trim() !== '' && member.image !== 'null' 
+                      ? (member.image.startsWith('/') || member.image.startsWith('http') ? member.image : `/${member.image}`)
+                      : '/images/staff/default-avatar.svg'
+                    } 
+                    alt={member.title} 
+                    className="w-14 h-14 rounded-full object-cover border border-slate-200 shadow-sm shrink-0" 
+                  />
                   <div>
                     <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] hover:text-[var(--primary-maroon)] transition-colors">
                       <Link href={`/staff/${member.id}`}>

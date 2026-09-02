@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 async function main() {
   const staff = await prisma.staff.findMany({ select: { id: true, title: true, image: true } });
 
-  console.log(`Seeding valid images for ${staff.length} staff records in PostgreSQL...`);
+  console.log(`Setting standard user silhouette for staff records in PostgreSQL...`);
 
   for (const s of staff) {
     let img = s.image;
@@ -14,17 +14,8 @@ async function main() {
       img = '/images/staff/polla.png';
     } else if (titleLower.includes('samir')) {
       img = '/images/staff/samir.png';
-    } else if (
-      titleLower.includes('sara') ||
-      titleLower.includes('suhad') ||
-      titleLower.includes('treska') ||
-      titleLower.includes('fenk') ||
-      titleLower.includes('shawnim') ||
-      titleLower.includes('shakar')
-    ) {
-      img = '/images/staff/avatar-female-1.svg';
     } else {
-      img = '/images/staff/avatar-male-1.svg';
+      img = '/images/staff/default-avatar.svg';
     }
 
     await prisma.staff.update({
@@ -33,7 +24,7 @@ async function main() {
     });
   }
 
-  console.log('SUCCESS: Updated all staff records with valid researcher photo/avatar paths!');
+  console.log('SUCCESS: Updated all staff records with standard user silhouette avatar path!');
 }
 
 main().finally(() => prisma.$disconnect());
