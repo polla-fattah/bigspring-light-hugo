@@ -70,13 +70,13 @@ NODE_ENV=production
 ALLOWED_ORIGIN="https://rc.su.edu.krd"
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/surc_db?schema=public"
 
-# Nodemailer SMTP Setup (Update with your SUE Mailbox credentials)
+# Nodemailer SMTP Setup (Defaulting to Dr. Polla's email; update password in .env)
 SMTP_HOST=smtp.office365.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=research.center@su.edu.krd
-SMTP_PASS=YourMailboxPassword
-SMTP_FROM="SURC Research Center" <research.center@su.edu.krd>
+SMTP_USER=polla.fattah@su.edu.krd
+SMTP_PASS=CHANGE_TO_YOUR_ACTUAL_EMAIL_PASSWORD
+SMTP_FROM="SURC Research Center" <polla.fattah@su.edu.krd>
 EOF
 
 cat <<EOF > "$APP_DIR/dynamic/frontend/.env"
