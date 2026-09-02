@@ -1,5 +1,4 @@
 export function getLabImageUrl(image: string | null | undefined, title: string = ''): string {
-  // If user uploaded a custom image (e.g., /images/uploads/xxx or http://)
   if (
     image && 
     image.trim() !== '' && 
@@ -55,8 +54,7 @@ export function getEventImageUrl(image: string | null | undefined, title: string
     image && 
     image.trim() !== '' && 
     image !== 'null' && 
-    image !== 'undefined' &&
-    (image.startsWith('http') || image.includes('/uploads/') || image.endsWith('.svg') || image.includes('-openday') || image.includes('ethics') || image.includes('genomics') || image.includes('gpu') || image.includes('krg') || image.includes('materials') || image.includes('poster') || image.includes('powerbi') || image.includes('graduation'))
+    image !== 'undefined'
   ) {
     return image.startsWith('/') || image.startsWith('http') ? image : `/${image}`;
   }
@@ -68,8 +66,7 @@ export function getProjectImageUrl(image: string | null | undefined, title: stri
     image && 
     image.trim() !== '' && 
     image !== 'null' && 
-    image !== 'undefined' &&
-    (image.startsWith('http') || image.includes('/uploads/') || image.endsWith('.svg'))
+    image !== 'undefined'
   ) {
     return image.startsWith('/') || image.startsWith('http') ? image : `/${image}`;
   }
@@ -81,8 +78,7 @@ export function getUnitImageUrl(image: string | null | undefined, title: string 
     image && 
     image.trim() !== '' && 
     image !== 'null' && 
-    image !== 'undefined' &&
-    (image.startsWith('http') || image.includes('/uploads/') || image.endsWith('.svg'))
+    image !== 'undefined'
   ) {
     return image.startsWith('/') || image.startsWith('http') ? image : `/${image}`;
   }
