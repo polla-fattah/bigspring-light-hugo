@@ -128,8 +128,21 @@ pm2 start npm --name "surc-frontend" -- run start -- --port 3001
 pm2 save
 pm2 startup systemd -u root --hp /root || true
 
-# 8. CONFIGURE NGINX REVERSE PROXY & OVERRIDE VIRTUALMIN DEFAULT
-echo -e "${GREEN}[8/8] Configuring Nginx Reverse Proxy for rc.su.edu.krd...${NC}"
+# 8. CONFIGURE NGINX REVERSE PROXY & FIREWALL FOR CLOUDFLARE
+echo -e "${GREEN}[8/8] Configuring Nginx Reverse Proxy for rc.su.edu.krd (Ports 80 & 443)...${NC}"
+
+# Ensure HTTP (80) and HTTPS (443) firewall ports are open
+ufw allow 80/tcp 2>/dev/null || true
+ufw allow 443/tcp 2>/dev/null || true
+iptables -I INPUT -p tcp --dport 80 -j ACCEPT 2>/dev/null || true
+iptables -I INPUT -p tcp --dport 443 -j ACCEPT 2>/dev/null || true
+
+# Generate instant SSL certificate for Port 443 (Cloudflare Full SSL Compatibility)
+mkdir -p /etc/ssl/certs /etc/ssl/private
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/surc-selfsigned.key \
+  -out /etc/ssl/certs/surc-selfsigned.crt \
+  -subj "/CN=rc.su.edu.krd" 2>/dev/null || true
 
 # Remove any conflicting default or Virtualmin site files for rc.su.edu.krd
 rm -f /etc/nginx/sites-enabled/*rc.su.edu.krd* 2>/dev/null || true
@@ -140,7 +153,11 @@ NGINX_CONF="/etc/nginx/conf.d/surc_rc.conf"
 cat <<EOF > "$NGINX_CONF"
 server {
     listen 80;
+    listen 443 ssl default_server;
     server_name rc.su.edu.krd www.rc.su.edu.krd;
+
+    ssl_certificate /etc/ssl/certs/surc-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/surc-selfsigned.key;
 
     client_max_body_size 50M;
 
@@ -170,8 +187,9 @@ server {
 }
 EOF
 
+systemctl enable nginx
 nginx -t
-systemctl reload nginx || systemctl restart nginx
+systemctl restart nginx
 
 echo -e "${GOLD}"
 echo "=========================================================================="
