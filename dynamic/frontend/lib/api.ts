@@ -1,7 +1,10 @@
 function getBackendApiUrl(): string {
-  const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (envUrl && envUrl.trim() !== '') return envUrl;
-  return 'http://127.0.0.1:3000';
+  // Server-side (Node.js SSR / Server Components): connect to local backend on port 3000
+  if (typeof window === 'undefined') {
+    return process.env.INTERNAL_BACKEND_URL || 'http://127.0.0.1:3000';
+  }
+  // Client-side (User Browser): use relative URL so Nginx proxies /api/ requests
+  return process.env.NEXT_PUBLIC_API_URL || '';
 }
 
 export async function fetchFromBackend<T>(
