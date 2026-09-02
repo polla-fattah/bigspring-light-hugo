@@ -30,7 +30,10 @@ export async function GET(request: NextRequest) {
           }
         }
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: [
+        { year: 'desc' },
+        { createdAt: 'desc' }
+      ]
     });
     return NextResponse.json(list);
   } catch (error: any) {

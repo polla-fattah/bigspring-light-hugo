@@ -16,7 +16,10 @@ import {
   Award,
   Calendar,
   Image as ImageIcon,
-  ExternalLink
+  ExternalLink,
+  Users,
+  Briefcase,
+  BookOpen
 } from 'lucide-react';
 
 interface FormItem {
@@ -73,12 +76,42 @@ interface EventItem {
   draft: boolean;
 }
 
+interface StaffItem {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  email?: string | null;
+  image?: string | null;
+  draft?: boolean;
+}
+
+interface ProjectItem {
+  id: string;
+  title: string;
+  status: string;
+  year?: string | null;
+  projectType?: string | null;
+  draft?: boolean;
+}
+
+interface PublicationItem {
+  id: string;
+  title: string;
+  pubType: string;
+  year?: string | null;
+  journal?: string | null;
+  draft?: boolean;
+}
+
 interface Props {
   initialForms: FormItem[];
   initialRegulations: RegulationItem[];
   initialUnits: UnitItem[];
   initialLabs: LabItem[];
   initialEvents?: EventItem[];
+  initialStaff?: StaffItem[];
+  initialProjects?: ProjectItem[];
+  initialPublications?: PublicationItem[];
 }
 
 export default function MasterAdminConsoleClient({ 
@@ -86,14 +119,20 @@ export default function MasterAdminConsoleClient({
   initialRegulations,
   initialUnits,
   initialLabs,
-  initialEvents = []
+  initialEvents = [],
+  initialStaff = [],
+  initialProjects = [],
+  initialPublications = []
 }: Props) {
-  const [activeTab, setActiveTab] = useState<'events' | 'units' | 'labs' | 'forms' | 'regulations'>('events');
+  const [activeTab, setActiveTab] = useState<'events' | 'units' | 'labs' | 'staff' | 'projects' | 'publications' | 'forms' | 'regulations'>('events');
   const [forms, setForms] = useState<FormItem[]>(initialForms);
   const [regulations, setRegulations] = useState<RegulationItem[]>(initialRegulations);
   const [units, setUnits] = useState<UnitItem[]>(initialUnits);
   const [labs, setLabs] = useState<LabItem[]>(initialLabs);
   const [events, setEvents] = useState<EventItem[]>(initialEvents);
+  const [staff, setStaff] = useState<StaffItem[]>(initialStaff);
+  const [projects, setProjects] = useState<ProjectItem[]>(initialProjects);
+  const [publications, setPublications] = useState<PublicationItem[]>(initialPublications);
 
   const [isAdding, setIsAdding] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -129,11 +168,14 @@ export default function MasterAdminConsoleClient({
   };
 
   // Toggle Draft / Published
-  const toggleDraft = async (type: 'events' | 'units' | 'labs' | 'forms' | 'regulations', id: string | number, currentDraft: boolean) => {
+  const toggleDraft = async (type: 'events' | 'units' | 'labs' | 'staff' | 'projects' | 'publications' | 'forms' | 'regulations', id: string | number, currentDraft: boolean) => {
     try {
       const endpoint = type === 'events' ? `/api/events/${id}` :
                        type === 'units' ? `/api/units/${id}` :
                        type === 'labs' ? `/api/labs/${id}` :
+                       type === 'staff' ? `/api/staff/${id}` :
+                       type === 'projects' ? `/api/projects/${id}` :
+                       type === 'publications' ? `/api/publications/${id}` :
                        type === 'forms' ? `/api/forms/${id}` : `/api/regulations/${id}`;
       
       const res = await fetch(endpoint, {
@@ -146,6 +188,9 @@ export default function MasterAdminConsoleClient({
         if (type === 'events') setEvents(events.map(e => e.slug === String(id) || e.id === Number(id) ? { ...e, draft: !currentDraft } : e));
         if (type === 'units') setUnits(units.map(u => u.id === id ? { ...u, draft: !currentDraft } : u));
         if (type === 'labs') setLabs(labs.map(l => l.id === id ? { ...l, draft: !currentDraft } : l));
+        if (type === 'staff') setStaff(staff.map(s => s.id === id ? { ...s, draft: !currentDraft } : s));
+        if (type === 'projects') setProjects(projects.map(p => p.id === id ? { ...p, draft: !currentDraft } : p));
+        if (type === 'publications') setPublications(publications.map(pb => pb.id === id ? { ...pb, draft: !currentDraft } : pb));
         if (type === 'forms') setForms(forms.map(f => f.id === id ? { ...f, draft: !currentDraft } : f));
         if (type === 'regulations') setRegulations(regulations.map(r => r.id === id ? { ...r, draft: !currentDraft } : r));
         setFeedbackMsg({ type: 'success', text: `Item draft status updated.` });
@@ -156,12 +201,15 @@ export default function MasterAdminConsoleClient({
   };
 
   // Delete Item
-  const deleteItem = async (type: 'events' | 'units' | 'labs' | 'forms' | 'regulations', id: string | number) => {
+  const deleteItem = async (type: 'events' | 'units' | 'labs' | 'staff' | 'projects' | 'publications' | 'forms' | 'regulations', id: string | number) => {
     if (!confirm(`Are you sure you want to delete this ${type.slice(0, -1)}?`)) return;
     try {
       const endpoint = type === 'events' ? `/api/events/${id}` :
                        type === 'units' ? `/api/units/${id}` :
                        type === 'labs' ? `/api/labs/${id}` :
+                       type === 'staff' ? `/api/staff/${id}` :
+                       type === 'projects' ? `/api/projects/${id}` :
+                       type === 'publications' ? `/api/publications/${id}` :
                        type === 'forms' ? `/api/forms/${id}` : `/api/regulations/${id}`;
       
       const res = await fetch(endpoint, { method: 'DELETE' });
@@ -169,6 +217,9 @@ export default function MasterAdminConsoleClient({
         if (type === 'events') setEvents(events.filter(e => e.slug !== String(id) && e.id !== Number(id)));
         if (type === 'units') setUnits(units.filter(u => u.id !== id));
         if (type === 'labs') setLabs(labs.filter(l => l.id !== id));
+        if (type === 'staff') setStaff(staff.filter(s => s.id !== id));
+        if (type === 'projects') setProjects(projects.filter(p => p.id !== id));
+        if (type === 'publications') setPublications(publications.filter(pb => pb.id !== id));
         if (type === 'forms') setForms(forms.filter(f => f.id !== id));
         if (type === 'regulations') setRegulations(regulations.filter(r => r.id !== id));
         setFeedbackMsg({ type: 'success', text: `${type.slice(0, -1)} deleted successfully.` });
@@ -255,6 +306,76 @@ export default function MasterAdminConsoleClient({
       } catch (err) {
         setFeedbackMsg({ type: 'error', text: 'Error creating core laboratory.' });
       }
+    } else if (activeTab === 'staff') {
+      try {
+        const res = await fetch('/api/staff', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: newTitle,
+            subtitle: newCategory || 'Research Associate',
+            email: newFileUrl || null,
+            image: newHeroImage || null,
+            bio: newDescription || null,
+            draft: newDraft
+          })
+        });
+        if (res.ok) {
+          const created = await res.json();
+          setStaff([created, ...staff]);
+          setFeedbackMsg({ type: 'success', text: 'New researcher staff profile created successfully!' });
+          resetFormFields();
+        }
+      } catch (err) {
+        setFeedbackMsg({ type: 'error', text: 'Error creating researcher profile.' });
+      }
+    } else if (activeTab === 'projects') {
+      try {
+        const res = await fetch('/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: newTitle,
+            status: newCategory || 'ongoing',
+            year: newEventDate || '2025',
+            projectType: newSubCategory || 'Institutional Research',
+            description: newDescription || null,
+            creatorStaffId: 'staff-polla-fattah',
+            draft: newDraft
+          })
+        });
+        if (res.ok) {
+          const created = await res.json();
+          setProjects([created, ...projects]);
+          setFeedbackMsg({ type: 'success', text: 'New research project created successfully!' });
+          resetFormFields();
+        }
+      } catch (err) {
+        setFeedbackMsg({ type: 'error', text: 'Error creating research project.' });
+      }
+    } else if (activeTab === 'publications') {
+      try {
+        const res = await fetch('/api/publications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: newTitle,
+            pubType: newCategory || 'Article',
+            year: newEventDate || '2024',
+            journal: newSubCategory || null,
+            link: newFileUrl || null,
+            draft: newDraft
+          })
+        });
+        if (res.ok) {
+          const created = await res.json();
+          setPublications([created, ...publications]);
+          setFeedbackMsg({ type: 'success', text: 'New publication entry created successfully!' });
+          resetFormFields();
+        }
+      } catch (err) {
+        setFeedbackMsg({ type: 'error', text: 'Error creating publication entry.' });
+      }
     } else if (activeTab === 'forms') {
       try {
         const res = await fetch('/api/forms', {
@@ -320,54 +441,84 @@ export default function MasterAdminConsoleClient({
       {/* Control Tabs & Action Bar */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
         
-        <div className="grid grid-cols-2 sm:flex space-x-0 sm:space-x-2 gap-2 w-full lg:w-auto">
+        <div className="flex flex-wrap gap-2 w-full lg:w-auto">
           <button
             onClick={() => setActiveTab('events')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
               activeTab === 'events' ? 'bg-[var(--primary-maroon)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <Calendar className="w-4 h-4" />
-            <span>Research Events ({events.length})</span>
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Events ({events.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('units')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
               activeTab === 'units' ? 'bg-[var(--secondary-blue)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <Layers className="w-4 h-4" />
-            <span>Specialized Units ({units.length})</span>
+            <Layers className="w-3.5 h-3.5" />
+            <span>Units ({units.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('labs')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
               activeTab === 'labs' ? 'bg-purple-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <Award className="w-4 h-4" />
-            <span>Core Laboratories ({labs.length})</span>
+            <Award className="w-3.5 h-3.5" />
+            <span>Labs ({labs.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('staff')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
+              activeTab === 'staff' ? 'bg-indigo-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Staff ({staff.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('projects')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
+              activeTab === 'projects' ? 'bg-amber-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <Briefcase className="w-3.5 h-3.5" />
+            <span>Projects ({projects.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('publications')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
+              activeTab === 'publications' ? 'bg-teal-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Publications ({publications.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('forms')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
               activeTab === 'forms' ? 'bg-emerald-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-3.5 h-3.5" />
             <span>Forms ({forms.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('regulations')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center space-x-1.5 transition-all cursor-pointer ${
               activeTab === 'regulations' ? 'bg-slate-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <ShieldCheck className="w-4 h-4" />
+            <ShieldCheck className="w-3.5 h-3.5" />
             <span>Policies ({regulations.length})</span>
           </button>
         </div>
@@ -711,6 +862,150 @@ export default function MasterAdminConsoleClient({
 
                   <button
                     onClick={() => deleteItem('labs', lab.id)}
+                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'staff' && (
+          <div className="space-y-4">
+            {staff.map(st => (
+              <div key={st.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${
+                      st.draft ? 'bg-amber-100 text-amber-800' : 'bg-indigo-100 text-indigo-800'
+                    }`}>
+                      {st.draft ? 'Draft' : 'Academic Staff'}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ID: {st.id}</span>
+                  </div>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">{st.title}</h4>
+                  <p className="text-[10px] text-slate-500 font-medium">{st.subtitle || st.email || 'Researcher'}</p>
+                </div>
+
+                <div className="flex items-center space-x-3 self-end sm:self-center">
+                  <button
+                    onClick={() => toggleDraft('staff', st.id, !!st.draft)}
+                    className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold flex items-center space-x-1 transition-all ${
+                      st.draft ? 'bg-slate-200 text-slate-700 hover:bg-green-100 hover:text-green-800' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                    }`}
+                  >
+                    {st.draft ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    <span>{st.draft ? 'Publish' : 'Set Draft'}</span>
+                  </button>
+
+                  <a 
+                    href={`/staff/${st.id}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 text-[10px] font-bold flex items-center space-x-1"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => deleteItem('staff', st.id)}
+                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'projects' && (
+          <div className="space-y-4">
+            {projects.map(proj => (
+              <div key={proj.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${
+                      proj.draft ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'
+                    }`}>
+                      {proj.status || 'Ongoing'}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Year: {proj.year || '2025'}</span>
+                  </div>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">{proj.title}</h4>
+                </div>
+
+                <div className="flex items-center space-x-3 self-end sm:self-center">
+                  <button
+                    onClick={() => toggleDraft('projects', proj.id, !!proj.draft)}
+                    className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold flex items-center space-x-1 transition-all ${
+                      proj.draft ? 'bg-slate-200 text-slate-700 hover:bg-green-100 hover:text-green-800' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                    }`}
+                  >
+                    {proj.draft ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    <span>{proj.draft ? 'Publish' : 'Set Draft'}</span>
+                  </button>
+
+                  <a 
+                    href={`/projects/${proj.id}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 text-[10px] font-bold flex items-center space-x-1"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => deleteItem('projects', proj.id)}
+                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'publications' && (
+          <div className="space-y-4">
+            {publications.map(pub => (
+              <div key={pub.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-teal-100 text-teal-800">
+                      {pub.pubType || 'Article'}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 font-bold">Year: {pub.year || '2024'}</span>
+                  </div>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">{pub.title}</h4>
+                  {pub.journal && <p className="text-[10px] italic text-slate-500">{pub.journal}</p>}
+                </div>
+
+                <div className="flex items-center space-x-3 self-end sm:self-center">
+                  <button
+                    onClick={() => toggleDraft('publications', pub.id, !!pub.draft)}
+                    className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold flex items-center space-x-1 transition-all ${
+                      pub.draft ? 'bg-slate-200 text-slate-700 hover:bg-green-100 hover:text-green-800' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                    }`}
+                  >
+                    {pub.draft ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    <span>{pub.draft ? 'Publish' : 'Set Draft'}</span>
+                  </button>
+
+                  <a 
+                    href={`/publications/${pub.id}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 text-[10px] font-bold flex items-center space-x-1"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => deleteItem('publications', pub.id)}
                     className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />

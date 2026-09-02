@@ -19,6 +19,14 @@ interface StaffMember {
   unit: UnitSummary | null;
 }
 
+function getNameInitial(title: string): string {
+  if (!title) return 'U';
+  const clean = title
+    .replace(/^(Asst\.\s*Prof\.|Prof\.|Dr\.|Doctor)\s*/i, '')
+    .trim();
+  return clean.charAt(0).toUpperCase() || 'U';
+}
+
 export default async function StaffPage() {
   let staffList: StaffMember[] = [];
   let errorMsg = '';
@@ -63,14 +71,17 @@ export default async function StaffPage() {
                 
                 {/* Header profile details */}
                 <div className="flex items-center space-x-4">
-                  <img 
-                    src={member.image && member.image.trim() !== '' && member.image !== 'null' 
-                      ? (member.image.startsWith('/') || member.image.startsWith('http') ? member.image : `/${member.image}`)
-                      : '/images/staff/default-avatar.svg'
-                    } 
-                    alt={member.title} 
-                    className="w-14 h-14 rounded-full object-cover border border-slate-200 shadow-sm shrink-0" 
-                  />
+                  {member.image && member.image.trim() !== '' && member.image !== 'null' && !member.image.includes('.svg') ? (
+                    <img 
+                      src={member.image.startsWith('/') || member.image.startsWith('http') ? member.image : `/${member.image}`} 
+                      alt={member.title} 
+                      className="w-20 h-20 rounded-2xl object-cover border-2 border-slate-200/80 shadow-sm shrink-0" 
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 border border-slate-200 flex items-center justify-center font-extrabold text-[var(--primary-maroon)] text-2xl shadow-inner shrink-0">
+                      {getNameInitial(member.title)}
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] hover:text-[var(--primary-maroon)] transition-colors">
                       <Link href={`/staff/${member.id}`}>

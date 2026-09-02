@@ -33,7 +33,12 @@ export default async function ProjectsPage() {
   let errorMsg = '';
 
   try {
-    projectList = await fetchFromBackend<Project[]>('/api/projects');
+    const rawList = await fetchFromBackend<Project[]>('/api/projects');
+    projectList = (rawList || []).sort((a, b) => {
+      const yA = parseInt(a.year || '0', 10);
+      const yB = parseInt(b.year || '0', 10);
+      return yB - yA;
+    });
   } catch (err) {
     errorMsg = 'Could not load research projects list.';
   }

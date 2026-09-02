@@ -102,3 +102,21 @@ export async function PUT(
     return NextResponse.json({ error: 'Failed to update researcher profile details.' }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  try {
+    const staff = await prisma.staff.findUnique({ where: { id } });
+    if (!staff) {
+      return NextResponse.json({ error: 'Researcher profile not found.' }, { status: 404 });
+    }
+    await prisma.staff.delete({ where: { id } });
+    return NextResponse.json({ success: true, message: 'Researcher profile deleted successfully.' });
+  } catch (error: any) {
+    console.error(`API Error in DELETE /api/staff/${id}:`, error);
+    return NextResponse.json({ error: 'Failed to delete researcher profile.' }, { status: 500 });
+  }
+}

@@ -23,20 +23,29 @@ export default async function MasterAdminManagePage() {
   let units: any[] = [];
   let labs: any[] = [];
   let events: any[] = [];
+  let staff: any[] = [];
+  let projects: any[] = [];
+  let publications: any[] = [];
 
   try {
-    const [formsData, regsData, unitsData, labsData, eventsData] = await Promise.all([
+    const [formsData, regsData, unitsData, labsData, eventsData, staffData, projectsData, pubsData] = await Promise.all([
       fetchFromBackend<any[]>('/api/forms?includeDraft=true', {}, []),
       fetchFromBackend<any[]>('/api/regulations?includeDraft=true', {}, []),
       fetchFromBackend<any[]>('/api/units?includeDraft=true', {}, []),
       fetchFromBackend<any[]>('/api/labs?includeDraft=true', {}, []),
-      fetchFromBackend<any[]>('/api/events?includeDraft=true', {}, [])
+      fetchFromBackend<any[]>('/api/events?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/staff?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/projects?includeDraft=true', {}, []),
+      fetchFromBackend<any[]>('/api/publications?includeDraft=true', {}, [])
     ]);
     forms = formsData;
     regulations = regsData;
     units = unitsData;
     labs = labsData;
     events = eventsData;
+    staff = staffData;
+    projects = projectsData;
+    publications = pubsData;
   } catch (err) {
     console.error('Failed to load master admin datasets:', err);
   }
@@ -76,6 +85,9 @@ export default async function MasterAdminManagePage() {
           initialUnits={units}
           initialLabs={labs}
           initialEvents={events}
+          initialStaff={staff}
+          initialProjects={projects}
+          initialPublications={publications}
         />
 
       </div>
