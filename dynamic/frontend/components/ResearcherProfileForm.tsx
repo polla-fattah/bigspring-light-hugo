@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { updateStaffProfile } from '../app/staff/actions';
 import { Loader2, CheckCircle2, User, Globe, Mail, Award, BookOpen } from 'lucide-react';
+import DragDropImageUpload from './DragDropImageUpload';
 
 interface StaffDetail {
   id: string;
@@ -129,29 +130,14 @@ export default function ResearcherProfileForm({ staff }: Props) {
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-600">Profile Image / Avatar URL</label>
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-xs font-extrabold text-[var(--primary-maroon)] overflow-hidden border border-slate-200 shadow-inner">
-                  {image ? (
-                    <img 
-                      src={image} 
-                      alt="Preview" 
-                      className="w-full h-full object-cover" 
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                    />
-                  ) : (
-                    title.charAt(0) || 'U'
-                  )}
-                </div>
-                <input
-                  type="url"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white transition-all"
-                  placeholder="https://example.com/avatar.jpg"
-                />
-              </div>
+            <div className="space-y-1.5 border-t border-slate-100 pt-4">
+              <DragDropImageUpload
+                multiple={false}
+                label="Profile Avatar / Photo (Drag & Drop)"
+                description="Upload your official researcher headshot photo. The image will be processed and saved automatically."
+                value={image}
+                onChange={(val) => setImage(val)}
+              />
             </div>
 
             <div className="space-y-1.5">

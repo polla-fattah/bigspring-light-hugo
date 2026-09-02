@@ -99,9 +99,9 @@ export default async function StaffDetailPage({ params }: PageProps) {
           
           {/* Avatar column */}
           <div className="lg:col-span-3 flex justify-center">
-            {detail.image ? (
+            {detail.image && detail.image.trim() !== '' && detail.image !== 'null' ? (
               <img 
-                src={detail.image} 
+                src={detail.image.startsWith('/') || detail.image.startsWith('http') ? detail.image : `/${detail.image}`} 
                 alt={detail.title} 
                 className="w-40 h-40 rounded-full object-cover border-4 border-slate-100 shadow-md" 
               />

@@ -21,6 +21,7 @@ export default function Navbar() {
   ];
 
   const utilityLinks = [
+    { name: 'Academic Scope', href: '/scope' },
     { name: 'Datasets', href: '/datasets' },
     { name: 'Regulations', href: '/regulations' },
     { name: 'Templates', href: '/templates' },

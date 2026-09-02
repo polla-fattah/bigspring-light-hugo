@@ -66,43 +66,35 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
             {/* Left Headline Column */}
-            <div className="lg:col-span-7 space-y-7 text-center lg:text-left animate-fade-up">
-              <span className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-[11px] font-sans font-extrabold bg-white/10 border border-[var(--accent-gold)]/40 text-[var(--accent-gold)] tracking-[0.18em] uppercase">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-gold)]"></span>
-                <span>Scientific Advancement</span>
-              </span>
+            <div className="lg:col-span-7 space-y-5 text-center lg:text-left animate-fade-up">
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.12]">
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight leading-[1.15]">
                 Research Center
-                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-gold)] via-[#e8cd8b] to-[var(--accent-gold)]">
+                <span className="block mt-1.5 text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-gold)] via-[#e8cd8b] to-[var(--accent-gold)]">
                   Salahaddin University-Erbil
                 </span>
               </h1>
 
-              <p className="font-sans text-base sm:text-lg text-rose-100/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="font-sans text-sm sm:text-base text-rose-100/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Pioneering scientific discovery, coordinating state-of-the-art laboratory equipment bookings, and publishing regional research outputs at the forefront of Kurdistan&apos;s academic ecosystem.
               </p>
 
               {/* Dynamic search bar */}
-              <div className="max-w-xl mx-auto lg:mx-0 pt-2">
+              <div className="max-w-xl mx-auto lg:mx-0 pt-1">
                 <form action="/search" method="GET" className="flex bg-white rounded-full p-1.5 shadow-2xl shadow-black/25 focus-within:ring-4 focus-within:ring-[var(--accent-gold)]/40 transition-all">
                   <div className="flex items-center pl-4 pr-2 text-stone-400">
-                    <Search className="w-5 h-5" />
+                    <Search className="w-4 h-4" />
                   </div>
                   <input
                     type="text"
                     name="q"
                     placeholder="Search researchers, projects, publications, labs..."
-                    className="w-full bg-transparent border-0 text-[var(--maroon-ink)] placeholder-stone-400 font-sans text-sm focus:ring-0 focus:outline-none py-2.5 px-1"
+                    className="w-full bg-transparent border-0 text-[var(--maroon-ink)] placeholder-stone-400 font-sans text-xs sm:text-sm focus:ring-0 focus:outline-none py-2 px-1"
                   />
-                  <button type="submit" className="px-6 py-2.5 rounded-full text-xs font-sans font-bold sue-btn-primary cursor-pointer">
+                  <button type="submit" className="px-5 py-2 rounded-full text-xs font-sans font-bold sue-btn-primary cursor-pointer">
                     Search
                   </button>
                 </form>
-                <p className="font-sans text-xs text-rose-100/60 mt-3 flex items-center justify-center lg:justify-start space-x-1.5">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-gold)]"></span>
-                  <span>Fully indexed by PostgreSQL full-text search engine</span>
-                </p>
               </div>
 
               {/* Action Buttons */}

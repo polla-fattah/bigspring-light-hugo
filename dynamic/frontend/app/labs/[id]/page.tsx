@@ -5,6 +5,7 @@ import { fetchFromBackend } from '../../../lib/api';
 import { auth } from '../../../auth';
 import EquipmentBookingForm from '../../../components/EquipmentBookingForm';
 import EquipmentFeedbackForm from '../../../components/EquipmentFeedbackForm';
+import CancerBiologyPlatforms from '../../../components/CancerBiologyPlatforms';
 import LabEquipmentInventoryClient from './LabEquipmentInventoryClient';
 import { getEquipmentImageUrl } from '@/lib/equipmentImage';
 import { getLabImageUrl } from '@/lib/imageResolver';
@@ -204,6 +205,11 @@ export default async function LabDetailPage({ params }: PageProps) {
             )}
           </div>
         </div>
+
+        {/* Render Cancer Biology Capabilities if this is Cancer Biology Laboratory */}
+        {(detail.id === 'cancer-biology' || detail.id === 'cancer-biology-laboratory' || detail.title.toLowerCase().includes('cancer biology')) && (
+          <CancerBiologyPlatforms />
+        )}
 
         {/* Equipment listing and Sticky Interactive Booking Panel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
