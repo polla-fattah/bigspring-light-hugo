@@ -62,5 +62,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/admin/login',
   },
-  secret: process.env.AUTH_SECRET || 'sue_portal_auth_secret_session_encryption_key_2026',
 });
