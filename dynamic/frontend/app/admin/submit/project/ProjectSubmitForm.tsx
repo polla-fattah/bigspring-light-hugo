@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, CheckCircle2 } from 'lucide-react';
+import DragDropImageUpload from '@/components/DragDropImageUpload';
 import { createProjectDraft } from '../actions';
 
 interface Unit {
@@ -28,6 +29,7 @@ export default function ProjectSubmitForm({ units, staffId }: Props) {
   const [projectType, setProjectType] = useState('Funded Research');
   const [unitId, setUnitId] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,6 +173,16 @@ export default function ProjectSubmitForm({ units, staffId }: Props) {
             placeholder="Outline the core goals, methodology, and primary partners involved in this project..."
             className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs font-medium text-slate-750 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white h-32"
           ></textarea>
+        </div>
+
+        {/* Project Image / Cover */}
+        <div className="md:col-span-2">
+          <DragDropImageUpload
+            label="Project Diagram / Cover Image"
+            description="Drag & drop a diagram or cover image for this research project."
+            value={image}
+            onChange={(val) => setImage(val)}
+          />
         </div>
 
       </div>

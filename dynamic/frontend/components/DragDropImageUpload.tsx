@@ -9,6 +9,7 @@ interface Props {
   onChange: (value: any) => void;
   label?: string;
   description?: string;
+  accept?: string;
 }
 
 export default function DragDropImageUpload({
@@ -16,7 +17,8 @@ export default function DragDropImageUpload({
   value,
   onChange,
   label,
-  description
+  description,
+  accept = "image/*"
 }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -161,7 +163,7 @@ export default function DragDropImageUpload({
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept={accept}
             multiple={multiple}
             className="hidden"
             onChange={(e) => e.target.files && handleFiles(e.target.files)}

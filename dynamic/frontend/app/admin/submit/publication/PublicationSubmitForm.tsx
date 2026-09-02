@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, CheckCircle2 } from 'lucide-react';
+import DragDropImageUpload from '@/components/DragDropImageUpload';
 import { createPublicationDraft } from '../actions';
 
 interface Unit {
@@ -182,17 +183,14 @@ export default function PublicationSubmitForm({ units, staffId }: Props) {
           </select>
         </div>
 
-        {/* PDF Link */}
-        <div className="md:col-span-2 space-y-1.5">
-          <label className="text-[10px] font-extrabold text-slate-455 uppercase tracking-wide">
-            PDF Document URL (Full Text Access)
-          </label>
-          <input
-            type="url"
+        {/* PDF Link / Drag & Drop Upload */}
+        <div className="md:col-span-2">
+          <DragDropImageUpload
+            label="Full Text Publication PDF Document"
+            description="Drag & drop your publication PDF file or enter a direct link."
             value={pdf}
-            onChange={(e) => setPdf(e.target.value)}
-            placeholder="e.g. https://arxiv.org/pdf/..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-maroon)] focus:border-transparent bg-white transition-all"
+            accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*"
+            onChange={(val) => setPdf(val)}
           />
         </div>
 
