@@ -35,7 +35,5 @@ dynamic/backend/prisma/check_*.js
 dynamic/backend/prisma/clean_*.js
 dynamic/backend/prisma/list_*.js
 dynamic/backend/prisma/seed_lab_images.js
-logo.jpg
-logo.png
 research_center_facebook_archive1/
 

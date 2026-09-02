@@ -92,7 +92,7 @@ EOF
 
 cat <<EOF > "$APP_DIR/dynamic/frontend/.env"
 NODE_ENV=production
-NEXT_PUBLIC_API_URL=""
+NEXT_PUBLIC_API_URL="http://127.0.0.1:3000"
 NEXTAUTH_URL="https://rc.su.edu.krd"
 NEXTAUTH_SECRET="${SECRET_KEY}"
 EOF

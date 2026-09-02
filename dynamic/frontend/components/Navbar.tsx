@@ -96,11 +96,24 @@ export default function Navbar() {
 
             {/* Logo & SUE Identity */}
             <Link href="/" className="flex items-center space-x-3 group">
-              <img 
-                src="/logo.png" 
-                alt="Salahaddin University-Erbil Research Center Logo" 
-                className="h-12 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-sm" 
-              />
+              <div className="relative h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-[var(--surface-dark)] border border-[var(--border-color)] overflow-hidden shadow-sm">
+                <img 
+                  src="/logo.png" 
+                  alt="Salahaddin University-Erbil Research Center Logo" 
+                  className="h-12 w-12 object-contain transition-transform group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback if logo fails
+                    (e.target as HTMLElement).style.display = 'none';
+                    const parent = (e.target as HTMLElement).parentElement;
+                    if (parent && !parent.querySelector('.logo-fallback')) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'logo-fallback font-bold text-xs text-[var(--primary-maroon)] flex items-center justify-center w-full h-full bg-[var(--surface-color)]';
+                      fallback.innerText = 'SURC';
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </div>
               <div className="flex flex-col leading-tight">
                 <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-[var(--maroon-ink)]">
                   Research Center

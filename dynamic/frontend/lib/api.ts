@@ -1,12 +1,17 @@
-const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+function getBackendApiUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && envUrl.trim() !== '') return envUrl;
+  return 'http://127.0.0.1:3000';
+}
 
 export async function fetchFromBackend<T>(
   endpoint: string,
   options?: RequestInit,
   fallbackValue?: T
 ): Promise<T> {
+  const baseUrl = getBackendApiUrl();
   try {
-    const res = await fetch(`${BACKEND_API_URL}${endpoint}`, {
+    const res = await fetch(`${baseUrl}${endpoint}`, {
       next: { revalidate: 300 }, // Cache response for 5 minutes (ISR)
       ...options
     });
