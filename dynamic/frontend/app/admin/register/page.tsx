@@ -34,6 +34,7 @@ export default function RegisterPage() {
 
   // Form Step 2 (Verification)
   const [generatedCode, setGeneratedCode] = useState('');
+  const [emailDispatched, setEmailDispatched] = useState(false);
   const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
 
   const [loading, setLoading] = useState(false);
@@ -99,6 +100,7 @@ export default function RegisterPage() {
 
       // Code generated successfully
       setGeneratedCode(data.verificationCode || '123456');
+      setEmailDispatched(!!data.emailDispatched);
       setStep(2);
       setSuccessMsg(`Verification security code dispatched to ${email.toLowerCase().trim()}`);
     } catch (err: any) {
@@ -370,27 +372,39 @@ export default function RegisterPage() {
             /* STEP 2: 6-DIGIT EMAIL VERIFICATION SCREEN */
             <form className="space-y-6" onSubmit={handleStep2Submit}>
               
-              {/* SUE Webmail Intercept Notice (Simulated Email Dispatch without SMTP Server) */}
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 space-y-2 text-xs">
-                <div className="flex items-center space-x-2 font-extrabold">
-                  <Inbox className="w-4 h-4 text-amber-700" />
-                  <span>SUE Webmail Dispatch Intercept Notice:</span>
+              {/* Verification Notice Banner */}
+              {emailDispatched ? (
+                <div className="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-900 space-y-1 text-xs">
+                  <div className="flex items-center space-x-2 font-extrabold text-green-800">
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <span>Verification Email Dispatched</span>
+                  </div>
+                  <p className="text-green-800 leading-relaxed font-medium">
+                    An official verification email containing your 6-digit security code has been sent via SMTP to <strong>{email}</strong>. Please check your inbox or webmail folder.
+                  </p>
                 </div>
-                <p className="text-amber-800 leading-relaxed font-medium">
-                  A verification email has been dispatched to <strong>{email}</strong>.
-                </p>
-                <div className="pt-2 border-t border-amber-200/80 flex items-center justify-between">
-                  <span className="font-bold text-amber-950">Security Code: <code className="bg-amber-100 text-amber-950 px-2 py-0.5 rounded font-mono text-sm tracking-widest">{generatedCode}</code></span>
-                  <button
-                    type="button"
-                    onClick={fillQuickCode}
-                    className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-600 text-white hover:bg-amber-700 transition-colors inline-flex items-center space-x-1 cursor-pointer"
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    <span>Auto Fill</span>
-                  </button>
+              ) : (
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 space-y-2 text-xs">
+                  <div className="flex items-center space-x-2 font-extrabold">
+                    <Inbox className="w-4 h-4 text-amber-700" />
+                    <span>SUE Webmail Dispatch Intercept Notice:</span>
+                  </div>
+                  <p className="text-amber-800 leading-relaxed font-medium">
+                    A verification email has been dispatched to <strong>{email}</strong>.
+                  </p>
+                  <div className="pt-2 border-t border-amber-200/80 flex items-center justify-between">
+                    <span className="font-bold text-amber-950">Security Code: <code className="bg-amber-100 text-amber-950 px-2 py-0.5 rounded font-mono text-sm tracking-widest">{generatedCode}</code></span>
+                    <button
+                      type="button"
+                      onClick={fillQuickCode}
+                      className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-600 text-white hover:bg-amber-700 transition-colors inline-flex items-center space-x-1 cursor-pointer"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      <span>Auto Fill</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {error && (
                 <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center space-x-2">

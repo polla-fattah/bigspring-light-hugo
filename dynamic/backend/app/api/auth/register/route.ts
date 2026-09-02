@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { hashPassword } from '../../../../lib/auth-utils';
+import { sendVerificationEmail } from '../../../../lib/email-service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -58,10 +59,20 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    // Dispatch real SMTP email or fallback to log
+    const emailResult = await sendVerificationEmail({
+      toEmail: cleanEmail,
+      recipientName: name.trim(),
+      verificationCode
+    });
+
     return NextResponse.json({
       success: true,
-      message: 'Account created! Verification code dispatched to SUE email.',
-      verificationCode, // Returned for simulated zero-SMTP email dispatch notice
+      message: emailResult.sent 
+        ? 'Account created! Verification security code sent to your SUE email.' 
+        : 'Account created! Verification code dispatched.',
+      emailDispatched: emailResult.sent,
+      verificationCode, // Kept for dev/testing when SMTP_HOST is not set
       user: {
         id: newUser.id,
         name: newUser.name,
