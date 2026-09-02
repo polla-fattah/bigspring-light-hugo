@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const backendUrl = process.env.INTERNAL_BACKEND_URL || 'http://127.0.0.1:3000';
         try {
           const res = await fetch(`${backendUrl}/api/auth/login`, {
             method: 'POST',
