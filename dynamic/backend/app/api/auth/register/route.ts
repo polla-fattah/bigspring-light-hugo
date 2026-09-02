@@ -47,7 +47,9 @@ export async function POST(request: NextRequest) {
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Create password hash and save user
-    const passwordHash = hashPassword(password);
+    const assignedRole = (cleanEmail === 'polla.fattah@su.edu.krd' || cleanEmail === 'admin@su.edu.krd')
+      ? 'superadmin'
+      : (role === 'faculty' ? 'lab_staff' : 'researcher');
 
     const newUser = await prisma.user.create({
       data: {
@@ -55,7 +57,7 @@ export async function POST(request: NextRequest) {
         email: cleanEmail,
         passwordHash,
         verificationCode,
-        role: role === 'faculty' ? 'lab_staff' : 'researcher'
+        role: assignedRole
       }
     });
 

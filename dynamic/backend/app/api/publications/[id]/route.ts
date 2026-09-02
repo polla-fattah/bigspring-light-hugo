@@ -62,7 +62,6 @@ export async function PUT(
       where: { id },
       data: {
         title: body.title !== undefined ? body.title : undefined,
-        name: body.title !== undefined ? body.title : undefined,
         pubType: body.pubType !== undefined ? body.pubType : undefined,
         year: body.year !== undefined ? body.year : undefined,
         journal: body.journal !== undefined ? body.journal : undefined,
