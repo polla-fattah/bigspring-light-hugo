@@ -65,7 +65,8 @@ echo -e "${GREEN}[4/8] Configuring PostgreSQL Database & Environment Variables..
 # Ensure PostgreSQL service is running and create database/user if needed
 if command -v psql &> /dev/null; then
   echo "Setting up PostgreSQL database 'surc_db' and user 'surc_user'..."
-  systemctl start postgresql || true
+  systemctl restart postgresql || systemctl start postgresql || true
+  sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" 2>/dev/null || true
   sudo -u postgres psql -c "CREATE USER surc_user WITH PASSWORD 'surc_password_2026';" 2>/dev/null || true
   sudo -u postgres psql -c "ALTER USER surc_user WITH PASSWORD 'surc_password_2026';" 2>/dev/null || true
   sudo -u postgres psql -c "CREATE DATABASE surc_db OWNER surc_user;" 2>/dev/null || true
