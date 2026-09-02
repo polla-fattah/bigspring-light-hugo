@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import DragDropImageUpload from '@/components/DragDropImageUpload';
 import { 
   FileText, 
   ShieldCheck, 
@@ -13,6 +14,8 @@ import {
   Download,
   Layers,
   Award,
+  Calendar,
+  Image as ImageIcon,
   ExternalLink
 } from 'lucide-react';
 
@@ -58,24 +61,39 @@ interface LabItem {
   draft: boolean;
 }
 
+interface EventItem {
+  id: number;
+  title: string;
+  slug: string;
+  eventDate: string;
+  image: string | null;
+  galleryImages?: string[];
+  category: string | null;
+  description: string | null;
+  draft: boolean;
+}
+
 interface Props {
   initialForms: FormItem[];
   initialRegulations: RegulationItem[];
   initialUnits: UnitItem[];
   initialLabs: LabItem[];
+  initialEvents?: EventItem[];
 }
 
 export default function MasterAdminConsoleClient({ 
   initialForms, 
   initialRegulations,
   initialUnits,
-  initialLabs
+  initialLabs,
+  initialEvents = []
 }: Props) {
-  const [activeTab, setActiveTab] = useState<'units' | 'labs' | 'forms' | 'regulations'>('units');
+  const [activeTab, setActiveTab] = useState<'events' | 'units' | 'labs' | 'forms' | 'regulations'>('events');
   const [forms, setForms] = useState<FormItem[]>(initialForms);
   const [regulations, setRegulations] = useState<RegulationItem[]>(initialRegulations);
   const [units, setUnits] = useState<UnitItem[]>(initialUnits);
   const [labs, setLabs] = useState<LabItem[]>(initialLabs);
+  const [events, setEvents] = useState<EventItem[]>(initialEvents);
 
   const [isAdding, setIsAdding] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -89,6 +107,9 @@ export default function MasterAdminConsoleClient({
   const [newFileFormat, setNewFileFormat] = useState('PDF');
   const [newDescription, setNewDescription] = useState('');
   const [newPlatforms, setNewPlatforms] = useState('');
+  const [newHeroImage, setNewHeroImage] = useState('');
+  const [newGalleryImages, setNewGalleryImages] = useState<string[]>([]);
+  const [newEventDate, setNewEventDate] = useState('');
   const [newDraft, setNewDraft] = useState(false);
 
   const resetFormFields = () => {
@@ -100,14 +121,18 @@ export default function MasterAdminConsoleClient({
     setNewFileFormat('PDF');
     setNewDescription('');
     setNewPlatforms('');
+    setNewHeroImage('');
+    setNewGalleryImages([]);
+    setNewEventDate('');
     setNewDraft(false);
     setIsAdding(false);
   };
 
   // Toggle Draft / Published
-  const toggleDraft = async (type: 'units' | 'labs' | 'forms' | 'regulations', id: string | number, currentDraft: boolean) => {
+  const toggleDraft = async (type: 'events' | 'units' | 'labs' | 'forms' | 'regulations', id: string | number, currentDraft: boolean) => {
     try {
-      const endpoint = type === 'units' ? `/api/units/${id}` :
+      const endpoint = type === 'events' ? `/api/events/${id}` :
+                       type === 'units' ? `/api/units/${id}` :
                        type === 'labs' ? `/api/labs/${id}` :
                        type === 'forms' ? `/api/forms/${id}` : `/api/regulations/${id}`;
       
@@ -118,6 +143,7 @@ export default function MasterAdminConsoleClient({
       });
       
       if (res.ok) {
+        if (type === 'events') setEvents(events.map(e => e.slug === String(id) || e.id === Number(id) ? { ...e, draft: !currentDraft } : e));
         if (type === 'units') setUnits(units.map(u => u.id === id ? { ...u, draft: !currentDraft } : u));
         if (type === 'labs') setLabs(labs.map(l => l.id === id ? { ...l, draft: !currentDraft } : l));
         if (type === 'forms') setForms(forms.map(f => f.id === id ? { ...f, draft: !currentDraft } : f));
@@ -130,15 +156,17 @@ export default function MasterAdminConsoleClient({
   };
 
   // Delete Item
-  const deleteItem = async (type: 'units' | 'labs' | 'forms' | 'regulations', id: string | number) => {
+  const deleteItem = async (type: 'events' | 'units' | 'labs' | 'forms' | 'regulations', id: string | number) => {
     if (!confirm(`Are you sure you want to delete this ${type.slice(0, -1)}?`)) return;
     try {
-      const endpoint = type === 'units' ? `/api/units/${id}` :
+      const endpoint = type === 'events' ? `/api/events/${id}` :
+                       type === 'units' ? `/api/units/${id}` :
                        type === 'labs' ? `/api/labs/${id}` :
                        type === 'forms' ? `/api/forms/${id}` : `/api/regulations/${id}`;
       
       const res = await fetch(endpoint, { method: 'DELETE' });
       if (res.ok) {
+        if (type === 'events') setEvents(events.filter(e => e.slug !== String(id) && e.id !== Number(id)));
         if (type === 'units') setUnits(units.filter(u => u.id !== id));
         if (type === 'labs') setLabs(labs.filter(l => l.id !== id));
         if (type === 'forms') setForms(forms.filter(f => f.id !== id));
@@ -155,7 +183,34 @@ export default function MasterAdminConsoleClient({
     e.preventDefault();
     setFeedbackMsg(null);
 
-    if (activeTab === 'units') {
+    if (activeTab === 'events') {
+      try {
+        const galleryArr = Array.isArray(newGalleryImages) ? newGalleryImages : [];
+
+        const res = await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: newTitle,
+            eventDate: newEventDate || new Date().toISOString(),
+            image: newHeroImage || null,
+            galleryImages: galleryArr,
+            category: newCategory || 'Seminar',
+            description: newDescription || null,
+            content: newDescription || null,
+            draft: newDraft
+          })
+        });
+        if (res.ok) {
+          const created = await res.json();
+          setEvents([created, ...events]);
+          setFeedbackMsg({ type: 'success', text: 'New Event Announcement created successfully!' });
+          resetFormFields();
+        }
+      } catch (err) {
+        setFeedbackMsg({ type: 'error', text: 'Error creating event announcement.' });
+      }
+    } else if (activeTab === 'units') {
       try {
         const res = await fetch('/api/units', {
           method: 'POST',
@@ -267,9 +322,19 @@ export default function MasterAdminConsoleClient({
         
         <div className="grid grid-cols-2 sm:flex space-x-0 sm:space-x-2 gap-2 w-full lg:w-auto">
           <button
+            onClick={() => setActiveTab('events')}
+            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
+              activeTab === 'events' ? 'bg-[var(--primary-maroon)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            <span>Research Events ({events.length})</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('units')}
             className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
-              activeTab === 'units' ? 'bg-[var(--primary-maroon)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeTab === 'units' ? 'bg-[var(--secondary-blue)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             <Layers className="w-4 h-4" />
@@ -289,7 +354,7 @@ export default function MasterAdminConsoleClient({
           <button
             onClick={() => setActiveTab('forms')}
             className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center space-x-2 transition-all cursor-pointer ${
-              activeTab === 'forms' ? 'bg-[var(--secondary-blue)] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeTab === 'forms' ? 'bg-emerald-800 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             <FileText className="w-4 h-4" />
@@ -313,6 +378,7 @@ export default function MasterAdminConsoleClient({
         >
           <Plus className="w-4 h-4" />
           <span>Add New {
+            activeTab === 'events' ? 'Research Event' :
             activeTab === 'units' ? 'Research Unit' :
             activeTab === 'labs' ? 'Core Laboratory' :
             activeTab === 'forms' ? 'Form Template' : 'Policy Regulation'
@@ -325,6 +391,7 @@ export default function MasterAdminConsoleClient({
         <form onSubmit={handleCreate} className="bg-white rounded-3xl p-8 border-2 border-[var(--primary-maroon)] shadow-md space-y-6">
           <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] border-b border-slate-100 pb-3">
             Add New {
+              activeTab === 'events' ? 'Research Event Announcement' :
               activeTab === 'units' ? 'Specialized Research Unit' :
               activeTab === 'labs' ? 'Core Research Laboratory' :
               activeTab === 'forms' ? 'Downloadable Form Template' : 'Governance Policy'
@@ -346,17 +413,69 @@ export default function MasterAdminConsoleClient({
               </div>
             )}
 
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 md:col-span-2">
               <label className="font-bold text-slate-700">Title *</label>
               <input 
                 type="text" 
                 required
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                placeholder="e.g. Environmental Monitoring & Climate Change Unit" 
+                placeholder="e.g. Workshop on Advanced AI in Kurdish Natural Language Processing" 
                 className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-xs font-semibold"
               />
             </div>
+
+            {activeTab === 'events' && (
+              <>
+                <div className="space-y-1.5">
+                  <label className="font-bold text-slate-700">Category *</label>
+                  <select
+                    value={newCategory}
+                    onChange={e => setNewCategory(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-xs font-semibold"
+                  >
+                    <option value="Seminar">Seminar</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Symposium">Symposium</option>
+                    <option value="Research Activity">Research Activity</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="font-bold text-slate-700">Event Date *</label>
+                  <input 
+                    type="date" 
+                    required
+                    value={newEventDate}
+                    onChange={e => setNewEventDate(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-xs font-semibold"
+                  />
+                </div>
+
+                {/* MAIN HERO IMAGE (DRAG & DROP) */}
+                <div className="md:col-span-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                  <DragDropImageUpload
+                    multiple={false}
+                    label="Main Hero Banner Image (Optional - Top of Event Detail)"
+                    description="Drag & drop or click to upload the main cover photo for this event. The backend will automatically rename and store it in /images/uploads/."
+                    value={newHeroImage}
+                    onChange={(val) => setNewHeroImage(val)}
+                  />
+                </div>
+
+                {/* BOTTOM GALLERY PHOTOS (DRAG & DROP BATCH) */}
+                <div className="md:col-span-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                  <DragDropImageUpload
+                    multiple={true}
+                    label="Bottom Photo Gallery Images (Batch Upload)"
+                    description="Drag & drop or select multiple event photos at once. They will be uploaded automatically and displayed in the photo gallery at the bottom of the event detail page."
+                    value={newGalleryImages}
+                    onChange={(val) => setNewGalleryImages(val)}
+                  />
+                </div>
+              </>
+            )}
 
             {(activeTab === 'forms' || activeTab === 'regulations') && (
               <div className="space-y-1.5">
@@ -400,12 +519,12 @@ export default function MasterAdminConsoleClient({
             )}
 
             <div className="space-y-1.5 md:col-span-2">
-              <label className="font-bold text-slate-700">Description / Scope Overview</label>
+              <label className="font-bold text-slate-700">Description / Content</label>
               <textarea 
                 rows={3}
                 value={newDescription}
                 onChange={e => setNewDescription(e.target.value)}
-                placeholder="Provide operational guidelines, scope, or details..." 
+                placeholder="Provide operational guidelines, scope, or event details..." 
                 className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-xs font-semibold"
               />
             </div>
@@ -446,11 +565,63 @@ export default function MasterAdminConsoleClient({
         
         <h3 className="text-sm font-extrabold text-[var(--secondary-blue)] border-b border-slate-100 pb-3">
           Manage {
+            activeTab === 'events' ? 'Research Events & Announcements' :
             activeTab === 'units' ? 'Specialized Research Units' :
             activeTab === 'labs' ? 'Core Laboratories' :
             activeTab === 'forms' ? 'Downloadable Form Templates' : 'Governance Regulations'
           }
         </h3>
+
+        {activeTab === 'events' && (
+          <div className="space-y-4">
+            {events.slice(0, 15).map(ev => (
+              <div key={ev.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${
+                      ev.draft ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-[var(--primary-maroon)]'
+                    }`}>
+                      {ev.draft ? 'Draft' : (ev.category || 'Event')}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400">
+                      {new Date(ev.eventDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-extrabold text-[var(--secondary-blue)]">{ev.title}</h4>
+                  <p className="text-[10px] text-slate-500 font-medium line-clamp-2">{ev.description || 'No description.'}</p>
+                </div>
+
+                <div className="flex items-center space-x-3 self-end sm:self-center">
+                  <button
+                    onClick={() => toggleDraft('events', ev.slug, ev.draft)}
+                    className={`px-3 py-1.5 rounded-lg text-[10px] font-extrabold flex items-center space-x-1 transition-all ${
+                      ev.draft ? 'bg-slate-200 text-slate-700 hover:bg-green-100 hover:text-green-800' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                    }`}
+                  >
+                    {ev.draft ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    <span>{ev.draft ? 'Publish' : 'Set Draft'}</span>
+                  </button>
+
+                  <a 
+                    href={`/events/${ev.slug}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 text-[10px] font-bold flex items-center space-x-1"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => deleteItem('events', ev.slug)}
+                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {activeTab === 'units' && (
           <div className="space-y-4">
