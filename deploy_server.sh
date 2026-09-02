@@ -107,8 +107,11 @@ npx prisma db push --accept-data-loss
 node prisma/seed_all_content_data.js || true
 npm run build
 
-# 6. BUILD FRONTEND WEB PORTAL
+# 6. BUILD FRONTEND WEB PORTAL & PRESERVE UPLOADS DIRECTORY
 echo -e "${GREEN}[6/8] Building Frontend Web Portal...${NC}"
+mkdir -p "$APP_DIR/dynamic/frontend/public/images/uploads"
+chmod -R 777 "$APP_DIR/dynamic/frontend/public/images/uploads" 2>/dev/null || true
+
 cd "$APP_DIR/dynamic/frontend"
 npm install
 npm run build
