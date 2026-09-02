@@ -13,22 +13,29 @@ export async function fetchFromBackend<T>(
   fallbackValue?: T
 ): Promise<T> {
   const baseUrl = getBackendApiUrl();
+  const isServer = typeof window === 'undefined';
+
+  // Server gets revalidate: 300 (ISR), Browser gets standard fetch options
+  const defaultOptions: RequestInit = isServer 
+    ? { next: { revalidate: 300 } } as any 
+    : { cache: 'no-store' };
+
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, {
-      next: { revalidate: 300 }, // Cache response for 5 minutes (ISR)
+      ...defaultOptions,
       ...options
     });
 
     if (!res.ok) {
       console.warn(`[Backend Notice] Non-200 response on ${endpoint}: Status ${res.status}`);
       if (fallbackValue !== undefined) return fallbackValue;
-      throw new Error(`Failed to fetch from backend (Endpoint: ${endpoint}, Status: ${res.status})`);
+      return [] as unknown as T;
     }
 
     return await res.json();
   } catch (error) {
-    console.warn(`[Backend Connection Notice] Could not reach backend API at ${endpoint}.`);
+    console.warn(`[Backend Connection Notice] Could not reach backend API at ${endpoint}.`, error);
     if (fallbackValue !== undefined) return fallbackValue;
-    throw error;
+    return [] as unknown as T;
   }
 }
